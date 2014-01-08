@@ -4,8 +4,11 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,7 +37,10 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 
 	private EmployeeDAO employeeDAO;
 
-	DataController dataController;
+	private DataController dataController;
+
+	// @PersistenceContext
+	private EntityManager em;
 
 	@Override
 	public void init() throws ServletException {
@@ -68,8 +74,9 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 				.getRequestDispatcher(EMPLOYEE_VIEW_NAME);
 		try {
 			requestDispatcher.forward(req, resp);
-		} catch (ServletException | IOException e) {
+		} catch (ServletException e) {
 			logger.error("doGet() failed", e);
+		} catch (IOException e) {
 		}
 	}
 
@@ -91,13 +98,13 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 			String name = req.getParameter("name");
 			emp.setName(name);
 			String id = req.getParameter("id");
-//			if (id == null || id.isEmpty()) {
-				create(emp);
-//			} 
-//			else {
-//				emp.setId(Long.valueOf(id));
-//				update(emp);
-//			}
+			// if (id == null || id.isEmpty()) {
+			create(emp);
+			// }
+			// else {
+			// emp.setId(Long.valueOf(id));
+			// update(emp);
+			// }
 		}
 
 		req.setAttribute("employees", getAll());
@@ -105,8 +112,9 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 				.getRequestDispatcher(EMPLOYEE_VIEW_NAME);
 		try {
 			requestDispatcher.forward(req, resp);
-		} catch (ServletException | IOException e) {
+		} catch (ServletException e) {
 			logger.error("doPost() failed", e);
+		} catch (IOException e) {
 		}
 	}
 
@@ -117,34 +125,37 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 
 	@Override
 	public long create(Employee employee) {
-//		super.create(employee);
-//		return employeeDAO.create(employee);
-//		return HibernateUtil.saveEmployee(employee);
+		// super.create(employee);
+		// return employeeDAO.create(employee);
+		// return HibernateUtil.saveEmployee(employee);
 		return HibernateUtil.saveEmployeeEM(employee);
+		// return HibernateUtil.saveEmployeeEM(employee, em);
 	}
 
 	@Override
 	public List<Employee> getAll() {
 		super.getAll();
 		return employeeDAO.getAll();
+		// return null;
 	}
 
 	@Override
 	public Employee get(long id) {
 		super.get(id);
 		return employeeDAO.get(id);
+		// return null;
 	}
 
 	@Override
 	public void update(Employee employee) {
-		super.update(employee);
-		employeeDAO.update(employee);
+		// super.update(employee);
+		// employeeDAO.update(employee);
 	}
 
 	@Override
 	public void delete(long id) {
-		super.delete(id);
-		employeeDAO.delete(id);
+		// super.delete(id);
+		// employeeDAO.delete(id);
 	}
 
 	private void addRole(long empId, String roleName) {

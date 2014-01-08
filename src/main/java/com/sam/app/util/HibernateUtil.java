@@ -11,16 +11,16 @@ import org.hibernate.classic.Session;
 import com.sam.app.model.Employee;
 
 public class HibernateUtil {
-	private static final SessionFactory sessionFactory;
+	private static final SessionFactory sessionFactory = null;;
 	static {
-		try {
-			sessionFactory = new Configuration().configure()
-					.addAnnotatedClass(Employee.class)
-					.buildSessionFactory();
-		} catch (Throwable ex) {
-			System.err.println("Initial SessionFactory creation failed." + ex);
-			throw new ExceptionInInitializerError(ex);
-		}
+//		try {
+//			sessionFactory = new Configuration().configure()
+//					.addAnnotatedClass(Employee.class)
+//					.buildSessionFactory();
+//		} catch (Throwable ex) {
+//			System.err.println("Initial SessionFactory creation failed." + ex);
+//			throw new ExceptionInInitializerError(ex);
+//		}
 	}
 
 	public static SessionFactory getSessionFactory() {
@@ -36,7 +36,7 @@ public class HibernateUtil {
 			session.save(employee);
 			session.getTransaction().commit();
 		} catch (Exception e) {
-			// logger.error("Ошибка при вставке", e);
+			// logger.error("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ", e);
 			e.printStackTrace();
 		} finally {
 			if (session != null && session.isOpen()) {
@@ -48,12 +48,21 @@ public class HibernateUtil {
 	}
 	
 	public static Long saveEmployeeEM(Employee employee) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("puName");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("study");
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
 		em.persist(employee);
 		em.flush();
 		em.getTransaction().commit();
+//		em.getTransaction().
+		return employee.getId();
+	}
+	
+	public static Long saveEmployeeEM(Employee employee, EntityManager em) {
+//		em.getTransaction().begin();
+		em.persist(employee);
+		em.flush();
+//		em.getTransaction().commit();
 //		em.getTransaction().
 		return employee.getId();
 	}

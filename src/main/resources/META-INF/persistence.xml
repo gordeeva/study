@@ -3,20 +3,22 @@
 	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 
-<persistence-unit name="puName" transaction-type="JTA">
+<persistence-unit name="study" transaction-type="RESOURCE_LOCAL">
+<!-- <persistence-unit name="study" transaction-type="JTA"> -->
 	<provider>org.hibernate.ejb.HibernatePersistence</provider>
-	<jta-data-source>jdbc/puName</jta-data-source>
+	<jta-data-source>jdbc/mysql</jta-data-source>
 
 	<properties>
 		<!-- Properties for Hibernate -->
 		<property name="hibernate.hbm2ddl.auto" value="none" />
 		<property name="hibernate.show_sql" value="true" />
 		<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect" />
-
-<!-- 		 <property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver"/> -->
+		<property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform" />
+		 <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
 <!-- 		 <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@192.168.130.37:1521:orcl"/> -->
-<!-- 		 <property name="javax.persistence.jdbc.user" value="javaee"/> -->
-<!--          <property name="javax.persistence.jdbc.password" value="javaee"/> -->
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/companydb"/>
+		 <property name="javax.persistence.jdbc.user" value="root"/>
+         <property name="javax.persistence.jdbc.password" value="1"/>
 	</properties>
 </persistence-unit>
 
