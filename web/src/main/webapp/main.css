@@ -1,0 +1,47 @@
+html,body {
+    margin:0;
+    padding:0;
+    text-align:center;
+    height:100%
+}
+.left {
+  float: left;
+  width: 125px;
+  text-align: right;
+  margin: 2px 10px;
+  display: inline
+}
+.right {
+  float: right;
+  text-align: left;
+  margin: 2px 10px;
+  display: inline
+}
+#page {
+    text-align:left;
+    margin:0 auto;
+    min-height:100%;
+    width:auto;
+}
+#page h3 {text-align:center; margin:0}
+#header {
+    height:50px;
+    margin:0 10px 3px
+}
+#content {
+    margin:0 80px;
+    padding:10px
+}
+.clear {
+    clear:both;
+    height:0px;
+}
+#substrate-footer {
+    height:100px;
+    margin:20px 0 0
+}
+#footer {
+    height:50px;
+    margin:-70px auto 0;
+    width:auto;
+}
