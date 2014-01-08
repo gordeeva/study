@@ -21,7 +21,8 @@ public class EntityManagerUtil {
 			em.persist(employee);
 			em.flush();
 			em.getTransaction().commit();
-	//		em.getTransaction().
+			em.close();
+			emf.close();
 			return employee.getId();
 		}
 
