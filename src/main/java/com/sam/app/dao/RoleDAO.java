@@ -25,7 +25,7 @@ public class RoleDAO implements ICRUD4DAO<Role> {
 
 	@Override
 	public List<Role> getAll() {
-		List<Role> roles = new ArrayList<>();
+		List<Role> roles = new ArrayList<Role>();
 		try {
 			Statement statement = connection.createStatement();
 			ResultSet rs = statement.executeQuery("select * from role");
@@ -44,7 +44,7 @@ public class RoleDAO implements ICRUD4DAO<Role> {
 	}
 	
 	public List<Role> getRolesByEmployee(long empId) {
-		List<Role> roles = new ArrayList<>();
+		List<Role> roles = new ArrayList<Role>();
 		try {
 			PreparedStatement statement = connection
 					.prepareStatement("select * from role where id in("

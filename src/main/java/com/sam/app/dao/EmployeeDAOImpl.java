@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.classic.Session;
+//import org.hibernate.cfg.Configuration;
+//import org.hibernate.classic.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,10 +26,11 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 	private DataController dataController;
 	
-	private final SessionFactory sessionFactory = new Configuration().
-			configure("hibernate.cfg.xml").
-			addAnnotatedClass(Employee.class).
-			buildSessionFactory(); 
+	private final SessionFactory sessionFactory = null;
+//			new Configuration().
+//			configure("hibernate.cfg.xml").
+//			addAnnotatedClass(Employee.class).
+//			buildSessionFactory(); 
 
 	public EmployeeDAOImpl(Connection connection) {
 		this.connection = connection;
@@ -41,7 +42,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 	@Override
 	public List<Employee> getAll() {
-		List<Employee> employees = new ArrayList<>();
+		List<Employee> employees = new ArrayList<Employee>();
 		try {
 			Statement statement = connection.createStatement();
 			ResultSet rs = statement.executeQuery("select * from employee");
@@ -63,7 +64,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 	@Override
 	public List<Employee> getEmployeeByRole(long roleId) {
-		List<Employee> employees = new ArrayList<>();
+		List<Employee> employees = new ArrayList<Employee>();
 		try {
 			PreparedStatement statement = connection
 					.prepareStatement("select * from employee where id in("
@@ -103,20 +104,20 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@Override
 	public Long create(Employee employee) {
 		logger.info("create() start");
-		Session session = null;
-		try {
-			session = sessionFactory.openSession();
-			session.beginTransaction();
-			session.save(employee);
-			session.getTransaction().commit();
-		} catch (Exception e) {
-			logger.error("Ошибка при вставке", e);
-			e.printStackTrace();
-		} finally {
-			if (session != null && session.isOpen()) {
-				session.close();
-			}
-		}
+//		Session session = null;
+//		try {
+//			session = sessionFactory.openSession();
+//			session.beginTransaction();
+//			session.save(employee);
+//			session.getTransaction().commit();
+//		} catch (Exception e) {
+//			logger.error("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ", e);
+//			e.printStackTrace();
+//		} finally {
+//			if (session != null && session.isOpen()) {
+//				session.close();
+//			}
+//		}
 		logger.info("create() end");
 		return 0l;
 

@@ -26,7 +26,7 @@ public class DepartmentDAO implements ICRUD4DAO<Department> {
 
 	@Override
 	public List<Department> getAll() {
-		List<Department> departments = new ArrayList<>();
+		List<Department> departments = new ArrayList<Department>();
 		try {
 			Statement statement = connection.createStatement();
 			statement.execute("select * from department");
