@@ -3,8 +3,10 @@ package com.sam.app.dao;
 import java.util.Collections;
 import java.util.List;
 
-import com.sam.app.model.Employee;
-import com.sam.app.model.Role;
+import com.sam.app.dao.jdbc.DepartmentDAO;
+import com.sam.app.dao.jdbc.RoleDAO;
+import com.sam.app.domain.Employee;
+import com.sam.app.domain.Role;
 
 public class DataController {
 	

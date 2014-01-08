@@ -13,9 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sam.app.dao.DataController;
-import com.sam.app.dao.RoleDAO;
-import com.sam.app.model.Employee;
-import com.sam.app.model.Role;
+import com.sam.app.dao.jdbc.RoleDAO;
+import com.sam.app.domain.Employee;
+import com.sam.app.domain.Role;
 
 public class RoleServlet extends AbstractCRUDServlet<Role> {
 

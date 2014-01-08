@@ -1,4 +1,4 @@
-package com.sam.app.i;
+package com.sam.app.dao;
 
 import java.util.List;
 

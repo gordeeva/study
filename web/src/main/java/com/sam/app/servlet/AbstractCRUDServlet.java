@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 
 import org.slf4j.Logger;
 
-import com.sam.app.i.ICRUD;
+import com.sam.app.dao.ICRUD;
 
 
 public abstract class AbstractCRUDServlet<T> extends HttpServlet implements

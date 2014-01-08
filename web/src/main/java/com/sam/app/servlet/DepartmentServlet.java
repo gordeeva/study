@@ -16,8 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sam.app.dao.DataController;
-import com.sam.app.dao.DepartmentDAO;
-import com.sam.app.model.Department;
+import com.sam.app.dao.jdbc.DepartmentDAO;
+import com.sam.app.domain.Department;
 
 public class DepartmentServlet extends AbstractCRUDServlet<Department> {
 

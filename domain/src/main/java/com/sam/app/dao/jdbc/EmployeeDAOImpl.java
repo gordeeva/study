@@ -1,4 +1,4 @@
-package com.sam.app.dao;
+package com.sam.app.dao.jdbc;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,14 +8,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.SessionFactory;
-//import org.hibernate.cfg.Configuration;
-//import org.hibernate.classic.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sam.app.model.Employee;
-import com.sam.app.model.Role;
+import com.sam.app.dao.DataController;
+import com.sam.app.dao.EmployeeDAO;
+import com.sam.app.dao.hibernate.EmployeeDAOHibernate;
+import com.sam.app.domain.Employee;
+import com.sam.app.domain.Role;
 
 public class EmployeeDAOImpl implements EmployeeDAO {
 
@@ -26,12 +26,6 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 	private DataController dataController;
 	
-	private final SessionFactory sessionFactory = null;
-//			new Configuration().
-//			configure("hibernate.cfg.xml").
-//			addAnnotatedClass(Employee.class).
-//			buildSessionFactory(); 
-
 	public EmployeeDAOImpl(Connection connection) {
 		this.connection = connection;
 	}
@@ -40,6 +34,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		this.dataController = dataController;
 	}
 
+	//JDBC
 	@Override
 	public List<Employee> getAll() {
 		List<Employee> employees = new ArrayList<Employee>();
@@ -62,6 +57,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		return employees;
 	}
 
+	//JDBC
 	@Override
 	public List<Employee> getEmployeeByRole(long roleId) {
 		List<Employee> employees = new ArrayList<Employee>();
@@ -81,7 +77,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		}
 		return employees;
 	}
-
+	
+	//JDBC
 	@Override
 	public Employee get(long id) {
 		Employee employee = new Employee();
@@ -101,25 +98,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		return employee;
 	}
 	
+	//HIBERNATE
 	@Override
 	public Long create(Employee employee) {
-		logger.info("create() start");
-//		Session session = null;
-//		try {
-//			session = sessionFactory.openSession();
-//			session.beginTransaction();
-//			session.save(employee);
-//			session.getTransaction().commit();
-//		} catch (Exception e) {
-//			logger.error("������ ��� �������", e);
-//			e.printStackTrace();
-//		} finally {
-//			if (session != null && session.isOpen()) {
-//				session.close();
-//			}
-//		}
-		logger.info("create() end");
-		return 0l;
+		return new EmployeeDAOHibernate().create(employee);
 
 		// try {
 		// PreparedStatement preparedStatement = connection
@@ -148,6 +130,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		// return employee.getId();
 	}
 
+	//JDBC
 	@Override
 	public void update(Employee employee) {
 		try {
@@ -162,6 +145,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		}
 	}
 
+	//JDBC
 	@Override
 	public void delete(long id) {
 		try {
@@ -175,6 +159,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		}
 	}
 
+	//JDBC
 	@Override
 	public void addRole(long empId, long roleId) {
 		try {
@@ -192,6 +177,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		}
 	}
 
+	//JDBC
 	@Override
 	public void deleteRole(long empId, long roleId) {
 		try {

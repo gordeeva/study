@@ -1,4 +1,4 @@
-package com.sam.app.model;
+package com.sam.app.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

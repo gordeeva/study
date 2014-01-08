@@ -17,9 +17,9 @@ import org.slf4j.LoggerFactory;
 
 import com.sam.app.dao.DataController;
 import com.sam.app.dao.EmployeeDAO;
-import com.sam.app.model.Employee;
-import com.sam.app.model.Role;
-import com.sam.app.util.HibernateUtil;
+import com.sam.app.domain.Employee;
+import com.sam.app.domain.Role;
+import com.sam.app.util.EntityManagerUtil;
 
 //@WebServlet(urlPatterns={"/webapp/EmployeeServlet"})
 public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
@@ -128,7 +128,7 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 		// super.create(employee);
 		// return employeeDAO.create(employee);
 		// return HibernateUtil.saveEmployee(employee);
-		return HibernateUtil.saveEmployeeEM(employee);
+		return EntityManagerUtil.saveEmployeeEM(employee);
 		// return HibernateUtil.saveEmployeeEM(employee, em);
 	}
 

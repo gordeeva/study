@@ -2,7 +2,7 @@ package com.sam.app.dao;
 
 import java.util.List;
 
-import com.sam.app.model.Employee;
+import com.sam.app.domain.Employee;
 
 public interface EmployeeDAO extends ICRUD4DAO<Employee> {
 	

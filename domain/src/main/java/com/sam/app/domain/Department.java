@@ -1,4 +1,4 @@
-package com.sam.app.model;
+package com.sam.app.domain;
 
 public class Department implements AbstractEntity {
 	

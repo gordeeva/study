@@ -1,4 +1,4 @@
-package com.sam.app.dao;
+package com.sam.app.dao.jdbc;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +11,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sam.app.model.Department;
+import com.sam.app.dao.ICRUD4DAO;
+import com.sam.app.domain.Department;
 
 public class DepartmentDAO implements ICRUD4DAO<Department> {
 

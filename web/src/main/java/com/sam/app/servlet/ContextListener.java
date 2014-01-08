@@ -14,9 +14,9 @@ import org.slf4j.LoggerFactory;
 
 import com.sam.app.dao.DataController;
 import com.sam.app.dao.DataController.DataControllerBuilder;
-import com.sam.app.dao.DepartmentDAO;
-import com.sam.app.dao.EmployeeDAOImpl;
-import com.sam.app.dao.RoleDAO;
+import com.sam.app.dao.jdbc.DepartmentDAO;
+import com.sam.app.dao.jdbc.EmployeeDAOImpl;
+import com.sam.app.dao.jdbc.RoleDAO;
 
 //@WebServletContextListener
 public class ContextListener implements ServletContextListener {
