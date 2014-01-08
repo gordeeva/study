@@ -9,7 +9,7 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
-		<jdk.version>1.7</jdk.version>
+		<jdk.version>1.6</jdk.version>
 	</properties>
 
 	<dependencies>
@@ -22,11 +22,6 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<version>3.6.3.Final</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate</artifactId>
-			<version>3.2.7.ga</version>
 		</dependency>
 <!-- 		<dependency> -->
 <!-- 			<groupId>org.hibernate</groupId> -->
@@ -84,6 +79,7 @@
 			<groupId>org.glassfish.main.extras</groupId>
 			<artifactId>glassfish-embedded-all</artifactId>
 			<version>3.1.2.2</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 
