@@ -1,16 +1,18 @@
 package com.sam.app.model;
 
-public class Role {
+public class Role implements AbstractEntity {
 	
-	private long id;
+	private static final long serialVersionUID = 1L;
+
+	private Long id;
 	
 	private String name;
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
