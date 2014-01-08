@@ -74,7 +74,8 @@ public class DepartmentServlet extends AbstractCRUDServlet<Department> {
 				HttpSession session = req.getSession(true);
 				session.setAttribute("lang", locale);
 			}
-			System.out.println("set lang: " + req.getSession().getAttribute("lang"));
+			System.out.println("set lang: "
+					+ req.getSession().getAttribute("lang"));
 			req.setAttribute("departments", getAll());
 		} else {
 			req.setAttribute("departments", getAll());
@@ -83,8 +84,9 @@ public class DepartmentServlet extends AbstractCRUDServlet<Department> {
 				.getRequestDispatcher(DEPARTMENT_VIEW_NAME);
 		try {
 			dispatcher.forward(req, resp);
-		} catch (ServletException | IOException e) {
+		} catch (ServletException e) {
 			logger.error("doGet() failed", e);
+		} catch (IOException e) {
 		}
 	}
 
@@ -105,8 +107,9 @@ public class DepartmentServlet extends AbstractCRUDServlet<Department> {
 				.getRequestDispatcher(DEPARTMENT_VIEW_NAME);
 		try {
 			dispatcher.forward(req, resp);
-		} catch (ServletException | IOException e) {
+		} catch (ServletException e) {
 			logger.error("doPost() failed", e);
+		} catch (IOException e) {
 		}
 	}
 

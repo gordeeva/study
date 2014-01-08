@@ -61,8 +61,9 @@ public class RoleServlet extends AbstractCRUDServlet<Role> {
 		RequestDispatcher dispatcher = req.getRequestDispatcher(ROLE_VIEW_NAME);
 		try {
 			dispatcher.forward(req, resp);
-		} catch (ServletException | IOException e) {
+		} catch (ServletException e) {
 			logger.error("doGet() failed", e);
+		} catch (IOException e) {
 		}
 	}
 
@@ -82,8 +83,9 @@ public class RoleServlet extends AbstractCRUDServlet<Role> {
 		RequestDispatcher dispatcher = req.getRequestDispatcher(ROLE_VIEW_NAME);
 		try {
 			dispatcher.forward(req, resp);
-		} catch (ServletException | IOException e) {
+		} catch (ServletException e) {
 			logger.error("doPost() failed", e);
+		} catch (IOException e) {
 		}
 	}
 
@@ -116,7 +118,7 @@ public class RoleServlet extends AbstractCRUDServlet<Role> {
 		super.delete(id);
 		roleDAO.delete(id);
 		for (Employee emp : dataController.getEmployeeByRole(id)) {
-//			emp.removeRole(id);
+			// emp.removeRole(id);
 		}
 	}
 
