@@ -1,33 +1,35 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	
+	<!-- Basic properties -->
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.sam.app</groupId>
-	<artifactId>webapp</artifactId>
-	<packaging>war</packaging>
+	<artifactId>webapp-parent</artifactId>
 	<version>1.0-SNAPSHOT</version>
-	<name>webapp Maven Webapp</name>
-	<url>http://maven.apache.org</url>
-
+	<name>webapp parent</name>
+	
+	<packaging>pom</packaging>
+	
 	<properties>
 		<jdk.version>1.6</jdk.version>
+		<hibernate.version>3.6.3.Final</hibernate.version>
+		<hibernate.commons.annotations>3.2.0.Final</hibernate.commons.annotations>
+		<slf4j.v>1.7.5</slf4j.v>
+		<glassfish.v>3.1.2.2</glassfish.v>
+		
+<!-- 		<glassfish.home>c:\java\glassfish3\glassfish\</glassfish.home> -->
+<!-- 		<project.artifactId>webapp</project.artifactId> -->
+		
 	</properties>
+	
+		<modules>
+		<module>domain</module>
+<!--		<module>ejb</module> -->
+		<module>web</module>
+<!--		<module>ear</module> -->
+	</modules>
 
 	<dependencies>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>3.0-alpha-1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>3.6.3.Final</version>
-		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.hibernate</groupId> -->
-<!-- 			<artifactId>hibernate-entitymanager</artifactId> -->
-<!-- 			<version>3.6.3.Final</version> -->
-<!-- 		</dependency> -->
 		<dependency>
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache-core</artifactId>
@@ -38,12 +40,6 @@
 			<artifactId>commons-collections</artifactId>
 			<version>3.2.1</version>
 		</dependency>
-
-		<!-- from tomcat.lib folder -->
-		<!-- <dependency> <groupId>org.apache.tomcat</groupId> <artifactId>annotations-api</artifactId> 
-			<version>6.0.37</version> </dependency> <dependency> <groupId>org.apache.tomcat</groupId> 
-			<artifactId>servlet-api</artifactId> <version>6.0.37</version> </dependency> -->
-
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
@@ -52,17 +48,17 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
-			<version>1.7.5</version>
+			<version>${slf4j.v}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.5</version>
+			<version>${slf4j.v}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.5</version>
+			<version>${slf4j.v}</version>
 		</dependency>
 
 		<!-- Test dependencies -->
@@ -73,13 +69,10 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!--This has most of the needed dependencies : Derby, JPA, EJB, Java EE 
-			6... -->
 		<dependency>
-			<groupId>org.glassfish.main.extras</groupId>
-			<artifactId>glassfish-embedded-all</artifactId>
-			<version>3.1.2.2</version>
-			<scope>provided</scope>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>1.6.1</version>
 		</dependency>
 	</dependencies>
 
@@ -92,15 +85,16 @@
 	</repositories>
 
 	<build>
-		<finalName>webapp</finalName>
+<!--		<finalName>webapp</finalName> -->
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.0</version>
+				<version>3.1</version>
 				<configuration>
 					<source>${jdk.version}</source>
 					<target>${jdk.version}</target>
+					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -111,11 +105,7 @@
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.4</version>
-			</plugin>
 		</plugins>
 	</build>
+
 </project>
