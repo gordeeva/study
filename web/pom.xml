@@ -1,0 +1,48 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	
+	<!-- Basic Properties -->
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>webapp-web</artifactId>
+	<name>webapp-web</name>
+
+		<!-- Reference the parent -->
+	<parent>
+		<artifactId>webapp-parent</artifactId>
+		<groupId>com.sam.app</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<packaging>war</packaging>
+
+	<dependencies>
+		<dependency>
+            <groupId>com.sam.app</groupId>
+            <artifactId>webapp-domain</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+
+		<!--This has most of the needed dependencies : Derby, JPA, EJB, Java EE 
+			6... -->
+		<dependency>
+			<groupId>org.glassfish.main.extras</groupId>
+			<artifactId>glassfish-embedded-all</artifactId>
+			<version>${glassfish.v}</version>
+			<scope>provided</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<finalName>webapp</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.4</version>
+			</plugin>
+		</plugins>
+	</build>
+</project>
