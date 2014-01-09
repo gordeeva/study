@@ -2,7 +2,6 @@ package com.sam.app.servlet;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.sql.Connection;
 import java.util.List;
 import java.util.Locale;
 
@@ -16,9 +15,8 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sam.app.dao.DataController;
-import com.sam.app.dao.jdbc.DepartmentDAO;
 import com.sam.app.domain.Department;
+import com.sam.app.util.AbstractEntityService;
 
 @WebServlet("/DepartmentServlet")
 public class DepartmentServlet extends AbstractCRUDServlet<Department> {
@@ -30,20 +28,12 @@ public class DepartmentServlet extends AbstractCRUDServlet<Department> {
 
 	private static final String DEPARTMENT_VIEW_NAME = "/department.jsp";
 
-	private DepartmentDAO departmentDAO;
-
+	private AbstractEntityService<Department> service = new AbstractEntityService<Department>(
+			Department.class);
+	
 	@Override
 	public void init() throws ServletException {
 		super.init();
-		Object connectionObj = getServletContext().getAttribute("dbconnection");
-		if (!(connectionObj instanceof Connection)) {
-			logger.error("Retreiving db connection failed: got {} here",
-					connectionObj);
-		}
-
-		DataController dataController = (DataController) getServletContext()
-				.getAttribute("dataController");
-		departmentDAO = dataController.getDepartmentDAO();
 	}
 
 	@Override
@@ -118,31 +108,31 @@ public class DepartmentServlet extends AbstractCRUDServlet<Department> {
 	@Override
 	public long create(Department department) {
 		super.create(department);
-		return departmentDAO.create(department);
+		return service.save(department);
 	}
 
 	@Override
 	public List<Department> getAll() {
 		super.getAll();
-		return departmentDAO.getAll();
+		return service.getAllDepartments();
 	}
 
 	@Override
 	public Department get(long id) {
 		super.get(id);
-		return departmentDAO.get(id);
+		return service.find(id);
 	}
 
 	@Override
 	public void update(Department department) {
 		super.update(department);
-		departmentDAO.update(department);
+		service.update(department);
 	}
 
 	@Override
 	public void delete(long id) {
 		super.delete(id);
-		departmentDAO.delete(id);
+		service.delete(id);
 	}
 
 	@Override

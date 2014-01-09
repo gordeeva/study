@@ -7,11 +7,6 @@ import java.sql.SQLException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import javax.servlet.annotation.WebListener;
-
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.xml.DOMConfigurator;
-import org.slf4j.LoggerFactory;
 
 import com.sam.app.dao.DataController;
 import com.sam.app.dao.DataController.DataControllerBuilder;
@@ -19,16 +14,16 @@ import com.sam.app.dao.jdbc.DepartmentDAO;
 import com.sam.app.dao.jdbc.EmployeeDAOImpl;
 import com.sam.app.dao.jdbc.RoleDAO;
 
-@WebListener
+//@WebListener
 public class ContextListener implements ServletContextListener {
 
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 
-		Connection connection = createConnection(sce.getServletContext());
-		sce.getServletContext().setAttribute("dbconnection", connection);
-		
-		initDAO(connection, sce.getServletContext());
+//		Connection connection = createConnection(sce.getServletContext());
+//		sce.getServletContext().setAttribute("dbconnection", connection);
+//		
+//		initDAO(connection, sce.getServletContext());
 	}
 
 	@Override

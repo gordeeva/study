@@ -1,8 +1,5 @@
 package com.sam.app.servlet;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 
 import javax.servlet.Filter;
@@ -13,6 +10,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebInitParam;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @WebFilter(filterName = "Main filter",
         urlPatterns = {"/*"},

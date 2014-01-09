@@ -1,7 +1,6 @@
 package com.sam.app.servlet;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -34,16 +33,6 @@ public class RoleServlet extends AbstractCRUDServlet<Role> {
 
 	@Override
 	public void init() throws ServletException {
-		Object connectionObj = getServletContext().getAttribute("dbconnection");
-		if (!(connectionObj instanceof Connection)) {
-			logger.error((String.format(
-					"Can't init roleDAO. DBConnection param is wrong %s",
-					connectionObj)));
-		}
-
-		dataController = (DataController) getServletContext().getAttribute(
-				"dataController");
-		roleDAO = dataController.getRoleDAO();
 	}
 
 	@Override

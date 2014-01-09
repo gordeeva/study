@@ -1,11 +1,8 @@
 package com.sam.app.servlet;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,13 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sam.app.dao.DataController;
-import com.sam.app.dao.EmployeeDAO;
 import com.sam.app.domain.Employee;
-import com.sam.app.domain.Role;
-import com.sam.app.util.EntityManagerUtil;
+import com.sam.app.util.AbstractEntityService;
 
-@WebServlet(urlPatterns={"/EmployeeServlet"})
+@WebServlet(urlPatterns = { "/EmployeeServlet" })
 public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 
 	private static final long serialVersionUID = 3918551416797741287L;
@@ -35,25 +29,13 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 
 	private static final String EMPLOYEE_VIEW_NAME = "/employee.jsp";
 
-	private EmployeeDAO employeeDAO;
-
-	private DataController dataController;
-
-	// @PersistenceContext
-	private EntityManager em;
+	// private DataController dataController;
+	private AbstractEntityService<Employee> service = new AbstractEntityService<Employee>(
+			Employee.class);
 
 	@Override
 	public void init() throws ServletException {
 		super.init();
-		Object connectionObj = getServletContext().getAttribute("dbconnection");
-		if (!(connectionObj instanceof Connection)) {
-			logger.error((String.format(
-					"Can't init EmployeeDAO. DBConnection param is wrong %s",
-					connectionObj)));
-		}
-		dataController = (DataController) getServletContext().getAttribute(
-				"dataController");
-		employeeDAO = dataController.getEmployeeDAO();
 	}
 
 	@Override
@@ -88,11 +70,11 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 			long id = Long.valueOf(req.getParameter("id"));
 			String roleName = req.getParameter("roleName");
 			System.out.println("role: " + roleName);
-			addRole(id, roleName);
+//			addRole(id, roleName);
 		} else if (action.equals(DELETE_ROLE_ACTION)) {
 			long id = Long.valueOf(req.getParameter("id"));
 			String roleName = req.getParameter("roleName");
-			deleteRole(id, roleName);
+//			deleteRole(id, roleName);
 		} else { // create or update employee
 			Employee emp = new Employee();
 			String name = req.getParameter("name");
@@ -125,39 +107,36 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 
 	@Override
 	public long create(Employee employee) {
-		// super.create(employee);
-		// return employeeDAO.create(employee);
-		// return HibernateUtil.saveEmployee(employee);
-		return EntityManagerUtil.saveEmployeeEM(employee);
-		// return HibernateUtil.saveEmployeeEM(employee, em);
+		super.create(employee);
+		// return EntityManagerUtil.saveEmployeeEM(employee);
+		return service.save(employee);
 	}
 
 	@Override
 	public List<Employee> getAll() {
 		super.getAll();
-		return employeeDAO.getAll();
-		// return null;
+		return service.getAllEmployees();
 	}
 
 	@Override
 	public Employee get(long id) {
 		super.get(id);
-		return employeeDAO.get(id);
-		// return null;
+		return service.find(id);
 	}
 
 	@Override
 	public void update(Employee employee) {
-		// super.update(employee);
-		// employeeDAO.update(employee);
+		 super.update(employee);
+		 service.update(employee);
 	}
 
 	@Override
 	public void delete(long id) {
-		// super.delete(id);
-		// employeeDAO.delete(id);
+		 super.delete(id);
+		 service.delete(id);
 	}
 
+	/*
 	private void addRole(long empId, String roleName) {
 		logger.info("Add role was called");
 		Long roleId = findRoleId(roleName);
@@ -189,5 +168,5 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 		}
 		return null;
 	}
-
+	*/
 }
