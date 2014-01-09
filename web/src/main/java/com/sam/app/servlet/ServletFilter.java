@@ -1,5 +1,8 @@
 package com.sam.app.servlet;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 
 import javax.servlet.Filter;
@@ -8,8 +11,16 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.annotation.WebInitParam;
 
+@WebFilter(filterName = "Main filter",
+        urlPatterns = {"/*"},
+        initParams = {
+                @WebInitParam(name = "encoding", value = "UTF-8")})
 public class ServletFilter implements Filter {
+
+    private static final Logger logger = LoggerFactory.getLogger(ServletFilter.class);
 
 	private static final String FILTERABLE_CONTENT_TYPE = "application/x-www-form-urlencoded";
 
@@ -32,7 +43,8 @@ public class ServletFilter implements Filter {
 		// System.out.println("before filter: " + request.getParameter("name"));
 //        String contentType = request.getContentType();
 //        if (contentType != null && contentType.startsWith(FILTERABLE_CONTENT_TYPE)) {
-        	request.setCharacterEncoding(encoding);
+        logger.debug("doFilter()");
+        request.setCharacterEncoding(encoding);
 //        }
 //		System.out.println("after filter: " + request.getParameter("name"));
 		chain.doFilter(request, response);

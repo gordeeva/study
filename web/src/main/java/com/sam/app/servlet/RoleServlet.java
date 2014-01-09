@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,6 +18,7 @@ import com.sam.app.dao.jdbc.RoleDAO;
 import com.sam.app.domain.Employee;
 import com.sam.app.domain.Role;
 
+@WebServlet("/RoleServlet")
 public class RoleServlet extends AbstractCRUDServlet<Role> {
 
 	private static final Logger logger = LoggerFactory

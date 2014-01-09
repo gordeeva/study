@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.xml.DOMConfigurator;
@@ -18,14 +19,12 @@ import com.sam.app.dao.jdbc.DepartmentDAO;
 import com.sam.app.dao.jdbc.EmployeeDAOImpl;
 import com.sam.app.dao.jdbc.RoleDAO;
 
-//@WebServletContextListener
+@WebListener
 public class ContextListener implements ServletContextListener {
 
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 
-		initLogger(sce.getServletContext());
-		
 		Connection connection = createConnection(sce.getServletContext());
 		sce.getServletContext().setAttribute("dbconnection", connection);
 		
@@ -46,25 +45,6 @@ public class ContextListener implements ServletContextListener {
 		DataController dataController = builder.build();
 		employeeDAO.setDataController(dataController);
 		servletContext.setAttribute("dataController", dataController);
-	}
-
-	private void initLogger(ServletContext servletContext) {
-		String log4jFile = servletContext.getInitParameter("log4jFileName");
-		if (log4jFile == null) {
-			System.out.println("No log4j-config init param, initializing log4j with BasicConfigurator");
-			BasicConfigurator.configure();
-		} else {
-			String log4jProp = System.getProperty("user.home") + "\\samApp\\" + log4jFile;
-			try {
-				DOMConfigurator.configure(log4jProp);
-				System.out.println("configured log4j with filepath: "
-						+ log4jProp);
-			} catch (Exception e) {
-				System.out.println("Can't configure log4j with filepath: "
-						+ log4jProp);
-			}
-		}
-		LoggerFactory.getLogger(getClass()).info("log4j configured properly");
 	}
 
 	private Connection createConnection(ServletContext servletContext) {

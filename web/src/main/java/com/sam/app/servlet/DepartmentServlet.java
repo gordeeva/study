@@ -8,6 +8,7 @@ import java.util.Locale;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -19,6 +20,7 @@ import com.sam.app.dao.DataController;
 import com.sam.app.dao.jdbc.DepartmentDAO;
 import com.sam.app.domain.Department;
 
+@WebServlet("/DepartmentServlet")
 public class DepartmentServlet extends AbstractCRUDServlet<Department> {
 
 	private static final long serialVersionUID = 5763031550113580414L;

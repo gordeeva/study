@@ -21,7 +21,7 @@ import com.sam.app.domain.Employee;
 import com.sam.app.domain.Role;
 import com.sam.app.util.EntityManagerUtil;
 
-//@WebServlet(urlPatterns={"/webapp/EmployeeServlet"})
+@WebServlet(urlPatterns={"/EmployeeServlet"})
 public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 
 	private static final long serialVersionUID = 3918551416797741287L;

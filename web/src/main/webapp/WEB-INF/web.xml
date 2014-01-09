@@ -6,55 +6,6 @@
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
-	<servlet>
-		<servlet-name>EmployeeServlet</servlet-name>
-		<servlet-class>com.sam.app.servlet.EmployeeServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>EmployeeServlet</servlet-name>
-		<url-pattern>/EmployeeServlet</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<servlet-name>DepartmentServlet</servlet-name>
-		<servlet-class>com.sam.app.servlet.DepartmentServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>DepartmentServlet</servlet-name>
-		<url-pattern>/DepartmentServlet</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<servlet-name>RoleServlet</servlet-name>
-		<servlet-class>com.sam.app.servlet.RoleServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>RoleServlet</servlet-name>
-		<url-pattern>/RoleServlet</url-pattern>
-	</servlet-mapping>
-
-	<listener>
-		<listener-class>com.sam.app.servlet.ContextListener</listener-class>
-	</listener>
-
-	<filter>
-		<filter-name>ServletFilter</filter-name>
-		<filter-class>com.sam.app.servlet.ServletFilter</filter-class>
-		<init-param>
-			<param-name>encoding</param-name>
-			<param-value>UTF-8</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>ServletFilter</filter-name>
-		<servlet-name>EmployeeServlet</servlet-name>
-	</filter-mapping>
-	<filter-mapping>
-		<filter-name>ServletFilter</filter-name>
-		<servlet-name>DepartmentServlet</servlet-name>
-	</filter-mapping>
-	<filter-mapping>
-		<filter-name>ServletFilter</filter-name>
-		<servlet-name>RoleServlet</servlet-name>
-	</filter-mapping>
 
 	<context-param>
 		<param-name>dbdriver</param-name>
@@ -70,7 +21,7 @@
 	</context-param>
 	<context-param>
 		<param-name>dbpassword</param-name>
-		<param-value>1</param-value>
+		<param-value>1111</param-value>
 	</context-param>
 	<context-param>
 		<param-name>log4jFileName</param-name>
