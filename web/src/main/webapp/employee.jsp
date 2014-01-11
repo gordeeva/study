@@ -13,7 +13,9 @@
 
 	<%@include file="header.jsp"%>
 
-	<form id="form" action="/webapp/EmployeeServlet" method="post">
+<!-- 	<form id="form" action="/webapp/EmployeeServlet" method="post"> -->
+	<form id="form" action="${pageContext.request.contextPath}/EmployeeServlet" method="post">
+	
 		<table border=1>
 			<tr>
 				<td align="left">id</td>
@@ -26,6 +28,9 @@
 			<tr>
 				<td colspan=3 align="center"><input type="submit"
 					id="updateButton" value="Add" /></td>
+			</tr>
+			<tr>
+				<td>${request.servletPath}</td>
 			</tr>
 		</table>
 	</form>
@@ -40,13 +45,15 @@
 				<!-- <th>Roles</th> -->
 				<th>Update roles</th>
 				<th>Delete record</th>
+				<th>Roles</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach items="${employees}" var="employee">
 				<tr>
 					<td align="center"><input type="checkbox" name="checkRadio"
-						onclick="OnChangeCheckbox(this)" id="chk1" class="userCheckboxes" /></td>
+						onclick="OnChangeCheckbox(this)" id="chk1" class="userCheckboxes" />
+					</td>
 					<td align="center"><c:out value="${employee.id}" /></td>
 					<td align="center"><c:out value="${employee.name}" /></td>
 					<%-- <td align="center"><c:forEach items="${employee.roles}"
@@ -81,6 +88,19 @@
 					<td align="center"><a
 						href="/webapp/EmployeeServlet?action=delete&id=<c:out value="${employee.id}"/>">Delete
 							record</a></td>
+					<td>
+						<table id="table_role">
+						<tbody>
+							<tr>
+<!-- 							<td> -->
+								<c:forEach items="${employee.roles}" var="role">
+									<c:out value="${role.name}"/>
+								</c:forEach>
+<!-- 							</td> -->
+							</tr>
+						</tbody>
+						</table>
+					</td>
 				</tr>
 			</c:forEach>
 		</tbody>

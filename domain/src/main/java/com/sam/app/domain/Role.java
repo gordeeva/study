@@ -1,9 +1,13 @@
 package com.sam.app.domain;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "ROLE")
 public class Role implements AbstractEntity {
 	
 	private static final long serialVersionUID = 1L;
@@ -37,7 +41,10 @@ public class Role implements AbstractEntity {
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
-
+	
+	/**
+	 * @TODO зачем такой сложный способ, разве не достаточно сравнения по id?
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

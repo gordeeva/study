@@ -17,7 +17,9 @@
 
 
 	<jsp:include page="header.jsp" />
-
+	<table id="main_table">
+	<tbody>
+	<tr><td>
 			<form id="form" action="/webapp/DepartmentServlet" method="post">
 				<table border=1>
 					<tr>
@@ -35,8 +37,8 @@
 					</tr>
 				</table>
 			</form>
-			<p>
-			<p>
+			<p></p>
+			<p></p>
 			<table id="table" border=1>
 				<thead>
 					<tr>
@@ -60,7 +62,45 @@
 					</c:forEach>
 				</tbody>
 			</table>
-			
+	</td>
+	<td></td><td></td><td></td>
+	<td>		
+			<p></p>
+			<p></p>
+			<p></p>
+			<table id="dep_emp_table" border=1>
+				<thead>
+					<tr>
+						<th>Department ID</th>
+						<th>Department</th>
+						<th>Employees</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach items="${departments}" var="department">
+						<tr>
+							<td align="center"><c:out value="${department.id}" /></td>
+							<td align="center"><c:out value="${department.name}" /></td>
+							<td align="center">
+							<table id="emp_table">
+								<tbody>
+								<c:forEach items="${department.employees}" var="employee">
+									<tr>
+										<td align="center">
+											<c:out value="${employee.name}" />
+										</td>
+									</tr>
+								</c:forEach>
+								</tbody>
+							</table>
+							</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+	</td></tr>
+	</tbody>
+	</table>		
 	<%@include file="footer.jsp" %>
 
 	<script type="text/javascript" src="department.js"></script>
