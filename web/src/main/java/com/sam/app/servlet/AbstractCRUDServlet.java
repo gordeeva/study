@@ -16,7 +16,7 @@ public abstract class AbstractCRUDServlet<T> extends HttpServlet {
 
 	protected static final String DELETE_ACTION = "delete";
 
-    public static final String LOCALE = "locale";
+    protected static final String LOCALE = "locale";
 
 
     public long create(T t) {
