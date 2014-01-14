@@ -2,8 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<c:set var="language" value="${not empty param.lang ? param.lang : not empty lang ? lang : pageContext.request.locale}" scope="session" />
-<fmt:setLocale value="${language}" />
+<c:set var="lang" value="${not empty sessionScope.lang ? sessionScope.lang : pageContext.request.locale}" scope="session" />
+<fmt:setLocale value="${lang}" />
 <fmt:setBundle basename="com.sam.app.i18n.Messages" />
 <!DOCTYPE html>
 <html>
@@ -12,6 +12,10 @@
 <meta charset="UTF-8" />
 <title>Employees</title>
 <link href="main.css" rel="stylesheet" type="text/css" />
+<script>
+    var updateButtonName = '<fmt:message key="UPDATE.BUTTON" />';
+    var addButtonName = '<fmt:message key="ADD.BUTTON" />';
+</script>
 </head>
 <body>
 
@@ -45,62 +49,35 @@
 						<th><fmt:message key="UPDATE.TABLE_HEADER" /></th>
 						<th>ID</th>
 						<th><fmt:message key="NAME.LABEL" /></th>
+						<th><fmt:message key="EMPLOYEES.LABEL" /></th>
 						<th><fmt:message key="DELETE.TABLE_HEADER" /></th>
 					</tr>
 				</thead>
-				<tbody>
-					<c:forEach items="${departments}" var="department">
-						<tr>
-							<td align="center"><input type="checkbox" name="checkRadio"
-								onclick="OnChangeCheckbox(this)" id="chk1"
-								class="userCheckboxes" /></td>
-							<td align="center"><c:out value="${department.id}" /></td>
-							<td align="center"><c:out value="${department.name}" /></td>
-							<td align="center"><a
-								href="/webapp/DepartmentServlet?action=delete&id=<c:out value="${department.id}"/>">Delete</a></td>
-						</tr>
-					</c:forEach>
-				</tbody>
+                <tbody>
+                <c:forEach items="${departments}" var="department">
+                    <tr>
+                        <td align="center"><input type="checkbox" name="checkRadio"
+                                                  onclick="OnChangeCheckbox(this)" id="chk1"
+                                                  class="userCheckboxes"/></td>
+                        <td align="center"><c:out value="${department.id}"/></td>
+                        <td align="center"><c:out value="${department.name}"/></td>
+                        <td align="center">
+                            <c:forEach items="${department.employees}" var="employee">
+                                <c:out value="${employee.name}"/> <br>
+                            </c:forEach>
+                        </td>
+                        <td align="center"><a
+                                href="/webapp/DepartmentServlet?action=delete&id=<c:out value="${department.id}"/>">Delete</a>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
 			</table>
-	</td>
-	<td></td><td></td><td></td>
-	<td>		
-			<p></p>
-			<p></p>
-			<p></p>
-			<table id="dep_emp_table" border=1>
-				<thead>
-					<tr>
-						<th>Department ID</th>
-						<th>Department</th>
-						<th>Employees</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach items="${departments}" var="department">
-						<tr>
-							<td align="center"><c:out value="${department.id}" /></td>
-							<td align="center"><c:out value="${department.name}" /></td>
-							<td align="center">
-							<table id="emp_table">
-								<tbody>
-								<c:forEach items="${department.employees}" var="employee">
-									<tr>
-										<td align="center">
-											<c:out value="${employee.name}" />
-										</td>
-									</tr>
-								</c:forEach>
-								</tbody>
-							</table>
-							</td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
+
+
 	</td></tr>
 	</tbody>
-	</table>		
+	</table>
 	<%@include file="footer.jsp" %>
 
 	<script type="text/javascript" src="department.js"></script>

@@ -1,13 +1,14 @@
 package com.sam.app.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "ROLE")
+@NamedQueries
+        ({
+                @NamedQuery(name = "all_roles", query = "SELECT r FROM Role r")
+
+        })
+@Table(name = "role")
 public class Role implements AbstractEntity {
 	
 	private static final long serialVersionUID = 1L;
@@ -42,9 +43,6 @@ public class Role implements AbstractEntity {
 		return result;
 	}
 	
-	/**
-	 * @TODO зачем такой сложный способ, разве не достаточно сравнения по id?
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

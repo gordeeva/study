@@ -1,23 +1,15 @@
 package com.sam.app.domain;
 
-import java.util.List;
+import java.util.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@NamedQuery(name = "getAllEmployees", query = "SELECT e FROM Employee e")
+@NamedQueries
+        ({
+                @NamedQuery(name = "all_employees", query = "SELECT e FROM Employee e"),
+
+        })
 @Table(name = "employee")
 public final class Employee implements AbstractEntity {
 
@@ -33,13 +25,13 @@ public final class Employee implements AbstractEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "department_id")
 	private Department department;
-	
+
 	@OneToMany
-	@JoinTable(name = "employee_role", 
-			joinColumns = @JoinColumn(name = "emp_id"), 
+	@JoinTable(name = "employee_role",
+			joinColumns = @JoinColumn(name = "emp_id"),
 			inverseJoinColumns = @JoinColumn(name = "role_id"))
 	@OrderColumn(name = "roles_order")
-	private List<Role> roles;
+	private Set<Role> roles = new HashSet<Role>();
 
 	public Department getDepartment() {
 		return department;
@@ -70,11 +62,19 @@ public final class Employee implements AbstractEntity {
 		return "Employee [id=" + id + ", name=" + name + "]";
 	}
 
-	public List<Role> getRoles() {
+	public Collection<Role> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
+	public void setRoles(Collection<Role> roles) {
+		roles.addAll(roles);
 	}
+
+    public void addRole(Role role) {
+        roles.add(role);
+    }
+
+    public void deleteRole(Role role) {
+        roles.remove(role);
+    }
 }

@@ -16,7 +16,10 @@ public abstract class AbstractCRUDServlet<T> extends HttpServlet {
 
 	protected static final String DELETE_ACTION = "delete";
 
-	public long create(T t) {
+    protected static final String LOCALE = "locale";
+
+
+    public long create(T t) {
 		getLogger().info("Create of " + t + " was called");
 		return -1;
 	}

@@ -5,10 +5,8 @@ var rows = table.getElementsByTagName('tr');
 var userIdField = document.getElementById('userId');
 userIdField.disabled = true;
 var userNameField = document.getElementById('userName');
+var departmentField = document.getElementById('departmentName');
 var updateButtonField = document.getElementById('updateButton');
-
-//var deleteRoleComboField = document.getElementById('deleteRoleComboId');
-
 
 function OnChangeCheckbox(checkbox) {
 	var isChecked = checkbox.checked;
@@ -19,10 +17,13 @@ function OnChangeCheckbox(checkbox) {
 
 	var id = '';
 	var name = '';
+    var depName = '';
 	var buttonName = '';
 	if (isChecked) {
 		id = checkbox.parentNode.nextSibling.nextSibling.textContent;
 		name = checkbox.parentNode.nextSibling.nextSibling.nextSibling.nextSibling.textContent;
+        depName = checkbox.parentNode.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.textContent;
+        console.log(depName);
 		buttonName = 'Update';		
 	} else {
 		buttonName = 'Add';		
@@ -30,6 +31,7 @@ function OnChangeCheckbox(checkbox) {
 	userIdField.disabled = !isChecked;
 	userIdField.setAttribute('value', id);
 	userNameField.setAttribute('value', name);
+    departmentField.value = depName;
 	updateButtonField.setAttribute('value', buttonName);
 }
 

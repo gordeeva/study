@@ -2,9 +2,6 @@ var table = document.getElementById('table');
 var checkboxesArray = table.getElementsByClassName('userCheckboxes');
 var rows = table.getElementsByTagName('tr');
 
-var updateButtonName='<fmt:message key="UPDATE.BUTTON" />';
-var addButtonName='<fmt:message key="ADD.BUTTON" />';
-
 var userIdField = document.getElementById('userId');
 userIdField.disabled = true;
 var userNameField = document.getElementById('userName');

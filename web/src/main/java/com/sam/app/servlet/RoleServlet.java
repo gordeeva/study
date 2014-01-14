@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sam.app.util.AbstractEntityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,10 +28,8 @@ public class RoleServlet extends AbstractCRUDServlet<Role> {
 
 	private static final String ROLE_VIEW_NAME = "/role.jsp";
 
-	private RoleDAO roleDAO;
-
-	private DataController dataController;
-
+    private AbstractEntityService<Role> service = new AbstractEntityService<Role>(
+            Role.class);
 	@Override
 	public void init() throws ServletException {
 	}
@@ -83,34 +82,31 @@ public class RoleServlet extends AbstractCRUDServlet<Role> {
 	@Override
 	public long create(Role role) {
 		super.create(role);
-		return roleDAO.create(role);
+		return service.save(role);
 	}
 
 	@Override
 	public List<Role> getAll() {
 		super.getAll();
-		return roleDAO.getAll();
+		return service.findAll();
 	}
 
 	@Override
 	public Role get(long id) {
 		super.get(id);
-		return roleDAO.get(id);
+		return service.find(id);
 	}
 
 	@Override
 	public void update(Role role) {
 		super.update(role);
-		roleDAO.update(role);
+		service.update(role);
 	}
 
 	@Override
 	public void delete(long id) {
 		super.delete(id);
-		roleDAO.delete(id);
-		for (Employee emp : dataController.getEmployeeByRole(id)) {
-			// emp.removeRole(id);
-		}
+		service.delete(id);
 	}
 
 	@Override

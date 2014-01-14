@@ -30,7 +30,7 @@ public class DepartmentServlet extends AbstractCRUDServlet<Department> {
 
 	private AbstractEntityService<Department> service = new AbstractEntityService<Department>(
 			Department.class);
-	
+
 	@Override
 	public void init() throws ServletException {
 		super.init();
@@ -48,26 +48,20 @@ public class DepartmentServlet extends AbstractCRUDServlet<Department> {
 			long id = Long.valueOf(req.getParameter("id"));
 			delete(id);
 			req.setAttribute("departments", getAll());
-		} else if (action.equals("locale")) {
+		} else if (action.equals(LOCALE)) {
 			String lang = req.getParameter("lang");
 			lang = lang == null ? "" : lang;
-			System.out.println("lang: " + lang);
 			Locale locale;
-			if (lang.equals("en")) {
+            if (lang.equals("en")) {
 				locale = new Locale("en", "EN");
-				HttpSession session = req.getSession(true);
-				session.setAttribute("lang", locale);
 			} else if (lang.equals("ru")) {
 				locale = new Locale("ru", "RU");
-				HttpSession session = req.getSession(true);
-				session.setAttribute("lang", locale);
 			} else {
 				locale = req.getLocale();
-				HttpSession session = req.getSession(true);
-				session.setAttribute("lang", locale);
 			}
-			System.out.println("set lang: "
-					+ req.getSession().getAttribute("lang"));
+            HttpSession session = req.getSession(true);
+            session.setAttribute("lang", locale);
+
 			req.setAttribute("departments", getAll());
 		} else {
 			req.setAttribute("departments", getAll());

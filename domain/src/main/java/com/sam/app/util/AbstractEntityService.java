@@ -15,6 +15,7 @@ import javax.persistence.criteria.Root;
 import com.sam.app.domain.AbstractEntity;
 import com.sam.app.domain.Department;
 import com.sam.app.domain.Employee;
+import com.sam.app.domain.Role;
 
 public class AbstractEntityService<T extends AbstractEntity> {
 
@@ -91,7 +92,13 @@ public class AbstractEntityService<T extends AbstractEntity> {
 
 	@SuppressWarnings("unchecked")
 	public List<Employee> getAllEmployees() {
-		return em.createNamedQuery("getAllEmployees", Employee.class)
+		return em.createNamedQuery("all_employees", Employee.class)
+				.getResultList();
+	}
+
+    @SuppressWarnings("unchecked")
+	public List<Role> getAllRoles() {
+		return em.createNamedQuery("all_roles", Role.class)
 				.getResultList();
 	}
 
