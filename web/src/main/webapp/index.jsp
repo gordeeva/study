@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<%=request.getRealPath("") %>
+<%--<%=request.getRealPath("") %>--%>
 	<h3>
 		<a href="/webapp/EmployeeServlet">Employees</a> <br>
 		<a href="/webapp/DepartmentServlet">Departments</a> <br>

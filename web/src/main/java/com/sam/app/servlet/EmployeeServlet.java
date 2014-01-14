@@ -9,6 +9,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sam.app.domain.Department;
+import com.sam.app.domain.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +31,6 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 
 	private static final String EMPLOYEE_VIEW_NAME = "/employee.jsp";
 
-	// private DataController dataController;
 	private AbstractEntityService<Employee> service = new AbstractEntityService<Employee>(
 			Employee.class);
 
@@ -44,14 +45,20 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 		action = action == null ? "" : action;
 		if (action.equals(READ_ACTION)) {
 			long id = Long.valueOf(req.getParameter("id"));
+            req.setAttribute("departments", getAllDepartments());
 			req.setAttribute("employees", get(id));
-		} else if (action.equals(DELETE_ACTION)) {
+            req.setAttribute("roles", getAllRoles());
+        } else if (action.equals(DELETE_ACTION)) {
 			long id = Long.valueOf(req.getParameter("id"));
 			delete(id);
-			req.setAttribute("employees", getAll());
+            req.setAttribute("departments", getAllDepartments());
+            req.setAttribute("employees", getAll());
+            req.setAttribute("roles", getAllRoles());
 		} else {
-			req.setAttribute("employees", getAll());
-		}
+            req.setAttribute("departments", getAllDepartments());
+            req.setAttribute("employees", getAll());
+            req.setAttribute("roles", getAllRoles());
+        }
 		RequestDispatcher requestDispatcher = req
 				.getRequestDispatcher(EMPLOYEE_VIEW_NAME);
 		try {
@@ -70,27 +77,30 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 			long id = Long.valueOf(req.getParameter("id"));
 			String roleName = req.getParameter("roleName");
 			System.out.println("role: " + roleName);
-//			addRole(id, roleName);
+			addRole(id, roleName);
 		} else if (action.equals(DELETE_ROLE_ACTION)) {
 			long id = Long.valueOf(req.getParameter("id"));
 			String roleName = req.getParameter("roleName");
-//			deleteRole(id, roleName);
-		} else { // create or update employee
-			Employee emp = new Employee();
-			String name = req.getParameter("name");
-			emp.setName(name);
-			String id = req.getParameter("id");
-			// if (id == null || id.isEmpty()) {
-			create(emp);
-			// }
-			// else {
-			// emp.setId(Long.valueOf(id));
-			// update(emp);
-			// }
-		}
+            deleteRole(id, roleName);
+        } else { // create or update employee
+            Employee emp = new Employee();
+            String name = req.getParameter("name");
+            String department = req.getParameter("department");
+            emp.setName(name);
+            emp.setDepartment(getDepartmentByName(department));
+            String id = req.getParameter("id");
+            if (id == null || id.isEmpty()) {
+                create(emp);
+            } else {
+                emp.setId(Long.valueOf(id));
+                update(emp);
+            }
+        }
 
-		req.setAttribute("employees", getAll());
-		RequestDispatcher requestDispatcher = req
+        req.setAttribute("departments", getAllDepartments());
+        req.setAttribute("employees", getAll());
+        req.setAttribute("roles", getAllRoles());
+        RequestDispatcher requestDispatcher = req
 				.getRequestDispatcher(EMPLOYEE_VIEW_NAME);
 		try {
 			requestDispatcher.forward(req, resp);
@@ -108,7 +118,6 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 	@Override
 	public long create(Employee employee) {
 		super.create(employee);
-		// return EntityManagerUtil.saveEmployeeEM(employee);
 		return service.save(employee);
 	}
 
@@ -117,6 +126,14 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 		super.getAll();
 		return service.getAllEmployees();
 	}
+
+    public List<Role> getAllRoles() {
+        return service.getAllRoles();
+    }
+
+    public List<Department> getAllDepartments() {
+        return service.getAllDepartments();
+    }
 
 	@Override
 	public Employee get(long id) {
@@ -136,12 +153,13 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 		 service.delete(id);
 	}
 
-	/*
+
 	private void addRole(long empId, String roleName) {
 		logger.info("Add role was called");
-		Long roleId = findRoleId(roleName);
-		if (roleId != null) {
-			employeeDAO.addRole(empId, roleId);
+        Role role = findRole(roleName);
+		if (role != null) {
+            Employee employee = service.find(empId);
+			employee.addRole(role);
 		} else {
 			logger.warn(String.format("Role Id for name %s was not found",
 					roleName));
@@ -150,23 +168,34 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 
 	private void deleteRole(long empId, String roleName) {
 		logger.info("Delete role was called");
-		Long roleId = findRoleId(roleName);
-		if (roleId != null) {
-			employeeDAO.deleteRole(empId, roleId);
+        Role role = findRole(roleName);
+		if (role != null) {
+            Employee employee = service.find(empId);
+            employee.deleteRole(role);
 		} else {
 			logger.warn(String.format("Role Id for name %s was not found",
 					roleName));
 		}
 	}
 
-	private Long findRoleId(String roleName) {
-		List<Role> roles = dataController.getRoles();
+	private Role findRole(String roleName) {
+		List<Role> roles = service.getAllRoles();
 		for (Role role : roles) {
 			if (role.getName().equals(roleName)) {
-				return role.getId();
+				return role;
 			}
 		}
 		return null;
 	}
-	*/
+
+    private Department getDepartmentByName(String name) {
+        List<Department> departments = service.getAllDepartments();
+        for (Department department : departments) {
+            if (department.getName().equalsIgnoreCase(name)) {
+                return department;
+            }
+        }
+        return null;
+    }
+
 }

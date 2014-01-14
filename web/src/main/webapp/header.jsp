@@ -2,11 +2,11 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<c:set var="language" value="${not empty param.lang ? param.lang : not empty lang ? lang : pageContext.request.locale}" scope="session" />
-<fmt:setLocale value="${language}" />
+<c:set var="lang" value="${not empty param.lang ? param.lang : not empty lang ? lang : pageContext.request.locale}" scope="session" />
+<fmt:setLocale value="${lang}" />
 <fmt:setBundle basename="com.sam.app.i18n.Messages" />
 
-<c:out value="${language}"/> <br>
+<c:out value="${lang}"/> <br>
 <c:out value="${sessionScope.lang}"/>
 <div id="page">
 	<div id="header">

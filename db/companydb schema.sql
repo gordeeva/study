@@ -4,7 +4,7 @@ SET NAMES 'utf8';
 USE companydb;
 
 --
--- Описание для таблицы department
+-- пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ department
 --
 CREATE TABLE department(
   id INT (11) NOT NULL AUTO_INCREMENT,
@@ -17,7 +17,7 @@ CHARACTER SET utf8
 COLLATE utf8_general_ci;
 
 --
--- Описание для таблицы role
+-- пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ role
 --
 CREATE TABLE role(
   id INT (11) NOT NULL AUTO_INCREMENT,
@@ -30,7 +30,7 @@ CHARACTER SET utf8
 COLLATE utf8_general_ci;
 
 --
--- Описание для таблицы employee
+-- пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ employee
 --
 CREATE TABLE employee(
   id INT (8) NOT NULL AUTO_INCREMENT,
@@ -39,7 +39,7 @@ CREATE TABLE employee(
   PRIMARY KEY (id),
   INDEX fk_employee_department USING BTREE (department_id),
   CONSTRAINT fk_employee_department FOREIGN KEY (department_id)
-  REFERENCES department (id)
+  REFERENCES department (id) ON DELETE SET NULL
 )
 ENGINE = INNODB
 AUTO_INCREMENT = 67
@@ -47,7 +47,7 @@ CHARACTER SET utf8
 COLLATE utf8_general_ci;
 
 --
--- Описание для таблицы employee_role
+-- пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ employee_role
 --
 CREATE TABLE employee_role(
   emp_id INT (11) NOT NULL,
@@ -65,7 +65,7 @@ CHARACTER SET utf8
 COLLATE utf8_general_ci;
 
 -- 
--- Вывод данных для таблицы department
+-- пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ department
 -- 
 INSERT INTO department VALUES(4, 'executives');
 INSERT INTO department VALUES(6, 'dep1');
@@ -75,14 +75,14 @@ INSERT INTO department VALUES(15, 'lunatic');
 
 
 -- 
--- Вывод данных для таблицы role
+-- пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ role
 -- 
 INSERT INTO role VALUES(7, 'manager');
 INSERT INTO role VALUES(15, 'sales');
 
 
 -- 
--- Вывод данных для таблицы employee
+-- пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ employee
 -- 
 INSERT INTO employee VALUES(12, 'volaneev', 15);
 INSERT INTO employee VALUES(13, 'marchenko', 15);
@@ -108,7 +108,7 @@ INSERT INTO employee VALUES(66, 'ihoo', NULL);
 
 
 -- 
--- Вывод данных для таблицы employee_role
+-- пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ employee_role
 -- 
 INSERT INTO employee_role VALUES(50, 7, 0);
 INSERT INTO employee_role VALUES(50, 15, 1);

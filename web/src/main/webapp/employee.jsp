@@ -1,21 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="com.sam.app.dao.DataController"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Employees</title>
-<!-- <link href="main.css" rel="stylesheet" type="text/css" /> -->
+<link href="main.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 
 	<%@include file="header.jsp"%>
+    <table id="main_table">
+        <tbody>
+        <tr><td>
 
-<!-- 	<form id="form" action="/webapp/EmployeeServlet" method="post"> -->
 	<form id="form" action="${pageContext.request.contextPath}/EmployeeServlet" method="post">
-	
+
 		<table border=1>
 			<tr>
 				<td align="left">id</td>
@@ -25,12 +26,18 @@
 				<td align="left">name</td>
 				<td align="right"><input type="text" id="userName" name="name" /></td>
 			</tr>
+            <tr>
+				<td align="left">department</td>
+                <td align="right">
+                    <select id="departmentName" name="department">
+                        <c:forEach items="${departments}" var="department">
+                            <option><c:out value="${department.name}"/></option>
+                        </c:forEach>
+                    </select></td>
+			</tr>
 			<tr>
 				<td colspan=3 align="center"><input type="submit"
 					id="updateButton" value="Add" /></td>
-			</tr>
-			<tr>
-				<td>${request.servletPath}</td>
 			</tr>
 		</table>
 	</form>
@@ -42,10 +49,10 @@
 				<th>Update</th>
 				<th>Id</th>
 				<th>Name</th>
-				<!-- <th>Roles</th> -->
+				<th>Department</th>
+				<th>Roles</th>
 				<th>Update roles</th>
 				<th>Delete record</th>
-				<th>Roles</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -56,17 +63,18 @@
 					</td>
 					<td align="center"><c:out value="${employee.id}" /></td>
 					<td align="center"><c:out value="${employee.name}" /></td>
-					<%-- <td align="center"><c:forEach items="${employee.roles}"
+					<td align="center"><c:out value="${employee.department.name}" /></td>
+					<td align="center"><c:forEach items="${employee.roles}"
 							var="role">
 							<c:out value="${role.name}" />
 							<br>
-						</c:forEach></td> --%>
-					<td> 
+						</c:forEach></td>
+					<td>
 						<form action="/webapp/EmployeeServlet" method="post">
 							<input type="hidden" name="action" value="addRole" /> <input
 								type="hidden" name="id" value="<c:out value="${employee.id}"/>" />
 							<select name="roleName">
-								<c:forEach items="${applicationScope.dataController.getRoles()}"
+								<c:forEach items="${roles}"
 									var="role">
 						<<option><c:out value="${role.name}" /></option>
 								</c:forEach>
@@ -77,7 +85,7 @@
 								type="hidden" name="id" value="<c:out value="${employee.id}"/>" />
 							<select name="roleName" id="deleteRoleComboId">
 								<c:forEach
-									items="${applicationScope.dataController.getRolesByEmployee(employee.id)}"
+									items="${employee.roles}"
 									var="role">
 						<<option><c:out value="${role.name}" /></option>
 								</c:forEach>
@@ -88,23 +96,14 @@
 					<td align="center"><a
 						href="/webapp/EmployeeServlet?action=delete&id=<c:out value="${employee.id}"/>">Delete
 							record</a></td>
-					<td>
-						<table id="table_role">
-						<tbody>
-							<tr>
-<!-- 							<td> -->
-								<c:forEach items="${employee.roles}" var="role">
-									<c:out value="${role.name}"/>
-								</c:forEach>
-<!-- 							</td> -->
-							</tr>
-						</tbody>
-						</table>
-					</td>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
+
+        </td></tr>
+        </tbody>
+    </table>
 
 	<%@include file="footer.jsp"%>
 

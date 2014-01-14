@@ -9,6 +9,11 @@
 <link href="main.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
+
+    <table id="main_table">
+    <tbody>
+    <tr>
+        <td>
 	
 	<%@include file="header.jsp" %>
 			<form id="form" action="/webapp/RoleServlet" method="post">
@@ -59,6 +64,10 @@
 		<!-- очищающий блок -->
 		<div id="substrate-footer"></div>
 		<!-- блок подложка подвала сайта -->
+
+    </td></tr>
+    </tbody>
+    </table>
 
 	<%@include file="footer.jsp" %>
 
