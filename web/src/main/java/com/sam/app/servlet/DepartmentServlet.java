@@ -40,7 +40,6 @@ public class DepartmentServlet extends AbstractCRUDServlet<Department> {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
 		String action = req.getParameter("action") == null ? "" : req
 				.getParameter("action");
-		System.out.println("action: " + action);
 		if (action.equals(READ_ACTION)) {
 			long id = Long.valueOf(req.getParameter("id"));
 			req.setAttribute("departments", get(id));

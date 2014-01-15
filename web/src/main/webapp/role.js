@@ -20,9 +20,9 @@ function OnChangeCheckbox(checkbox) {
 	if (isChecked) {
 		id = checkbox.parentNode.nextSibling.nextSibling.textContent;
 		name = checkbox.parentNode.nextSibling.nextSibling.nextSibling.nextSibling.textContent;
-		buttonName = 'Update';		
+		buttonName = updateButtonName;
 	} else {
-		buttonName = 'Add';		
+		buttonName = addButtonName;		
 	}
 	userIdField.disabled = !isChecked;
 	userIdField.setAttribute('value', id);

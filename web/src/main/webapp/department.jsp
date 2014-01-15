@@ -27,7 +27,7 @@
 			<form id="form" action="/webapp/DepartmentServlet" method="post">
 				<table border=1>
 					<tr>
-						<td align="left">ID</td>
+						<td align="left"><fmt:message key="ID.LABEL" /></td>
 						<td align="right"><input type="text" id="userId" name="id" /></td>
 					</tr>
 					<tr>
@@ -37,7 +37,7 @@
 					</tr>
 					<tr>
 						<td colspan=3 align="center"><input type="submit"
-							id="updateButton" value="<fmt:message key="UPDATE.BUTTON" />" /></td>
+							id="updateButton" value="<fmt:message key="ADD.BUTTON" />" /></td>
 					</tr>
 				</table>
 			</form>
@@ -67,7 +67,7 @@
                             </c:forEach>
                         </td>
                         <td align="center"><a
-                                href="/webapp/DepartmentServlet?action=delete&id=<c:out value="${department.id}"/>">Delete</a>
+                                href="/webapp/DepartmentServlet?action=delete&id=<c:out value="${department.id}"/>"><fmt:message key="DELETE.TABLE_HEADER" /></a>
                         </td>
                     </tr>
                 </c:forEach>
