@@ -2,6 +2,7 @@ package com.sam.app.servlet;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -55,7 +56,24 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
             req.setAttribute("departments", getAllDepartments());
             req.setAttribute("employees", getAll());
             req.setAttribute("roles", getAllRoles());
-		} else {
+		} else if (action.equals(LOCALE)) {
+            String lang = req.getParameter("lang");
+            lang = lang == null ? "" : lang;
+            Locale locale;
+            if (lang.equals("en")) {
+                locale = new Locale("en", "EN");
+            } else if (lang.equals("ru")) {
+                locale = new Locale("ru", "RU");
+            } else {
+                locale = req.getLocale();
+            }
+            HttpSession session = req.getSession(true);
+            session.setAttribute("lang", locale);
+
+            req.setAttribute("departments", getAllDepartments());
+            req.setAttribute("employees", getAll());
+            req.setAttribute("roles", getAllRoles());
+        } else {
             req.setAttribute("departments", getAllDepartments());
             req.setAttribute("employees", getAll());
             req.setAttribute("roles", getAllRoles());
