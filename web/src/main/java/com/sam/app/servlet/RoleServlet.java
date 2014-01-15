@@ -2,12 +2,14 @@ package com.sam.app.servlet;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.sam.app.util.AbstractEntityService;
 import org.slf4j.Logger;
@@ -45,7 +47,22 @@ public class RoleServlet extends AbstractCRUDServlet<Role> {
 			long id = Long.valueOf(req.getParameter("id"));
 			delete(id);
 			req.setAttribute("roles", getAll());
-		} else {
+		} else if (action.equals(LOCALE)) {
+            String lang = req.getParameter("lang");
+            lang = lang == null ? "" : lang;
+            Locale locale;
+            if (lang.equals("en")) {
+                locale = new Locale("en", "EN");
+            } else if (lang.equals("ru")) {
+                locale = new Locale("ru", "RU");
+            } else {
+                locale = req.getLocale();
+            }
+            HttpSession session = req.getSession(true);
+            session.setAttribute("lang", locale);
+
+            req.setAttribute("roles", getAll());
+        } else {
 			req.setAttribute("roles", getAll());
 		}
 		RequestDispatcher dispatcher = req.getRequestDispatcher(ROLE_VIEW_NAME);

@@ -31,7 +31,7 @@ public final class Employee implements AbstractEntity {
 			joinColumns = @JoinColumn(name = "emp_id"),
 			inverseJoinColumns = @JoinColumn(name = "role_id"))
 	@OrderColumn(name = "roles_order")
-	private Set<Role> roles = new HashSet<Role>();
+	private List<Role> roles = new ArrayList<Role>();
 
 	public Department getDepartment() {
 		return department;
