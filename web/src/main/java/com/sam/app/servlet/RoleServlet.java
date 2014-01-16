@@ -15,9 +15,6 @@ import com.sam.app.util.AbstractEntityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sam.app.dao.DataController;
-import com.sam.app.dao.jdbc.RoleDAO;
-import com.sam.app.domain.Employee;
 import com.sam.app.domain.Role;
 
 @WebServlet("/RoleServlet")
@@ -99,19 +96,19 @@ public class RoleServlet extends AbstractCRUDServlet<Role> {
 	@Override
 	public long create(Role role) {
 		super.create(role);
-		return service.save(role);
+		return service.create(role);
 	}
 
 	@Override
 	public List<Role> getAll() {
 		super.getAll();
-		return service.findAll();
+		return service.getAll();
 	}
 
 	@Override
 	public Role get(long id) {
 		super.get(id);
-		return service.find(id);
+		return service.get(id);
 	}
 
 	@Override

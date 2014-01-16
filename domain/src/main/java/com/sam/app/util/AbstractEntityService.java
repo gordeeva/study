@@ -12,12 +12,10 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import com.sam.app.domain.AbstractEntity;
-import com.sam.app.domain.Department;
-import com.sam.app.domain.Employee;
-import com.sam.app.domain.Role;
+import com.sam.app.ICRUD;
+import com.sam.app.domain.*;
 
-public class AbstractEntityService<T extends AbstractEntity> {
+public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T> {
 
 	private EntityManagerFactory emf = Persistence
 			.createEntityManagerFactory("study");
@@ -29,7 +27,8 @@ public class AbstractEntityService<T extends AbstractEntity> {
 		entityClass = entity;
 	}
 
-	public Long save(T entity) {
+	@Override
+    public long create(T entity) {
 		em.getTransaction().begin();
 		em.persist(entity);
 		em.getTransaction().commit();
@@ -37,22 +36,24 @@ public class AbstractEntityService<T extends AbstractEntity> {
 		// emf.close();
 		return entity.getId();
 	}
-	
-	public T update(T entity) {
+
+    @Override
+    public T update(T entity) {
 		em.getTransaction().begin();
 		em.merge(entity);
 		em.getTransaction().commit();
 		return entity;
 	}
-	
-	public T delete(T entity) {
+
+    public T delete(T entity) {
 		em.getTransaction().begin();
 		em.remove(entity);
 		em.getTransaction().commit();
 		return entity;
 	}
-	
-	public T delete(Long id) {
+
+    @Override
+	public T delete(long id) {
 		em.getTransaction().begin();
 		T entity = em.find(entityClass, id);
 		em.remove(entity);
@@ -60,16 +61,17 @@ public class AbstractEntityService<T extends AbstractEntity> {
 		return entity;
 	}
 
-	public T find(Long id) {
+    @Override
+	public T get(Long id) {
 		if (id == null) {
 			throw new IllegalArgumentException();
 		}
 		// em.getTransaction().begin();
-
 		return em.find(entityClass, id);
 	}
 
-	public List<T> findAll() {
+    @Override
+	public List<T> getAll() {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<T> cq = cb.createQuery(entityClass);
 		Root<T> root = cq.from(entityClass);
