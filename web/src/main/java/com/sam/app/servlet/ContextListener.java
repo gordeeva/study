@@ -9,7 +9,7 @@ public class ContextListener implements ServletContextListener {
 
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
-
+        // do nothing
 	}
 
 	@Override
