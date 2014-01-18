@@ -1,15 +1,25 @@
 package com.sam.app.domain;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
+import javax.persistence.Table;
 
 @Entity
-@NamedQueries
-        ({
-                @NamedQuery(name = "all_employees", query = "SELECT e FROM Employee e"),
-
-        })
+@NamedQuery(name = "all_employees", query = "SELECT e FROM Employee e")
 @Table(name = "employee")
 public final class Employee implements AbstractEntity {
 
