@@ -96,19 +96,19 @@ public class RoleServlet extends AbstractCRUDServlet<Role> {
 	@Override
 	public long create(Role role) {
 		super.create(role);
-		return service.save(role);
+		return service.create(role);
 	}
 
 	@Override
 	public List<Role> getAll() {
 		super.getAll();
-		return service.findAll();
+		return service.getAll();
 	}
 
 	@Override
 	public Role get(long id) {
 		super.get(id);
-		return service.find(id);
+		return service.get(id);
 	}
 
 	@Override
