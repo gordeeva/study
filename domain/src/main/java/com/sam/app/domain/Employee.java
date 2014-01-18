@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @Entity
 @NamedQuery(name = "all_employees", query = "SELECT e FROM Employee e")
 @Table(name = "employee")
-public final class Employee implements AbstractEntity {
+public class Employee implements AbstractEntity {
 
 	private static final long serialVersionUID = 1L;
 
