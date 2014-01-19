@@ -12,9 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
@@ -32,11 +32,11 @@ public class Employee implements AbstractEntity {
 	@Column
 	private String name;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "department_id")
 	private Department department;
 
-	@OneToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "employee_role",
 			joinColumns = @JoinColumn(name = "emp_id"),
 			inverseJoinColumns = @JoinColumn(name = "role_id"))
