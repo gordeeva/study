@@ -137,7 +137,7 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 	@Override
 	public long create(Employee employee) {
 		super.create(employee);
-		return service.save(employee);
+		return service.create(employee);
 	}
 
 	@Override
@@ -157,7 +157,7 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 	@Override
 	public Employee get(long id) {
 		super.get(id);
-		return service.find(id);
+		return service.get(id);
 	}
 
 	@Override
@@ -177,7 +177,7 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 		logger.info("Add role was called");
         Role role = findRole(roleName);
 		if (role != null) {
-            Employee employee = service.find(empId);
+            Employee employee = service.get(empId);
 			employee.addRole(role);
 		} else {
 			logger.warn(String.format("Role Id for name %s was not found",
@@ -189,7 +189,7 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 		logger.info("Delete role was called");
         Role role = findRole(roleName);
 		if (role != null) {
-            Employee employee = service.find(empId);
+            Employee employee = service.get(empId);
             employee.deleteRole(role);
 		} else {
 			logger.warn(String.format("Role Id for name %s was not found",

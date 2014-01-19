@@ -1,4 +1,4 @@
-package com.sam.app.dao;
+package com.sam.app;
 
 import java.util.List;
 
@@ -26,17 +26,17 @@ public interface ICRUD<T> {
 	 * @param id
 	 * @return entity
 	 */
-	T get(long id);
+	T get(Long id);
 	
 	/**
 	 * Updates entity
 	 * @param entity to update
 	 */
-	void update(T t);
+	T update(T t);
 	
 	/**
 	 * Deletes entity
 	 * @param id
 	 */
-	void delete(long id);
+	T delete(long id);
 }

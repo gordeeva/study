@@ -101,7 +101,7 @@ public class DepartmentServlet extends AbstractCRUDServlet<Department> {
 	@Override
 	public long create(Department department) {
 		super.create(department);
-		return service.save(department);
+		return service.create(department);
 	}
 
 	@Override
@@ -113,7 +113,7 @@ public class DepartmentServlet extends AbstractCRUDServlet<Department> {
 	@Override
 	public Department get(long id) {
 		super.get(id);
-		return service.find(id);
+		return service.get(id);
 	}
 
 	@Override
