@@ -37,7 +37,7 @@ public class AbstractEntityService<T extends AbstractEntity> {
         entityClass = entity;
     }
 
-    public Long save(final T entity) {
+    public Long create(final T entity) {
         new EMUtil() {
 
             @Override
@@ -88,7 +88,7 @@ public class AbstractEntityService<T extends AbstractEntity> {
         return deleted;
     }
 
-    public T find(final Long id) {
+    public T get(final Long id) {
         if (id == null) {
             throw new IllegalArgumentException();
         }
@@ -103,7 +103,7 @@ public class AbstractEntityService<T extends AbstractEntity> {
         return found;
     }
 
-    public List<T> findAll() {
+    public List<T> getAll() {
         List<T> list = new EMUtilForList<T>() {
 
             @Override
