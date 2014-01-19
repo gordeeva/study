@@ -24,7 +24,7 @@ public class Department implements AbstractEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column
+	@Column(nullable = false)
 	private String name;
 
 	@OneToMany(mappedBy = "department", fetch = FetchType.EAGER)

@@ -2,6 +2,7 @@ package com.sam.app.domain;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -16,7 +17,6 @@ import javax.persistence.Table;
 @NamedQueries
         ({
                 @NamedQuery(name = "all_roles", query = "SELECT r FROM Role r")
-
         })
 @Table(name = "role")
 public class Role implements AbstractEntity {
@@ -27,6 +27,7 @@ public class Role implements AbstractEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
+	@Column(nullable = false)
 	private String name;
 	
 	@ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)

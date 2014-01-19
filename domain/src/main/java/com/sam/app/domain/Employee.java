@@ -29,7 +29,7 @@ public class Employee implements AbstractEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column
+	@Column(nullable = false)
 	private String name;
 
 	@ManyToOne(fetch = FetchType.EAGER)
