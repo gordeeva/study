@@ -1,7 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	
-	<!-- Basic properties -->
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.sam.app</groupId>
 	<artifactId>webapp-parent</artifactId>
@@ -15,18 +14,11 @@
 		<hibernate.version>3.6.3.Final</hibernate.version>
 		<hibernate.commons.annotations>3.2.0.Final</hibernate.commons.annotations>
 		<slf4j.v>1.7.5</slf4j.v>
-		<glassfish.v>3.1.2.2</glassfish.v>
-		
-<!-- 		<glassfish.home>c:\java\glassfish3\glassfish\</glassfish.home> -->
-<!-- 		<project.artifactId>webapp</project.artifactId> -->
-		
 	</properties>
-	
-		<modules>
+
+	<modules>
 		<module>domain</module>
-<!--		<module>ejb</module> -->
 		<module>web</module>
-<!--		<module>ear</module> -->
 	</modules>
 
 	<dependencies>
@@ -60,8 +52,12 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>${slf4j.v}</version>
 		</dependency>
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>1.6.1</version>
+        </dependency>
 
-		<!-- Test dependencies -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -69,23 +65,9 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>dom4j</groupId>
-			<artifactId>dom4j</artifactId>
-			<version>1.6.1</version>
-		</dependency>
 	</dependencies>
 
-	<repositories>
-		<repository>
-			<id>repository.jboss.org-public</id>
-			<name>JBoss repository</name>
-			<url>https://repository.jboss.org/nexus/content/groups/public</url>
-		</repository>
-	</repositories>
-
 	<build>
-<!--		<finalName>webapp</finalName> -->
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
