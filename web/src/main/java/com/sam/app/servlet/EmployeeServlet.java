@@ -95,7 +95,6 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 		if (action.equals(ADD_ROLE_ACTION)) {
 			long id = Long.valueOf(req.getParameter("id"));
 			String roleName = req.getParameter("roleName");
-			System.out.println("role: " + roleName);
 			addRole(id, roleName);
 		} else if (action.equals(DELETE_ROLE_ACTION)) {
 			long id = Long.valueOf(req.getParameter("id"));

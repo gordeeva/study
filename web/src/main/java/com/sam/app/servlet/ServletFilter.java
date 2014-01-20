@@ -22,8 +22,6 @@ public class ServletFilter implements Filter {
 
     private static final Logger logger = LoggerFactory.getLogger(ServletFilter.class);
 
-	private static final String FILTERABLE_CONTENT_TYPE = "application/x-www-form-urlencoded";
-
 	private static final String ENCODING_DEFAULT = "UTF-8";
 
 	private static final String ENCODING_INIT_PARAM_NAME = "encoding";
@@ -40,13 +38,7 @@ public class ServletFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
-		// System.out.println("before filter: " + request.getParameter("name"));
-//        String contentType = request.getContentType();
-//        if (contentType != null && contentType.startsWith(FILTERABLE_CONTENT_TYPE)) {
-        logger.debug("doFilter()");
         request.setCharacterEncoding(encoding);
-//        }
-//		System.out.println("after filter: " + request.getParameter("name"));
 		chain.doFilter(request, response);
 	}
 
