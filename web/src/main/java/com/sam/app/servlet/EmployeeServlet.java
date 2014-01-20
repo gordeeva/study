@@ -94,11 +94,11 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 		action = action == null ? "" : action;
 		if (action.equals(ADD_ROLE_ACTION)) {
 			long id = Long.valueOf(req.getParameter("id"));
-			String roleName = req.getParameter("roleName");
+			String roleName = req.getParameter("new_roles");
 			addRole(id, roleName);
 		} else if (action.equals(DELETE_ROLE_ACTION)) {
 			long id = Long.valueOf(req.getParameter("id"));
-			String roleName = req.getParameter("roleName");
+			String roleName = req.getParameter("existing_roles");
             deleteRole(id, roleName);
         } else { // create or update employee
             Employee emp = new Employee();
