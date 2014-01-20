@@ -26,12 +26,19 @@ public class AbstractEntityService<T extends AbstractEntity> {
     private static final Logger logger = LoggerFactory
             .getLogger(AbstractEntityService.class);
 
-    private static EntityManagerFactory emf = Persistence
-            .createEntityManagerFactory("study");
+    private static EntityManagerFactory emf;
 
     private EntityManager em;
 
     private Class<T> entityClass;
+
+    public static void initEMF() {
+        emf = Persistence.createEntityManagerFactory("study");
+    }
+
+    public static void closeEMF() {
+        emf.close();
+    }
 
     public AbstractEntityService(Class<T> entity) {
         entityClass = entity;
