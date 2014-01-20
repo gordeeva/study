@@ -73,7 +73,6 @@ public class RoleServlet extends AbstractCRUDServlet<Role> {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
-		System.out.println("name" + req.getParameter("name"));
 		Role role = new Role();
 		role.setName(req.getParameter("name"));
 		String id = req.getParameter("id");
