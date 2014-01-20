@@ -13,6 +13,11 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import com.sam.app.ICRUD;
+import com.sam.app.domain.AbstractEntity;
+import com.sam.app.domain.Department;
+import com.sam.app.domain.Employee;
+import com.sam.app.domain.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +38,7 @@ public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T>
         entityClass = entity;
     }
 
+    @Override
     public Long create(final T entity) {
         new EMUtil() {
 
@@ -45,6 +51,7 @@ public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T>
         return entity.getId();
     }
 
+    @Override
     public T update(final T entity) {
         @SuppressWarnings("unused")
         T merged = new EMUtil() {
@@ -71,6 +78,7 @@ public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T>
         return entity;
     }
 
+    @Override
     public T delete(final Long id) {
         T deleted = new EMUtil() {
 
@@ -84,8 +92,8 @@ public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T>
         return deleted;
     }
 
+    @Override
     public T get(final Long id) {
-	public T get(Long id) {
         if (id == null) {
             throw new IllegalArgumentException();
         }
@@ -99,6 +107,7 @@ public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T>
         return found;
     }
 
+    @Override
     public List<T> getAll() {
         List<T> list = new EMUtilForList<T>() {
 
