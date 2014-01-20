@@ -1,17 +1,27 @@
 package com.sam.app.domain;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OrderColumn;
+import javax.persistence.Table;
 
 @Entity
-@NamedQueries
-        ({
-                @NamedQuery(name = "all_employees", query = "SELECT e FROM Employee e"),
-
-        })
+@NamedQuery(name = "all_employees", query = "SELECT e FROM Employee e")
 @Table(name = "employee")
-public final class Employee implements AbstractEntity {
+public class Employee implements AbstractEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -19,14 +29,14 @@ public final class Employee implements AbstractEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column
+	@Column(nullable = false)
 	private String name;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "department_id")
 	private Department department;
 
-	@OneToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "employee_role",
 			joinColumns = @JoinColumn(name = "emp_id"),
 			inverseJoinColumns = @JoinColumn(name = "role_id"))

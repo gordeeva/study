@@ -1,12 +1,22 @@
 package com.sam.app.domain;
 
-import javax.persistence.*;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 @Entity
 @NamedQueries
         ({
                 @NamedQuery(name = "all_roles", query = "SELECT r FROM Role r")
-
         })
 @Table(name = "role")
 public class Role implements AbstractEntity {
@@ -17,7 +27,11 @@ public class Role implements AbstractEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
+	@Column(nullable = false)
 	private String name;
+	
+	@ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
+	private List<Employee> employees;
 
 	public Long getId() {
 		return id;
@@ -64,5 +78,13 @@ public class Role implements AbstractEntity {
 	public String toString() {
 		return "Role [id=" + id + ", name=" + name + "]";
 	}
+
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
+    }
 	
 }

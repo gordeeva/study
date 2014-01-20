@@ -4,6 +4,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,10 +24,10 @@ public class Department implements AbstractEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column
+	@Column(nullable = false)
 	private String name;
 
-	@OneToMany(mappedBy = "department")
+	@OneToMany(mappedBy = "department", fetch = FetchType.EAGER)
 	@OrderBy("name asc")
 	private Set<Employee> employees;
 
