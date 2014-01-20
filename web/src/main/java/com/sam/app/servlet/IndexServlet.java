@@ -18,19 +18,18 @@ import org.slf4j.LoggerFactory;
 @WebServlet("/IndexServlet")
 public class IndexServlet extends HttpServlet {
 
-    private static final Logger logger = LoggerFactory.getLogger(IndexServlet.class);
+	private static final long serialVersionUID = 1L;
+	private static final Logger logger = LoggerFactory.getLogger(IndexServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
-        action = action == null ? "" : action;
-        if (action.equals(AbstractCRUDServlet.LOCALE)) {
+        if (AbstractCRUDServlet.LOCALE.equals(action)) {
             String lang = req.getParameter("lang");
-            lang = lang == null ? "" : lang;
             Locale locale;
-            if (lang.equals("en")) {
+            if ("en".equals(lang)) {
                 locale = new Locale("en", "EN");
-            } else if (lang.equals("ru")) {
+            } else if ("ru".equals(lang)) {
                 locale = new Locale("ru", "RU");
             } else {
                 locale = req.getLocale();
@@ -39,8 +38,7 @@ public class IndexServlet extends HttpServlet {
             session.setAttribute("lang", locale);
         }
 
-        RequestDispatcher requestDispatcher = req
-                .getRequestDispatcher("/index.jsp");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/index.jsp");
         try {
             requestDispatcher.forward(req, resp);
         } catch (ServletException e) {
