@@ -10,11 +10,7 @@
 	</appender>
 
 	<appender name="logger" class="org.apache.log4j.RollingFileAppender">
-<!-- 		<param name="File" value="${user.home}\\samApp\\Logs\\webapp.log" /> -->
-		<param name="File" value="${com.sun.aas.instanceRoot}/logs/webapp.log" />
-<!-- log4j.appender.logfile.File=${com.sun.aas.instanceRoot}/logs/MyApplication.log -->
-<!-- log4j.appender.logfile.File=${catalina.home}/logs/MyApplication.log -->
-<!-- log4j.appender.logfile.File=../logs/MyApplication.log -->
+		<param name="File" value="../logs/webapp.log" />
 		<param name="Append" value="true" />
 		<param name="ImmediateFlush" value="true" />
 		<param name="MaxFileSize" value="20MB" />

@@ -43,8 +43,8 @@
                     </tr>
                     <tr>
                         <td align="left"><fmt:message key="DEPARTMENT.LABEL"/></td>
-                        <td align="right">
-                            <select id="departmentName" name="department">
+                        <td>
+                            <select id="departmentName" name="department" style="width:100%;">
                                 <c:forEach items="${departments}" var="department">
                                     <option><c:out value="${department.name}"/></option>
                                 </c:forEach>
@@ -86,7 +86,7 @@
                             <form name="delete_role" action="/webapp/EmployeeServlet" method="post">
                                 <input type="hidden" name="action" value="deleteRole"/>
                                 <input type="hidden" name="id" value="<c:out value="${employee.id}"/>"/>
-                                <select name="existing_roles">
+                                <select name="existing_roles" style="width:100%;">
                                     <c:forEach items="${employee.roles}"
                                                var="role">
                                         <option><c:out value="${role.name}"/></option>
@@ -96,13 +96,13 @@
                                 <input type="submit" value="<fmt:message key="DELETE.BUTTON"/>"/>
                             </form>
                         </td>
-                        <td name="new_roles_management">
+                        <td name="new_roles_management" align="center">
                             <form action="/webapp/EmployeeServlet" method="post">
                                 <input type="hidden" name="action" value="addRole"/> <input
                                     type="hidden" name="id" value="<c:out value="${employee.id}"/>"/>
-                                <select name="new_roles">
+                                <select name="new_roles" style="width:100%;">
                                     <c:forEach
-                                            items="<%=getUnassignedRoles((Employee)pageContext.getAttribute("emp"), (Collection<Role>)request.getAttribute("roles"))%>"
+                                            items="<%=getUnassignedRoles((Employee)pageContext.getAttribute(\"emp\"), (Collection<Role>)request.getAttribute(\"roles\"))%>"
                                             var="role">
                                         <option><c:out value="${role.name}"/></option>
                                     </c:forEach>
