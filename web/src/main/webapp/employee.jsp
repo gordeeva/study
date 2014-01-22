@@ -1,13 +1,9 @@
-<%@ page import="com.sam.app.domain.Employee" %>
-<%@ page import="com.sam.app.domain.Role" %>
-<%@ page import="java.util.Set" %>
-<%@ page import="java.util.LinkedHashSet" %>
-<%@ page import="java.util.Collection" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<c:set var="lang" value="${not empty sessionScope.lang ? sessionScope.lang : pageContext.request.locale}"
+<c:set var="lang"
+       value="${not empty sessionScope.lang ? sessionScope.lang : pageContext.request.locale}"
        scope="session"/>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="com.sam.app.i18n.Messages"/>
@@ -30,29 +26,36 @@
     <tr>
         <td>
 
-            <form id="form" action="${pageContext.request.contextPath}/EmployeeServlet" method="post">
+            <form id="form"
+                  action="${pageContext.request.contextPath}/EmployeeServlet"
+                  method="post">
 
                 <table border=1>
                     <tr>
                         <td align="left"><fmt:message key="ID.LABEL"/></td>
-                        <td align="right"><input type="text" id="userId" name="id"/></td>
+                        <td align="right"><input type="text" id="userId"
+                                                 name="id"/></td>
                     </tr>
                     <tr>
                         <td align="left"><fmt:message key="NAME.LABEL"/></td>
-                        <td align="right"><input type="text" id="userName" name="name"/></td>
+                        <td align="right"><input type="text" id="userName"
+                                                 name="name"/></td>
                     </tr>
                     <tr>
-                        <td align="left"><fmt:message key="DEPARTMENT.LABEL"/></td>
-                        <td>
+                        <td align="left"><fmt:message
+                                key="DEPARTMENT.LABEL"/></td>
                             <select id="departmentName" name="department" style="width:100%;">
-                                <c:forEach items="${departments}" var="department">
-                                    <option><c:out value="${department.name}"/></option>
+                                <c:forEach items="${departments}"
+                                           var="department">
+                                    <option><c:out
+                                            value="${department.name}"/></option>
                                 </c:forEach>
                             </select></td>
                     </tr>
                     <tr>
                         <td colspan=3 align="center"><input type="submit"
-                                                            id="updateButton" value="<fmt:message key="ADD.BUTTON" />"/>
+                                                            id="updateButton"
+                                                            value="<fmt:message key="ADD.BUTTON" />"/>
                         </td>
                     </tr>
                 </table>
@@ -76,37 +79,51 @@
                 <c:forEach items="${employees}" var="employee">
                     <c:set var="emp" value="${employee}"/>
                     <tr>
-                        <td align="center"><input type="checkbox" name="checkRadio"
-                                                  onclick="OnChangeCheckbox(this)" id="chk1" class="userCheckboxes"/>
+                        <td align="center"><input type="checkbox"
+                                                  name="checkRadio"
+                                                  onclick="OnChangeCheckbox(this)"
+                                                  id="chk1"
+                                                  class="userCheckboxes"/>
                         </td>
-                        <td name="id" align="center"><c:out value="${employee.id}"/></td>
-                        <td name="emp_name" align="center"><c:out value="${employee.name}"/></td>
-                        <td name="dep_name" align="center"><c:out value="${employee.department.name}"/></td>
+                        <td name="id" align="center"><c:out
+                                value="${employee.id}"/></td>
+                        <td name="emp_name" align="center"><c:out
+                                value="${employee.name}"/></td>
+                        <td name="dep_name" align="center"><c:out
+                                value="${employee.department.name}"/></td>
                         <td name="existing_roles_management" align="center">
-                            <form name="delete_role" action="/webapp/EmployeeServlet" method="post">
-                                <input type="hidden" name="action" value="deleteRole"/>
-                                <input type="hidden" name="id" value="<c:out value="${employee.id}"/>"/>
-                                <select name="existing_roles" style="width:100%;">
+                            <form name="delete_role"
+                                  action="/webapp/EmployeeServlet"
+                                  method="post">
+                                <input type="hidden" name="action"
+                                       value="deleteRole"/>
+                                <input type="hidden" name="id"
+                                       value="<c:out value="${employee.id}"/>"/>
                                     <c:forEach items="${employee.roles}"
                                                var="role">
-                                        <option><c:out value="${role.name}"/></option>
+                                        <option><c:out
+                                                value="${role.name}"/></option>
                                         <br>
                                     </c:forEach>
                                 </select><br>
-                                <input type="submit" value="<fmt:message key="DELETE.BUTTON"/>"/>
+                                <input type="submit"
+                                       value="<fmt:message key="DELETE.BUTTON"/>"/>
                             </form>
                         </td>
                         <td name="new_roles_management" align="center">
-                            <form action="/webapp/EmployeeServlet" method="post">
-                                <input type="hidden" name="action" value="addRole"/> <input
-                                    type="hidden" name="id" value="<c:out value="${employee.id}"/>"/>
-                                <select name="new_roles" style="width:100%;">
-                                    <c:forEach
-                                            items="<%=getUnassignedRoles((Employee)pageContext.getAttribute(\"emp\"), (Collection<Role>)request.getAttribute(\"roles\"))%>"
-                                            var="role">
-                                        <option><c:out value="${role.name}"/></option>
+                            <form action="/webapp/EmployeeServlet"
+                                  method="post">
+                                <input type="hidden" name="action"
+                                       value="addRole"/> <input
+                                    type="hidden" name="id"
+                                    value="<c:out value="${employee.id}"/>"/>
+                                    <c:forEach items="${employee.rolesToAdd}"
+                                               var="role">
+                                        <option><c:out
+                                                value="${role.name}"/></option>
                                     </c:forEach>
-                                </select> <br> <input type="submit" value="<fmt:message key="ADD.BUTTON" />">
+                                </select> <br> <input type="submit"
+                                                      value="<fmt:message key="ADD.BUTTON" />">
                             </form>
                         </td>
                         <td align="center"><a
@@ -126,13 +143,5 @@
 
 <script type="text/javascript" src="employee.js"></script>
 
-<%!
-    private Collection<Role> getUnassignedRoles(Employee employee, Collection<Role> allRoles) {
-        Set<Role> employeeRolesSet = new LinkedHashSet<Role>(employee.getRoles());
-        Set<Role> allRolesSet = new LinkedHashSet<Role>(allRoles);
-        allRoles.removeAll(employeeRolesSet);
-        return allRolesSet;
-    }
-%>
 </body>
 </html>

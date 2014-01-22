@@ -1,7 +1,11 @@
 package com.sam.app.util;
 
-import java.util.Collections;
-import java.util.List;
+import com.sam.app.domain.AbstractEntity;
+import com.sam.app.domain.Department;
+import com.sam.app.domain.Employee;
+import com.sam.app.domain.Role;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -12,27 +16,32 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-
+import java.util.Collections;
+import java.util.List;
 import com.sam.app.ICRUD;
-import com.sam.app.domain.AbstractEntity;
-import com.sam.app.domain.Department;
-import com.sam.app.domain.Employee;
-import com.sam.app.domain.Role;
+import org.slf4j.Logger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
 public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T> {
 
-    private static final Logger logger = LoggerFactory
-            .getLogger(AbstractEntityService.class);
+    private static final Logger LOGGER = LoggerFactory
+      .getLogger(AbstractEntityService.class);
 
-    private static EntityManagerFactory emf = Persistence
-            .createEntityManagerFactory("study");
+    private static EntityManagerFactory emf;
 
     private EntityManager em;
 
     private Class<T> entityClass;
+
+    public static void initEMF() {
+        emf = Persistence.createEntityManagerFactory("study");
+    }
+
+    public static void closeEMF() {
+        emf.close();
+    }
 
     public AbstractEntityService(Class<T> entity) {
         entityClass = entity;
@@ -136,7 +145,7 @@ public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T>
             @Override
             List<Department> work() {
                 return em.createNamedQuery("all_departments", Department.class)
-                        .getResultList();
+                  .getResultList();
             }
         }.doWork();
         return found;
@@ -148,7 +157,7 @@ public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T>
             @Override
             List<Employee> work() {
                 return em.createNamedQuery("all_employees", Employee.class)
-                        .getResultList();
+                  .getResultList();
             }
         }.doWork();
         return found;
@@ -160,9 +169,22 @@ public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T>
             @Override
             List<Role> work() {
                 return em.createNamedQuery("all_roles", Role.class)
-                        .getResultList();
+                  .getResultList();
             }
         }.doWork();
+        return found;
+    }
+
+    public Role getRoleByName(final String name) {
+        Role found = new EMUtilForList<Role>() {
+
+            @Override
+            List<Role> work() {
+                return em.createNamedQuery("role_by_name", Role.class)
+                  .setParameter("rname", name)
+                  .getResultList();
+            }
+        }.doWork().get(0);
         return found;
     }
 
@@ -184,7 +206,7 @@ public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T>
             } catch (RuntimeException e) {
                 if (tx != null && tx.isActive())
                     tx.rollback();
-                logger.error("problem at doWork " + e.getMessage());
+                LOGGER.error("problem at doWork " + e.getMessage());
                 throw e; // or display error message
             } finally {
                 em.close();
@@ -211,7 +233,7 @@ public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T>
             } catch (RuntimeException e) {
                 if (tx != null && tx.isActive())
                     tx.rollback();
-                logger.error("problem at doWorkForList " + e.getMessage());
+                LOGGER.error("problem at doWorkForList " + e.getMessage());
                 throw e; // or display error message
             } finally {
                 em.close();

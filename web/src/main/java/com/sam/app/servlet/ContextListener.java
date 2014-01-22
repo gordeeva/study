@@ -7,30 +7,23 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-import java.util.concurrent.AbstractExecutorService;
-
 
 @WebListener
 public class ContextListener implements ServletContextListener {
 
-    private static final Logger logger = LoggerFactory.getLogger(ContextListener.class);
+    private static final Logger LOGGER = LoggerFactory
+      .getLogger(ContextListener.class);
 
-	@Override
-	public void contextInitialized(ServletContextEvent sce) {
-        initDAO();
-    }
-
-    private void initDAO() {
-        try {
-            Class.forName("com.sam.app.util.AbstractEntityService");
-        } catch (ClassNotFoundException e) {
-            logger.error("DAO initialization failed");
-        }
+    @Override
+    public void contextInitialized(ServletContextEvent sce) {
+        AbstractEntityService.initEMF();
+        LOGGER.info("contextInitialized");
     }
 
     @Override
-	public void contextDestroyed(ServletContextEvent sce) {
-		// do nothing
-	}
-	
+    public void contextDestroyed(ServletContextEvent sce) {
+        AbstractEntityService.closeEMF();
+        LOGGER.info("contextDestroyed");
+    }
+
 }
