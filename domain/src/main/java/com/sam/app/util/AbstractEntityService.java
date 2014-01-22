@@ -1,7 +1,11 @@
 package com.sam.app.util;
 
-import java.util.Collections;
-import java.util.List;
+import com.sam.app.domain.AbstractEntity;
+import com.sam.app.domain.Department;
+import com.sam.app.domain.Employee;
+import com.sam.app.domain.Role;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -12,19 +16,13 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.sam.app.domain.AbstractEntity;
-import com.sam.app.domain.Department;
-import com.sam.app.domain.Employee;
-import com.sam.app.domain.Role;
+import java.util.Collections;
+import java.util.List;
 
 public class AbstractEntityService<T extends AbstractEntity> {
 
-    private static final Logger logger = LoggerFactory
-            .getLogger(AbstractEntityService.class);
+    private static final Logger LOGGER = LoggerFactory
+      .getLogger(AbstractEntityService.class);
 
     private static EntityManagerFactory emf;
 
@@ -138,7 +136,7 @@ public class AbstractEntityService<T extends AbstractEntity> {
             @Override
             List<Department> work() {
                 return em.createNamedQuery("all_departments", Department.class)
-                        .getResultList();
+                  .getResultList();
             }
         }.doWork();
         return found;
@@ -150,7 +148,7 @@ public class AbstractEntityService<T extends AbstractEntity> {
             @Override
             List<Employee> work() {
                 return em.createNamedQuery("all_employees", Employee.class)
-                        .getResultList();
+                  .getResultList();
             }
         }.doWork();
         return found;
@@ -162,7 +160,7 @@ public class AbstractEntityService<T extends AbstractEntity> {
             @Override
             List<Role> work() {
                 return em.createNamedQuery("all_roles", Role.class)
-                        .getResultList();
+                  .getResultList();
             }
         }.doWork();
         return found;
@@ -174,12 +172,12 @@ public class AbstractEntityService<T extends AbstractEntity> {
             @Override
             List<Role> work() {
                 return em.createNamedQuery("role_by_name", Role.class)
-                        .setParameter("rname", name)
-                        .getResultList();
+                  .setParameter("rname", name)
+                  .getResultList();
             }
         }.doWork().get(0);
         return found;
-    } 
+    }
 
     private abstract class EMUtil {
 
@@ -199,7 +197,7 @@ public class AbstractEntityService<T extends AbstractEntity> {
             } catch (RuntimeException e) {
                 if (tx != null && tx.isActive())
                     tx.rollback();
-                logger.error("problem at doWork " + e.getMessage());
+                LOGGER.error("problem at doWork " + e.getMessage());
                 throw e; // or display error message
             } finally {
                 em.close();
@@ -226,7 +224,7 @@ public class AbstractEntityService<T extends AbstractEntity> {
             } catch (RuntimeException e) {
                 if (tx != null && tx.isActive())
                     tx.rollback();
-                logger.error("problem at doWorkForList " + e.getMessage());
+                LOGGER.error("problem at doWorkForList " + e.getMessage());
                 throw e; // or display error message
             } finally {
                 em.close();
