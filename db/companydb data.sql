@@ -40,13 +40,13 @@ INSERT INTO employee VALUES(66, 'ihoo', NULL);
 -- 
 -- Вывод данных для таблицы employee_role
 -- 
-INSERT INTO employee_role VALUES(50, 7, 0);
-INSERT INTO employee_role VALUES(50, 15, 1);
-INSERT INTO employee_role VALUES(51, 7, 1);
-INSERT INTO employee_role VALUES(51, 15, 0);
-INSERT INTO employee_role VALUES(52, 7, 0);
-INSERT INTO employee_role VALUES(53, 15, 0);
-INSERT INTO employee_role VALUES(54, 7, 0);
+INSERT INTO employee_role VALUES(50, 7);
+INSERT INTO employee_role VALUES(50, 15);
+INSERT INTO employee_role VALUES(51, 7);
+INSERT INTO employee_role VALUES(51, 15);
+INSERT INTO employee_role VALUES(52, 7);
+INSERT INTO employee_role VALUES(53, 15);
+INSERT INTO employee_role VALUES(54, 7);
 
 
 -- 
