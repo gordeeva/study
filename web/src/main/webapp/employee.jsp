@@ -87,8 +87,7 @@
                                 <input type="hidden" name="action" value="deleteRole"/>
                                 <input type="hidden" name="id" value="<c:out value="${employee.id}"/>"/>
                                 <select name="existing_roles">
-                                    <c:forEach items="${employee.roles}"
-                                               var="role">
+                                    <c:forEach items="${employee.roles}" var="role">
                                         <option><c:out value="${role.name}"/></option>
                                         <br>
                                     </c:forEach>
@@ -101,9 +100,7 @@
                                 <input type="hidden" name="action" value="addRole"/> <input
                                     type="hidden" name="id" value="<c:out value="${employee.id}"/>"/>
                                 <select name="new_roles">
-                                    <c:forEach
-                                            items="<%=getUnassignedRoles((Employee)pageContext.getAttribute("emp"), (Collection<Role>)request.getAttribute("roles"))%>"
-                                            var="role">
+                                    <c:forEach items="${employee.rolesToAdd}" var="role">
                                         <option><c:out value="${role.name}"/></option>
                                     </c:forEach>
                                 </select> <br> <input type="submit" value="<fmt:message key="ADD.BUTTON" />">
@@ -125,14 +122,17 @@
 <%@include file="footer.jsp" %>
 
 <script type="text/javascript" src="employee.js"></script>
+<!-- 
+<%-- <%! --%>
+<%-- items="<%=getUnassignedRoles((Employee)pageContext.getAttribute("emp"), (Collection<Role>)request.getAttribute("roles"))%>" --%>
 
-<%!
-    private Collection<Role> getUnassignedRoles(Employee employee, Collection<Role> allRoles) {
-        Set<Role> employeeRolesSet = new LinkedHashSet<Role>(employee.getRoles());
-        Set<Role> allRolesSet = new LinkedHashSet<Role>(allRoles);
-        allRoles.removeAll(employeeRolesSet);
-        return allRolesSet;
-    }
-%>
+//     private Collection<Role> getUnassignedRoles(Employee employee, Collection<Role> allRoles) {
+//         Set<Role> employeeRolesSet = new LinkedHashSet<Role>(employee.getRoles());
+//         Set<Role> allRolesSet = new LinkedHashSet<Role>(allRoles);
+//         allRoles.removeAll(employeeRolesSet);
+//         return allRolesSet;
+//     }
+<%-- %> --%>
+ -->
 </body>
 </html>

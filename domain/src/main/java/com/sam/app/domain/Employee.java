@@ -1,8 +1,6 @@
 package com.sam.app.domain;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,8 +13,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
-import javax.persistence.OrderColumn;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @NamedQuery(name = "all_employees", query = "SELECT e FROM Employee e")
@@ -31,7 +29,7 @@ public class Employee implements AbstractEntity {
 
 	@Column(nullable = false)
 	private String name;
-
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "department_id")
 	private Department department;
@@ -40,10 +38,12 @@ public class Employee implements AbstractEntity {
 	@JoinTable(name = "employee_role",
 			joinColumns = @JoinColumn(name = "emp_id"),
 			inverseJoinColumns = @JoinColumn(name = "role_id"))
-	@OrderColumn(name = "roles_order")
-	private List<Role> roles = new ArrayList<Role>();
+	private Set<Role> roles;
+	
+	@Transient
+	private Set<Role> rolesToAdd;
 
-	public Department getDepartment() {
+    public Department getDepartment() {
 		return department;
 	}
 
@@ -71,14 +71,14 @@ public class Employee implements AbstractEntity {
 	public String toString() {
 		return "Employee [id=" + id + ", name=" + name + "]";
 	}
+	
+    public Set<Role> getRoles() {
+        return roles;
+    }
 
-	public Collection<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Collection<Role> roles) {
-		roles.addAll(roles);
-	}
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 
     public void addRole(Role role) {
         roles.add(role);
@@ -86,5 +86,13 @@ public class Employee implements AbstractEntity {
 
     public void deleteRole(Role role) {
         roles.remove(role);
+    }
+
+    public Set<Role> getRolesToAdd() {
+        return rolesToAdd;
+    }
+
+    public void setRolesToAdd(Set<Role> rolesToAdd) {
+        this.rolesToAdd = rolesToAdd;
     }
 }

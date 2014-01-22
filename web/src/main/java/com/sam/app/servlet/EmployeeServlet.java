@@ -1,8 +1,10 @@
 package com.sam.app.servlet;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -32,6 +34,8 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 	private static final String DELETE_ROLE_ACTION = "deleteRole";
 
 	private static final String EMPLOYEE_VIEW_NAME = "/employee.jsp";
+	
+	private Set<Role> rolesCache;
 
 	private AbstractEntityService<Employee> service = new AbstractEntityService<Employee>(
 			Employee.class);
@@ -48,8 +52,9 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 		if (action.equals(READ_ACTION)) {
 			long id = Long.valueOf(req.getParameter("id"));
             req.setAttribute("departments", getAllDepartments());
-			req.setAttribute("employees", get(id));
             req.setAttribute("roles", getAllRoles());
+			req.setAttribute("employees", get(id));
+            
         } else if (action.equals(DELETE_ACTION)) {
 			long id = Long.valueOf(req.getParameter("id"));
 			delete(id);
@@ -75,8 +80,8 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
             req.setAttribute("roles", getAllRoles());
         } else {
             req.setAttribute("departments", getAllDepartments());
+            req.setAttribute("roles", rolesCache = new HashSet<Role>(getAllRoles()));
             req.setAttribute("employees", getAll());
-            req.setAttribute("roles", getAllRoles());
         }
 		RequestDispatcher requestDispatcher = req
 				.getRequestDispatcher(EMPLOYEE_VIEW_NAME);
@@ -99,6 +104,7 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 		} else if (action.equals(DELETE_ROLE_ACTION)) {
 			long id = Long.valueOf(req.getParameter("id"));
 			String roleName = req.getParameter("existing_roles");
+			logger.info("delete: id " + id + " role " + roleName);
             deleteRole(id, roleName);
         } else { // create or update employee
             Employee emp = new Employee();
@@ -142,7 +148,17 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 	@Override
 	public List<Employee> getAll() {
 		super.getAll();
-		return service.getAllEmployees();
+		List<Employee> allEmployees = service.getAllEmployees();
+		addRolesToAddToEmployee(allEmployees);
+		return allEmployees;
+	}
+	
+	private void addRolesToAddToEmployee(List<Employee> employees) {
+		for (Employee employee : employees) {
+			Set<Role> rolesToAdd = new HashSet<Role>(rolesCache);
+			rolesToAdd.removeAll(employee.getRoles());
+			employee.setRolesToAdd(rolesToAdd);
+		}
 	}
 
     public List<Role> getAllRoles() {
@@ -156,7 +172,8 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 	@Override
 	public Employee get(long id) {
 		super.get(id);
-		return service.get(id);
+		Employee employee = service.get(id);
+		return employee;
 	}
 
 	@Override
@@ -178,6 +195,7 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 		if (role != null) {
             Employee employee = service.get(empId);
 			employee.addRole(role);
+			service.update(employee);
 		} else {
 			logger.warn(String.format("Role Id for name %s was not found",
 					roleName));
@@ -190,6 +208,7 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 		if (role != null) {
             Employee employee = service.get(empId);
             employee.deleteRole(role);
+            service.update(employee);
 		} else {
 			logger.warn(String.format("Role Id for name %s was not found",
 					roleName));
@@ -197,13 +216,7 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 	}
 
 	private Role findRole(String roleName) {
-		List<Role> roles = service.getAllRoles();
-		for (Role role : roles) {
-			if (role.getName().equals(roleName)) {
-				return role;
-			}
-		}
-		return null;
+		return service.getRoleByName(roleName);
 	}
 
     private Department getDepartmentByName(String name) {
