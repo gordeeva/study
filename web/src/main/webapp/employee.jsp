@@ -122,17 +122,6 @@
 <%@include file="footer.jsp" %>
 
 <script type="text/javascript" src="employee.js"></script>
-<!-- 
-<%-- <%! --%>
-<%-- items="<%=getUnassignedRoles((Employee)pageContext.getAttribute("emp"), (Collection<Role>)request.getAttribute("roles"))%>" --%>
 
-//     private Collection<Role> getUnassignedRoles(Employee employee, Collection<Role> allRoles) {
-//         Set<Role> employeeRolesSet = new LinkedHashSet<Role>(employee.getRoles());
-//         Set<Role> allRolesSet = new LinkedHashSet<Role>(allRoles);
-//         allRoles.removeAll(employeeRolesSet);
-//         return allRolesSet;
-//     }
-<%-- %> --%>
- -->
 </body>
 </html>

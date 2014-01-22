@@ -34,8 +34,6 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 	private static final String DELETE_ROLE_ACTION = "deleteRole";
 
 	private static final String EMPLOYEE_VIEW_NAME = "/employee.jsp";
-	
-	private Set<Role> rolesCache;
 
 	private AbstractEntityService<Employee> service = new AbstractEntityService<Employee>(
 			Employee.class);
@@ -62,25 +60,13 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
             req.setAttribute("employees", getAll());
             req.setAttribute("roles", getAllRoles());
 		} else if (action.equals(LOCALE)) {
-            String lang = req.getParameter("lang");
-            lang = lang == null ? "" : lang;
-            Locale locale;
-            if (lang.equals("en")) {
-                locale = new Locale("en", "EN");
-            } else if (lang.equals("ru")) {
-                locale = new Locale("ru", "RU");
-            } else {
-                locale = req.getLocale();
-            }
-            HttpSession session = req.getSession(true);
-            session.setAttribute("lang", locale);
-
+            updateLocale(req);
             req.setAttribute("departments", getAllDepartments());
-            req.setAttribute("employees", getAll());
+            req.setAttribute("employees", getAllRoles());
             req.setAttribute("roles", getAllRoles());
         } else {
             req.setAttribute("departments", getAllDepartments());
-            req.setAttribute("roles", rolesCache = new HashSet<Role>(getAllRoles()));
+            req.setAttribute("roles", getAllRoles());
             req.setAttribute("employees", getAll());
         }
 		RequestDispatcher requestDispatcher = req
@@ -149,13 +135,13 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 	public List<Employee> getAll() {
 		super.getAll();
 		List<Employee> allEmployees = service.getAllEmployees();
-		addRolesToAddToEmployee(allEmployees);
+		setRolesToAddToEmployee(allEmployees);
 		return allEmployees;
 	}
 	
-	private void addRolesToAddToEmployee(List<Employee> employees) {
+	private void setRolesToAddToEmployee(List<Employee> employees) {
 		for (Employee employee : employees) {
-			Set<Role> rolesToAdd = new HashSet<Role>(rolesCache);
+			Set<Role> rolesToAdd = new HashSet<Role>(getAllRoles());
 			rolesToAdd.removeAll(employee.getRoles());
 			employee.setRolesToAdd(rolesToAdd);
 		}

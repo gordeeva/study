@@ -167,8 +167,7 @@ public class AbstractEntityService<T extends AbstractEntity> {
         }.doWork();
         return found;
     }
-    
-    // @TODO with by id!
+
     public Role getRoleByName(final String name) {
         Role found = new EMUtilForList<Role>() {
 

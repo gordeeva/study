@@ -45,19 +45,7 @@ public class RoleServlet extends AbstractCRUDServlet<Role> {
 			delete(id);
 			req.setAttribute("roles", getAll());
 		} else if (action.equals(LOCALE)) {
-            String lang = req.getParameter("lang");
-            lang = lang == null ? "" : lang;
-            Locale locale;
-            if (lang.equals("en")) {
-                locale = new Locale("en", "EN");
-            } else if (lang.equals("ru")) {
-                locale = new Locale("ru", "RU");
-            } else {
-                locale = req.getLocale();
-            }
-            HttpSession session = req.getSession(true);
-            session.setAttribute("lang", locale);
-
+            updateLocale(req);
             req.setAttribute("roles", getAll());
         } else {
 			req.setAttribute("roles", getAll());

@@ -2,8 +2,11 @@ package com.sam.app.servlet;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 
@@ -41,6 +44,21 @@ public abstract class AbstractCRUDServlet<T> extends HttpServlet {
 	public void delete(long id) {
 		getLogger().info(String.format("Delete(%d) was called", id));
 	}
+
+    protected void updateLocale(HttpServletRequest req) {
+        String lang = req.getParameter("lang");
+        lang = lang == null ? "" : lang;
+        Locale locale;
+        if (lang.equals("en")) {
+            locale = new Locale("en", "EN");
+        } else if (lang.equals("ru")) {
+            locale = new Locale("ru", "RU");
+        } else {
+            locale = req.getLocale();
+        }
+        HttpSession session = req.getSession(true);
+        session.setAttribute("lang", locale);
+    }
 
 	abstract protected Logger getLogger();
 }
