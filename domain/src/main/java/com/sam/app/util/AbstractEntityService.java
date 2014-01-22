@@ -167,6 +167,20 @@ public class AbstractEntityService<T extends AbstractEntity> {
         }.doWork();
         return found;
     }
+    
+    // @TODO with by id!
+    public Role getRoleByName(final String name) {
+        Role found = new EMUtilForList<Role>() {
+
+            @Override
+            List<Role> work() {
+                return em.createNamedQuery("role_by_name", Role.class)
+                        .setParameter("rname", name)
+                        .getResultList();
+            }
+        }.doWork().get(0);
+        return found;
+    } 
 
     private abstract class EMUtil {
 

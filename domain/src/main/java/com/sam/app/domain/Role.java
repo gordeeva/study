@@ -16,7 +16,8 @@ import javax.persistence.Table;
 @Entity
 @NamedQueries
         ({
-                @NamedQuery(name = "all_roles", query = "SELECT r FROM Role r")
+                @NamedQuery(name = "all_roles", query = "SELECT r FROM Role r"),
+                @NamedQuery(name = "role_by_name", query = "SELECT r FROM Role r WHERE r.name = :rname")
         })
 @Table(name = "role")
 public class Role implements AbstractEntity {
