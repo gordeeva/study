@@ -17,10 +17,6 @@ INSERT INTO department VALUES(15, 'lunatic');
 INSERT INTO employee VALUES(12, 'volaneev', 15);
 INSERT INTO employee VALUES(13, 'marchenko', 15);
 INSERT INTO employee VALUES(25, 'artur', 11);
-INSERT INTO employee VALUES(41, 'name1', 4);
-INSERT INTO employee VALUES(50, 'name', 11);
-INSERT INTO employee VALUES(51, 'name', 11);
-INSERT INTO employee VALUES(52, 'name2', 4);
 INSERT INTO employee VALUES(53, 'elka', 15);
 INSERT INTO employee VALUES(54, 'Julia', 15);
 INSERT INTO employee VALUES(55, 'April', 11);
@@ -36,21 +32,16 @@ INSERT INTO employee VALUES(64, 'Bolt', NULL);
 INSERT INTO employee VALUES(65, 'One', NULL);
 INSERT INTO employee VALUES(66, 'ihoo', NULL);
 
+--
+-- Вывод данных для таблицы role
+--
+INSERT INTO role VALUES(7, 'manager');
+INSERT INTO role VALUES(15, 'sales');
 
 -- 
 -- Вывод данных для таблицы employee_role
--- 
-INSERT INTO employee_role VALUES(50, 7);
-INSERT INTO employee_role VALUES(50, 15);
-INSERT INTO employee_role VALUES(51, 7);
-INSERT INTO employee_role VALUES(51, 15);
-INSERT INTO employee_role VALUES(52, 7);
+--
 INSERT INTO employee_role VALUES(53, 15);
 INSERT INTO employee_role VALUES(54, 7);
 
 
--- 
--- Вывод данных для таблицы role
--- 
-INSERT INTO role VALUES(7, 'manager');
-INSERT INTO role VALUES(15, 'sales');
