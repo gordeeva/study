@@ -58,7 +58,7 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
         } else if (action.equals(LOCALE)) {
             updateLocale(req);
             req.setAttribute("departments", getAllDepartments());
-            req.setAttribute("employees", getAllRoles());
+            req.setAttribute("employees", getAll());
             req.setAttribute("roles", getAllRoles());
         } else {
             req.setAttribute("departments", getAllDepartments());
