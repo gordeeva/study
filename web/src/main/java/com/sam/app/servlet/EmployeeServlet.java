@@ -81,19 +81,18 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
         action = action == null ? "" : action;
         if (action.equals(ADD_ROLE_ACTION)) {
             long id = Long.valueOf(req.getParameter("id"));
-            String roleName = req.getParameter("new_roles");
-            addRole(id, roleName);
+            long roleId = Long.valueOf(req.getParameter("new_roles"));
+            addRole(id, roleId);
         } else if (action.equals(DELETE_ROLE_ACTION)) {
             long id = Long.valueOf(req.getParameter("id"));
-            String roleName = req.getParameter("existing_roles");
-            LOGGER.info("delete: id " + id + " role " + roleName);
-            deleteRole(id, roleName);
+            long roleId = Long.valueOf(req.getParameter("existing_roles"));
+            deleteRole(id, roleId);
         } else { // create or update employee
             Employee emp = new Employee();
             String name = req.getParameter("name");
-            String department = req.getParameter("department");
+            long departmentId = Long.valueOf(req.getParameter("department"));
             emp.setName(name);
-            emp.setDepartment(getDepartmentByName(department));
+            emp.setDepartment(service.getDepartment(departmentId));
             String id = req.getParameter("id");
             if (id == null || id.isEmpty()) {
                 create(emp);
@@ -170,45 +169,30 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
         service.delete(id);
     }
 
-
-    private void addRole(long empId, String roleName) {
-        LOGGER.info("Add role was called");
-        Role role = findRole(roleName);
-        if (role != null) {
-            Employee employee = service.get(empId);
+    private void addRole(long empId, long roleId) {
+        LOGGER.info(String.format("Add role id{%d}, empId{%d} was called", roleId, empId));
+        Role role = service.getRole(roleId);
+        Employee employee = service.get(empId);
+        if (role != null && employee != null) {
             employee.addRole(role);
             service.update(employee);
         } else {
-            LOGGER.warn(String.format("Role Id for name %s was not found",
-              roleName));
+            LOGGER.warn(String.format("Add role failed. Something is null: " +
+              "{%s}, {%s}", role, employee));
         }
     }
 
-    private void deleteRole(long empId, String roleName) {
-        LOGGER.info("Delete role was called");
-        Role role = findRole(roleName);
-        if (role != null) {
-            Employee employee = service.get(empId);
+    private void deleteRole(long empId, long roleId) {
+        LOGGER.info(String.format("Delete role id{%d}, empId{%d} was called", roleId, empId));
+        Role role = service.getRole(roleId);
+        Employee employee = service.get(empId);
+        if (role != null && employee != null) {
             employee.deleteRole(role);
             service.update(employee);
         } else {
-            LOGGER.warn(String.format("Role Id for name %s was not found",
-              roleName));
+            LOGGER.warn(String.format("Delete role failed. Something is null: " +
+              "{%s}, {%s}", role, employee));
         }
-    }
-
-    private Role findRole(String roleName) {
-        return service.getRoleByName(roleName);
-    }
-
-    private Department getDepartmentByName(String name) {
-        List<Department> departments = service.getAllDepartments();
-        for (Department department : departments) {
-            if (department.getName().equalsIgnoreCase(name)) {
-                return department;
-            }
-        }
-        return null;
     }
 
 }

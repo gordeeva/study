@@ -20,12 +20,13 @@
 </head>
 <body>
 
+<%@include file="header.jsp" %>
+
 <table id="main_table">
     <tbody>
     <tr>
         <td>
 
-            <%@include file="header.jsp" %>
             <form id="form" action="/webapp/RoleServlet" method="post">
                 <table border=1>
                     <tr>
@@ -75,12 +76,6 @@
                 </c:forEach>
                 </tbody>
             </table>
-
-            </div>
-            <div></div>
-            <!-- очищающий блок -->
-            <div id="substrate-footer"></div>
-            <!-- блок подложка подвала сайта -->
 
         </td>
     </tr>

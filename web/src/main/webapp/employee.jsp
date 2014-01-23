@@ -45,10 +45,10 @@
                         <td align="left"><fmt:message
                                 key="DEPARTMENT.LABEL"/></td>
                         <td align="right">
-                            <select id="departmentName" name="department">
+                            <select id="departmentName" name="department" style="width:100%;">
                                 <c:forEach items="${departments}"
                                            var="department">
-                                    <option><c:out
+                                    <option value="${department.id}"><c:out
                                             value="${department.name}"/></option>
                                 </c:forEach>
                             </select></td>
@@ -100,10 +100,11 @@
                                        value="deleteRole"/>
                                 <input type="hidden" name="id"
                                        value="<c:out value="${employee.id}"/>"/>
-                                <select name="existing_roles">
+                                <select name="existing_roles"
+                                        style="width:100%;">
                                     <c:forEach items="${employee.roles}"
                                                var="role">
-                                        <option><c:out
+                                        <option value="${role.id}"><c:out
                                                 value="${role.name}"/></option>
                                         <br>
                                     </c:forEach>
@@ -112,17 +113,17 @@
                                        value="<fmt:message key="DELETE.BUTTON"/>"/>
                             </form>
                         </td>
-                        <td name="new_roles_management">
+                        <td name="new_roles_management" align="center">
                             <form action="/webapp/EmployeeServlet"
                                   method="post">
                                 <input type="hidden" name="action"
                                        value="addRole"/> <input
                                     type="hidden" name="id"
                                     value="<c:out value="${employee.id}"/>"/>
-                                <select name="new_roles">
+                                <select name="new_roles" style="width:100%;">
                                     <c:forEach items="${employee.rolesToAdd}"
                                                var="role">
-                                        <option><c:out
+                                        <option value="${role.id}"><c:out
                                                 value="${role.name}"/></option>
                                     </c:forEach>
                                 </select> <br> <input type="submit"

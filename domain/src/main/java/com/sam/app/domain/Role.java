@@ -16,7 +16,8 @@ import java.util.List;
 @NamedQueries
   ({
     @NamedQuery(name = "all_roles", query = "SELECT r FROM Role r"),
-    @NamedQuery(name = "role_by_name", query = "SELECT r FROM Role r WHERE r.name = :rname")
+    @NamedQuery(name = "role_by_name", query = "SELECT r FROM Role r WHERE r.name = :rname"),
+    @NamedQuery(name = "role_by_id", query = "SELECT r FROM Role r WHERE r.id = :rId")
   })
 @Table(name = "role")
 public class Role implements AbstractEntity {
