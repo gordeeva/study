@@ -87,18 +87,18 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
             long id = Long.valueOf(req.getParameter("id"));
             long roleId = Long.valueOf(req.getParameter("existing_roles"));
             deleteRole(id, roleId);
-        } else { // create or update employee
+        } else { // update or add employee
             Employee emp = new Employee();
             String name = req.getParameter("name");
-            long departmentId = Long.valueOf(req.getParameter("department"));
             emp.setName(name);
+            long departmentId = Long.valueOf(req.getParameter("department"));
             emp.setDepartment(service.getDepartment(departmentId));
-            String id = req.getParameter("id");
-            if (id == null || id.isEmpty()) {
-                create(emp);
-            } else {
-                emp.setId(Long.valueOf(id));
+            if (action.equals("update")) {
+                long id = Long.valueOf(req.getParameter("id"));
+                emp.setId(id);
                 update(emp);
+            } else if (action.equals("add")) {
+                create(emp);
             }
         }
 
