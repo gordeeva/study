@@ -22,20 +22,27 @@
     <tr>
         <td>
 
-            <form id="form" action="${pageContext.request.contextPath}/RoleServlet" method="post">
+            <form id="form"
+                  action="${pageContext.request.contextPath}/RoleServlet"
+                  method="post">
                 <input type="hidden" id="roleId" name="id"/>
                 <table border=1>
                     <tr>
                         <td align="left"><fmt:message key="NAME.LABEL"/></td>
-                        <td align="right"><input type="text" id="roleName"
+                        <td align="right"><input type="text"
+                                                 onkeyup="disableControlsIfNeed(this)"
+                                                 id="roleName"
                                                  name="name"/></td>
                     </tr>
                     <tr>
                         <td colspan="2">
                             <div style="text-align: center">
-                                <button type="submit" name="action" value="update" id="updateButton"><fmt:message key="UPDATE.BUTTON"/></button>
-                                <div class="divider"/>
-                                <button type="submit" name="action" value="add" id="addButton"><fmt:message key="ADD.BUTTON"/></button>
+                                <button type="submit" name="action"
+                                        value="update" id="updateButton">
+                                    <fmt:message key="UPDATE.BUTTON"/></button>
+                                <button type="submit" name="action" value="add"
+                                        id="addButton"><fmt:message
+                                        key="ADD.BUTTON"/></button>
                             </div>
                         </td>
                     </tr>
@@ -47,10 +54,12 @@
             <table id="table" border=1>
                 <thead>
                 <tr>
-                    <th align="center"><fmt:message key="UPDATE.TABLE_HEADER"/></th>
+                    <th align="center"><fmt:message
+                            key="UPDATE.TABLE_HEADER"/></th>
                     <th align="center">Id</th>
                     <th align="center"><fmt:message key="NAME.LABEL"/></th>
-                    <th align="center"><fmt:message key="DELETE.TABLE_HEADER"/></th>
+                    <th align="center"><fmt:message
+                            key="DELETE.TABLE_HEADER"/></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -62,9 +71,18 @@
                         </td>
                         <td align="center"><c:out value="${role.id}"/></td>
                         <td align="center"><c:out value="${role.name}"/></td>
-                        <td align="center"><a
-                                href="${pageContext.request.contextPath}/RoleServlet?action=delete&id=<c:out value="${role.id}"/>"><fmt:message
-                                key="DELETE.TABLE_HEADER"/></a></td>
+                        <td align="center">
+                            <c:if test="${role.getEmployees().isEmpty()}">
+                                <a
+                                        href="${pageContext.request.contextPath}/RoleServlet?action=delete&id=<c:out value="${role.id}"/>"><fmt:message
+                                        key="DELETE.TABLE_HEADER"/></a>
+                            </c:if>
+                            <c:if test="${!role.getEmployees().isEmpty()}">
+                                <a title="<fmt:message key="ROLE.REMOVE.HINT"/> "
+                                   href="javascript:void(0)"><fmt:message
+                                        key="DELETE.TABLE_HEADER"/></a>
+                            </c:if>
+                        </td>
                     </tr>
                 </c:forEach>
                 </tbody>

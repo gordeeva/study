@@ -29,13 +29,16 @@
                     <tr>
                         <td align="left"><fmt:message key="NAME.LABEL"/></td>
                         <td align="right"><input type="text" id="userName"
-                                                 name="name"/></td>
+                                                 name="name"
+                                                 onkeyup="disableControlsIfNeed(this)"/>
+                        </td>
                     </tr>
                     <tr>
                         <td align="left"><fmt:message
                                 key="DEPARTMENT.LABEL"/></td>
                         <td>
-                            <select id="departmentName" name="department" style="width:100%;">
+                            <select id="departmentName" name="department"
+                                    style="width:100%;">
                                 <c:forEach items="${departments}"
                                            var="department">
                                     <option value="${department.id}"><c:out
@@ -46,9 +49,12 @@
                     <tr>
                         <td colspan="2">
                             <div style="text-align: center">
-                                <button type="submit" name="action" value="update" id="updateButton"><fmt:message key="UPDATE.BUTTON"/></button>
-                                <div class="divider"/>
-                                <button type="submit" name="action" value="add" id="addButton"><fmt:message key="ADD.BUTTON"/></button>
+                                <button type="submit" name="action"
+                                        value="update" id="updateButton">
+                                    <fmt:message key="UPDATE.BUTTON"/></button>
+                                <button type="submit" name="action" value="add"
+                                        id="addButton"><fmt:message
+                                        key="ADD.BUTTON"/></button>
                             </div>
                         </td>
                     </tr>
@@ -60,13 +66,17 @@
             <table id="all_employees_table" border=1>
                 <thead>
                 <tr>
-                    <th align="center"><fmt:message key="UPDATE.TABLE_HEADER"/></th>
+                    <th align="center"><fmt:message
+                            key="UPDATE.TABLE_HEADER"/></th>
                     <th align="center">Id</th>
                     <th align="center"><fmt:message key="NAME.LABEL"/></th>
-                    <th align="center"><fmt:message key="DEPARTMENT.LABEL"/></th>
+                    <th align="center"><fmt:message
+                            key="DEPARTMENT.LABEL"/></th>
                     <th align="center"><fmt:message key="ROLES.LABEL"/></th>
-                    <th align="center"><fmt:message key="UPDATE_ROLES.TABLE_HEADER"/></th>
-                    <th align="center"><fmt:message key="DELETE.TABLE_HEADER"/></th>
+                    <th align="center"><fmt:message
+                            key="UPDATE_ROLES.TABLE_HEADER"/></th>
+                    <th align="center"><fmt:message
+                            key="DELETE.TABLE_HEADER"/></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -74,7 +84,7 @@
                     <c:set var="emp" value="${employee}"/>
                     <tr>
                         <td align="center"><input type="radio" name="radios"
-                              onchange="OnRadioSelected(this, ${employee.department.id})"/>
+                                                  onchange="OnRadioSelected(this, ${employee.department.id})"/>
                         </td>
                         <td name="id" align="center"><c:out
                                 value="${employee.id}"/></td>
@@ -116,7 +126,8 @@
                                         <option value="${role.id}"><c:out
                                                 value="${role.name}"/></option>
                                     </c:forEach>
-                                </select> <br> <input type="submit" name="addRoleButton"
+                                </select> <br> <input type="submit"
+                                                      name="addRoleButton"
                                                       value="<fmt:message key="ADD.BUTTON" />">
                             </form>
                         </td>

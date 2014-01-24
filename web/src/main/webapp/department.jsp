@@ -22,20 +22,27 @@
     <tbody>
     <tr>
         <td>
-            <form id="form" action="/${pageContext.request.contextPath}/DepartmentServlet" method="post">
+            <form id="form"
+                  action="/${pageContext.request.contextPath}/DepartmentServlet"
+                  method="post">
                 <input type="hidden" id="departmentId" name="id"/>
                 <table border=1>
                     <tr>
                         <td align="left"><fmt:message key="NAME.LABEL"/></td>
                         <td align="right"><input type="text" id="departmentName"
-                                                 name="name"/></td>
+                                                 name="name"
+                                                 onkeyup="disableControlsIfNeed(this)"/>
+                        </td>
                     </tr>
                     <tr>
                         <td colspan="2">
                             <div style="text-align: center">
-                                <button type="submit" name="action" value="update" id="updateButton"><fmt:message key="UPDATE.BUTTON"/></button>
-                                <div class="divider"/>
-                                <button type="submit" name="action" value="add" id="addButton"><fmt:message key="ADD.BUTTON"/></button>
+                                <button type="submit" name="action"
+                                        value="update" id="updateButton">
+                                    <fmt:message key="UPDATE.BUTTON"/></button>
+                                <button type="submit" name="action" value="add"
+                                        id="addButton"><fmt:message
+                                        key="ADD.BUTTON"/></button>
                             </div>
                         </td>
                     </tr>
@@ -47,11 +54,13 @@
             <table id="table" border=1>
                 <thead>
                 <tr>
-                    <th align="center"><fmt:message key="UPDATE.TABLE_HEADER"/></th>
+                    <th align="center"><fmt:message
+                            key="UPDATE.TABLE_HEADER"/></th>
                     <th align="center">ID</th>
                     <th align="center"><fmt:message key="NAME.LABEL"/></th>
                     <th align="center"><fmt:message key="EMPLOYEES.LABEL"/></th>
-                    <th align="center"><fmt:message key="DELETE.TABLE_HEADER"/></th>
+                    <th align="center"><fmt:message
+                            key="DELETE.TABLE_HEADER"/></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -59,24 +68,24 @@
                     <tr>
                         <td align="center"><input type="radio"
                                                   name="radios"
-                              onchange="OnRadioSelected(this)"
+                                                  onchange="OnRadioSelected(this)"
                                 /></td>
                         <td align="center"><c:out
                                 value="${department.id}"/></td>
                         <td align="center"><c:out
                                 value="${department.name}"/></td>
                         <td align="center">
-                        <select name="employees" style="width:100%;">
-                            <c:forEach items="${department.employees}"
-                                       var="employee">
-                                <option value="${employee.id}"><c:out
-                                        value="${employee.name}"/></option>
-                            </c:forEach>
-                        </select>
-                    </td>
+                            <select name="employees" style="width:100%;">
+                                <c:forEach items="${department.employees}"
+                                           var="employee">
+                                    <option value="${employee.id}"><c:out
+                                            value="${employee.name}"/></option>
+                                </c:forEach>
+                            </select>
+                        </td>
                         <td align="center"><a name="deleteDepartmentLinks"
-                                title="<fmt:message key="DEPARTMENT.REMOVE.HINT"/> "
-                                href="${pageContext.request.contextPath}/DepartmentServlet?action=delete&id=<c:out value="${department.id}"/>"><fmt:message
+                                              title="<fmt:message key="DEPARTMENT.REMOVE.HINT"/> "
+                                              href="${pageContext.request.contextPath}/DepartmentServlet?action=delete&id=<c:out value="${department.id}"/>"><fmt:message
                                 key="DELETE.TABLE_HEADER"/></a>
                         </td>
                     </tr>
