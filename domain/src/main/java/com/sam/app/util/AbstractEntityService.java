@@ -49,7 +49,7 @@ public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T>
 
     @Override
     public Long create(final T entity) {
-        new EMUtil() {
+        new EMUtil<T>() {
 
             @Override
             T work() {
@@ -63,7 +63,7 @@ public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T>
     @Override
     public T update(final T entity) {
         @SuppressWarnings("unused")
-        T merged = new EMUtil() {
+        T merged = new EMUtil<T>() {
 
             @Override
             T work() {
@@ -76,7 +76,7 @@ public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T>
     }
 
     public T delete(final T entity) {
-        new EMUtil() {
+        new EMUtil<T>() {
 
             @Override
             T work() {
@@ -89,7 +89,7 @@ public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T>
 
     @Override
     public T delete(final Long id) {
-        T deleted = new EMUtil() {
+        T deleted = new EMUtil<T>() {
 
             @Override
             T work() {
@@ -106,7 +106,7 @@ public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T>
         if (id == null) {
             throw new IllegalArgumentException();
         }
-        T found = new EMUtil() {
+        T found = new EMUtil<T>() {
 
             @Override
             T work() {
@@ -188,14 +188,47 @@ public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T>
         return found;
     }
 
-    private abstract class EMUtil {
+    public Employee getEmployee(final long id) {
+        Employee found = new EMUtil<Employee>() {
+            @Override
+            Employee work() {
+                return em.createNamedQuery("employee_by_id", Employee.class)
+                  .setParameter("empId", id).getSingleResult();
+            }
+        }.doWork();
+        return found;
+    }
 
-        abstract T work();
+    public Role getRole(final long id) {
+        Role found = new EMUtil<Role>() {
+            @Override
+            Role work() {
+                return em.createNamedQuery("role_by_id", Role.class)
+                  .setParameter("rId", id).getSingleResult();
+            }
+        }.doWork();
+        return found;
+    }
 
-        T doWork() {
+    public Department getDepartment(final long id) {
+        Department found = new EMUtil<Department>() {
+            @Override
+            Department work() {
+                return em.createNamedQuery("department_by_id", Department.class)
+                  .setParameter("depId", id).getSingleResult();
+            }
+        }.doWork();
+        return found;
+    }
+
+    private abstract class EMUtil<E extends AbstractEntity> {
+
+        abstract E work();
+
+        E doWork() {
             em = emf.createEntityManager();
             EntityTransaction tx = null;
-            T result = null;
+            E result = null;
             try {
                 tx = em.getTransaction();
                 tx.begin();

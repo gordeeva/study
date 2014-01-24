@@ -13,10 +13,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Employees</title>
     <link href="main.css" rel="stylesheet" type="text/css"/>
-    <script>
-        var updateButtonName = '<fmt:message key="UPDATE.BUTTON" />';
-        var addButtonName = '<fmt:message key="ADD.BUTTON" />';
-    </script>
 </head>
 <body>
 
@@ -29,13 +25,8 @@
             <form id="form"
                   action="${pageContext.request.contextPath}/EmployeeServlet"
                   method="post">
-
+                <input type="hidden" id="userId" name="id"/>
                 <table border=1>
-                    <tr>
-                        <td align="left"><fmt:message key="ID.LABEL"/></td>
-                        <td align="right"><input type="text" id="userId"
-                                                 name="id"/></td>
-                    </tr>
                     <tr>
                         <td align="left"><fmt:message key="NAME.LABEL"/></td>
                         <td align="right"><input type="text" id="userName"
@@ -47,15 +38,18 @@
                             <select id="departmentName" name="department" style="width:100%;">
                                 <c:forEach items="${departments}"
                                            var="department">
-                                    <option><c:out
+                                    <option value="${department.id}"><c:out
                                             value="${department.name}"/></option>
                                 </c:forEach>
                             </select></td>
                     </tr>
                     <tr>
-                        <td colspan=3 align="center"><input type="submit"
-                                                            id="updateButton"
-                                                            value="<fmt:message key="ADD.BUTTON" />"/>
+                        <td colspan="2">
+                            <div style="text-align: center">
+                                <input type="submit" name="action" value="update" id="updateButton" value="<fmt:message key="UPDATE.BUTTON" />"/>
+                                <div class="divider"/>
+                                <input type="submit" name="action" value="add" id="addButton" value="<fmt:message key="ADD.BUTTON" />"/>
+                            </div>
                         </td>
                     </tr>
                 </table>
@@ -79,11 +73,8 @@
                 <c:forEach items="${employees}" var="employee">
                     <c:set var="emp" value="${employee}"/>
                     <tr>
-                        <td align="center"><input type="checkbox"
-                                                  name="checkRadio"
-                                                  onclick="OnChangeCheckbox(this)"
-                                                  id="chk1"
-                                                  class="userCheckboxes"/>
+                        <td align="center"><input type="radio" name="radios"
+                              onchange="OnRadioSelected(this, ${employee.department.id})"/>
                         </td>
                         <td name="id" align="center"><c:out
                                 value="${employee.id}"/></td>
@@ -99,9 +90,11 @@
                                        value="deleteRole"/>
                                 <input type="hidden" name="id"
                                        value="<c:out value="${employee.id}"/>"/>
+                                <select name="existing_roles"
+                                        style="width:100%;">
                                     <c:forEach items="${employee.roles}"
                                                var="role">
-                                        <option><c:out
+                                        <option value="${role.id}"><c:out
                                                 value="${role.name}"/></option>
                                         <br>
                                     </c:forEach>
@@ -117,9 +110,10 @@
                                        value="addRole"/> <input
                                     type="hidden" name="id"
                                     value="<c:out value="${employee.id}"/>"/>
+                                <select name="new_roles" style="width:100%;">
                                     <c:forEach items="${employee.rolesToAdd}"
                                                var="role">
-                                        <option><c:out
+                                        <option value="${role.id}"><c:out
                                                 value="${role.name}"/></option>
                                     </c:forEach>
                                 </select> <br> <input type="submit"

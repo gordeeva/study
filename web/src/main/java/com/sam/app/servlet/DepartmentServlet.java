@@ -45,7 +45,6 @@ public class DepartmentServlet extends AbstractCRUDServlet<Department> {
             req.setAttribute("departments", getAll());
         } else if (action.equals(LOCALE)) {
             updateLocale(req);
-
             req.setAttribute("departments", getAll());
         } else {
             req.setAttribute("departments", getAll());

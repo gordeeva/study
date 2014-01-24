@@ -10,7 +10,7 @@
     </appender>
 
     <appender name="logger" class="org.apache.log4j.RollingFileAppender">
-        <param name="File" value="/logs/webapp.log"/>
+        <param name="File" value="${catalina.home}/logs/webapp.log"/>
         <param name="Append" value="true"/>
         <param name="ImmediateFlush" value="true"/>
         <param name="MaxFileSize" value="20MB"/>
@@ -23,7 +23,7 @@
     </appender>
 
     <logger name="com.sam.app">
-        <level value="info"/>
+        <level value="debug"/>
         <appender-ref ref="logger"/>
     </logger>
 

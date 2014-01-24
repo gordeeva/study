@@ -73,11 +73,14 @@
                         <td align="center"><c:out
                                 value="${department.name}"/></td>
                         <td align="center">
+                        <select name="employees" style="width:100%;">
                             <c:forEach items="${department.employees}"
                                        var="employee">
-                                <c:out value="${employee.name}"/> <br>
+                                <option value="${employee.id}"><c:out
+                                        value="${employee.name}"/></option>
                             </c:forEach>
-                        </td>
+                        </select>
+                    </td>
                         <td align="center"><a
                                 href="/webapp/DepartmentServlet?action=delete&id=<c:out value="${department.id}"/>"><fmt:message
                                 key="DELETE.TABLE_HEADER"/></a>
