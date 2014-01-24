@@ -12,11 +12,6 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Employees</title>
-    <link href="main.css" rel="stylesheet" type="text/css"/>
-    <script>
-        var updateButtonName = '<fmt:message key="UPDATE.BUTTON" />';
-        var addButtonName = '<fmt:message key="ADD.BUTTON" />';
-    </script>
 </head>
 <body>
 
@@ -27,22 +22,21 @@
     <tr>
         <td>
 
-            <form id="form" action="/webapp/RoleServlet" method="post">
+            <form id="form" action="${pageContext.request.contextPath}/RoleServlet" method="post">
+                <input type="hidden" id="roleId" name="id"/>
                 <table border=1>
                     <tr>
-                        <td align="left"><fmt:message key="ID.LABEL"/></td>
-                        <td align="right"><input type="text" id="userId"
-                                                 name="id"/></td>
-                    </tr>
-                    <tr>
                         <td align="left"><fmt:message key="NAME.LABEL"/></td>
-                        <td align="right"><input type="text" id="userName"
+                        <td align="right"><input type="text" id="roleName"
                                                  name="name"/></td>
                     </tr>
                     <tr>
-                        <td colspan=3 align="center"><input type="submit"
-                                                            id="updateButton"
-                                                            value="<fmt:message key="ADD.BUTTON" />"/>
+                        <td colspan="2">
+                            <div style="text-align: center">
+                                <button type="submit" name="action" value="update" id="updateButton"><fmt:message key="UPDATE.BUTTON"/></button>
+                                <div class="divider"/>
+                                <button type="submit" name="action" value="add" id="addButton"><fmt:message key="ADD.BUTTON"/></button>
+                            </div>
                         </td>
                     </tr>
                 </table>
@@ -53,24 +47,23 @@
             <table id="table" border=1>
                 <thead>
                 <tr>
-                    <th><fmt:message key="UPDATE.TABLE_HEADER"/></th>
-                    <th>Id</th>
-                    <th><fmt:message key="NAME.LABEL"/></th>
-                    <th><fmt:message key="DELETE.TABLE_HEADER"/></th>
+                    <th align="center"><fmt:message key="UPDATE.TABLE_HEADER"/></th>
+                    <th align="center">Id</th>
+                    <th align="center"><fmt:message key="NAME.LABEL"/></th>
+                    <th align="center"><fmt:message key="DELETE.TABLE_HEADER"/></th>
                 </tr>
                 </thead>
                 <tbody>
                 <c:forEach items="${roles}" var="role">
                     <tr>
-                        <td align="center"><input type="checkbox"
-                                                  name="checkRadio"
-                                                  onclick="OnChangeCheckbox(this)"
-                                                  id="chk1"
-                                                  class="userCheckboxes"/></td>
+                        <td align="center"><input type="radio"
+                                                  name="radios"
+                                                  onchange="OnRadioSelected(this)"/>
+                        </td>
                         <td align="center"><c:out value="${role.id}"/></td>
                         <td align="center"><c:out value="${role.name}"/></td>
                         <td align="center"><a
-                                href="/webapp/RoleServlet?action=delete&id=<c:out value="${role.id}"/>"><fmt:message
+                                href="${pageContext.request.contextPath}/RoleServlet?action=delete&id=<c:out value="${role.id}"/>"><fmt:message
                                 key="DELETE.TABLE_HEADER"/></a></td>
                     </tr>
                 </c:forEach>

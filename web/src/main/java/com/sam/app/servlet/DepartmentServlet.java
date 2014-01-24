@@ -62,14 +62,16 @@ public class DepartmentServlet extends AbstractCRUDServlet<Department> {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws UnsupportedEncodingException {
+        String action = req.getParameter("action");
+        action = action == null ? "" : action;
         Department department = new Department();
         department.setName(req.getParameter("name"));
-        String id = req.getParameter("id");
-        if (id == null || id.isEmpty()) {
-            create(department);
-        } else {
-            department.setId(Long.valueOf(id));
+        if (action.equals("update")) {
+            long id = Long.valueOf(req.getParameter("id"));
+            department.setId(id);
             update(department);
+        } else if (action.equals("add")) {
+            create(department);
         }
         req.setAttribute("departments", getAll());
         RequestDispatcher dispatcher = req

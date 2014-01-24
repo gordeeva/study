@@ -1,34 +1,23 @@
-var table = document.getElementById('table');
-var checkboxesArray = table.getElementsByClassName('userCheckboxes');
-var rows = table.getElementsByTagName('tr');
+var departmentIdField = document.getElementById('departmentId');
+var departmentNameField = document.getElementById('departmentName');
+var radios = document.getElementsByName("radios");
 
-var userIdField = document.getElementById('userId');
-userIdField.disabled = true;
-var userNameField = document.getElementById('userName');
-var updateButtonField = document.getElementById('updateButton');
+radios[0].checked = true;
+radios[0].onchange();
 
-function OnChangeCheckbox(checkbox) {
-    var isChecked = checkbox.checked;
-    for (var i = 0; i < checkboxesArray.length; i++)
-        checkboxesArray[i].checked = false;
-
-    checkbox.checked = isChecked;
-
-    var id = '';
-    var name = '';
-    var buttonName = '';
-    if (isChecked) {
-        id = checkbox.parentNode.nextSibling.nextSibling.textContent;
-        name = checkbox.parentNode.nextSibling.nextSibling.nextSibling.nextSibling.textContent;
-        buttonName = updateButtonName;
-    } else {
-        buttonName = addButtonName;
+var employees = document.getElementsByName('employees');
+var deleteDepartmentLinks = document.getElementsByName('deleteDepartmentLinks');
+for (var i = 0; i < employees.length; i++) {
+    if (employees[i].value) {
+        deleteDepartmentLinks[i].href = 'javascript:void(0)';
     }
-    userIdField.disabled = !isChecked;
-    userIdField.setAttribute('value', id);
-    userNameField.setAttribute('value', name);
-    updateButtonField.setAttribute('value', buttonName);
 }
 
+function OnRadioSelected(radio) {
+    var id = radio.parentNode.nextSibling.nextSibling.textContent;
+    var name = radio.parentNode.nextSibling.nextSibling.nextSibling.nextSibling.textContent;
+    departmentIdField.setAttribute('value', id);
+    departmentNameField.setAttribute('value', name);
+}
 
 

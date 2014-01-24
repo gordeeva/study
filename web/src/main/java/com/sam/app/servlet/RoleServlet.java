@@ -58,14 +58,16 @@ public class RoleServlet extends AbstractCRUDServlet<Role> {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
+        String action = req.getParameter("action");
+        action = action == null ? "" : action;
         Role role = new Role();
         role.setName(req.getParameter("name"));
-        String id = req.getParameter("id");
-        if (id == null || id.isEmpty()) {
-            create(role);
-        } else {
-            role.setId(Long.valueOf(id));
+        if (action.equals("update")) {
+            long id = Long.valueOf(req.getParameter("id"));
+            role.setId(id);
             update(role);
+        } else if (action.equals("add")) {
+            create(role);
         }
         req.setAttribute("roles", getAll());
         RequestDispatcher dispatcher = req.getRequestDispatcher(ROLE_VIEW_NAME);

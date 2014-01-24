@@ -16,22 +16,7 @@
 <body>
 
 <jsp:include page="indexHeader.jsp"/>
-<table id="main_table">
-    <tbody>
-    <tr>
-        <td>
-            <h3>
-                <a href="/webapp/EmployeeServlet"><fmt:message
-                        key="EMPLOYEES.LABEL"/></a> <br>
-                <a href="/webapp/DepartmentServlet"><fmt:message
-                        key="DEPARTMENTS.LABEL"/></a> <br>
-                <a href="/webapp/RoleServlet"><fmt:message
-                        key="ROLES.LABEL"/></a> <br>
-            </h3>
-        </td>
-    </tr>
-    </tbody>
-</table>
+
 <%@include file="footer.jsp" %>
 
 </body>
