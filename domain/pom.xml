@@ -15,7 +15,7 @@
     <packaging>jar</packaging>
 
     <properties>
-        <hibernate.version>3.6.3.Final</hibernate.version>
+        <hibernate.version>4.3.1.Final</hibernate.version>
         <hibernate.commons.annotations>3.2.0.Final
         </hibernate.commons.annotations>
     </properties>
@@ -39,8 +39,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>4.2.0.Final</version>
-            <scope>provided</scope>
+            <version>5.0.2.Final</version>
         </dependency>
     </dependencies>
 
