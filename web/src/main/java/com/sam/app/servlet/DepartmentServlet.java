@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Collections;
 import java.util.List;
 
 @WebServlet("/DepartmentServlet")
@@ -22,65 +23,70 @@ public class DepartmentServlet extends AbstractCRUDServlet<Department> {
     private static final Logger LOGGER = LoggerFactory
       .getLogger(DepartmentServlet.class);
 
+    private static final String UPDATE_DEPARTMENT_ACTION_NAME = "update";
+
+    private static final String ADD_DEPARTMENT_ACTION_NAME = "add";
+
+    private static final String DEPARTMENTS_ATTRIBUTE_NAME = "departments";
+
     private static final String DEPARTMENT_VIEW_NAME = "/department.jsp";
 
     private AbstractEntityService<Department> service = new AbstractEntityService<Department>(
       Department.class);
 
     @Override
-    public void init() throws ServletException {
-        super.init();
-    }
-
-    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-        String action = req.getParameter("action") == null ? "" : req
-          .getParameter("action");
-        if (action.equals(READ_ACTION)) {
+        String action = req.getParameter("action");
+        if (READ_ACTION.equals(action)) {
             long id = Long.valueOf(req.getParameter("id"));
-            req.setAttribute("departments", get(id));
-        } else if (action.equals(DELETE_ACTION)) {
+            setAttributesForGetFew(Collections.singletonList(get(id)), req);
+        } else if (DELETE_ACTION.equals(action)) {
             long id = Long.valueOf(req.getParameter("id"));
             delete(id);
-            req.setAttribute("departments", getAll());
-        } else if (action.equals(LOCALE)) {
+            setAttributesForGetAll(req);
+        } else if (LOCALE.equals(action)) {
             updateLocale(req);
-            req.setAttribute("departments", getAll());
+            setAttributesForGetAll(req);
         } else {
-            req.setAttribute("departments", getAll());
+            setAttributesForGetAll(req);
         }
         RequestDispatcher dispatcher = req
           .getRequestDispatcher(DEPARTMENT_VIEW_NAME);
         try {
             dispatcher.forward(req, resp);
-        } catch (ServletException e) {
+        } catch (ServletException | IOException e) {
             LOGGER.error("doGet() failed", e);
-        } catch (IOException e) {
         }
+    }
+
+    private void setAttributesForGetAll(HttpServletRequest req) {
+        req.setAttribute(DEPARTMENTS_ATTRIBUTE_NAME, getAll());
+    }
+
+    private void setAttributesForGetFew(List<Department> departments, HttpServletRequest req) {
+        req.setAttribute(DEPARTMENTS_ATTRIBUTE_NAME, departments);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws UnsupportedEncodingException {
         String action = req.getParameter("action");
-        action = action == null ? "" : action;
         Department department = new Department();
         department.setName(req.getParameter("name"));
-        if (action.equals("update")) {
+        if (UPDATE_DEPARTMENT_ACTION_NAME.equals(action)) {
             long id = Long.valueOf(req.getParameter("id"));
             department.setId(id);
             update(department);
-        } else if (action.equals("add")) {
+        } else if (ADD_DEPARTMENT_ACTION_NAME.equals(action)) {
             create(department);
         }
-        req.setAttribute("departments", getAll());
+        setAttributesForGetAll(req);
         RequestDispatcher dispatcher = req
           .getRequestDispatcher(DEPARTMENT_VIEW_NAME);
         try {
             dispatcher.forward(req, resp);
-        } catch (ServletException e) {
+        } catch (ServletException | IOException e) {
             LOGGER.error("doPost() failed", e);
-        } catch (IOException e) {
         }
     }
 

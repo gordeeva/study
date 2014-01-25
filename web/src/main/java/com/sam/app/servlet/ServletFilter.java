@@ -29,9 +29,8 @@ public class ServletFilter implements Filter {
 
     @Override
     public void init(FilterConfig config) throws ServletException {
-        encoding = config.getInitParameter(ENCODING_INIT_PARAM_NAME);
-        if (encoding == null)
-            encoding = ENCODING_DEFAULT;
+        encoding = encoding == null ? ENCODING_DEFAULT :
+          config.getInitParameter(ENCODING_INIT_PARAM_NAME);
     }
 
     @Override

@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,9 +26,19 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
     private static Logger LOGGER = LoggerFactory
       .getLogger(EmployeeServlet.class);
 
-    private static final String ADD_ROLE_ACTION = "addRole";
+    private static final String ADD_ROLE_ACTION_NAME = "addRole";
 
-    private static final String DELETE_ROLE_ACTION = "deleteRole";
+    private static final String DELETE_ROLE_ACTION_NAME = "deleteRole";
+
+    private static final String UPDATE_EMPLOYEE_ACTION_NAME = "update";
+
+    private static final String ADD_EMPLOYEE_ACTION_NAME = "add";
+
+    private static final String DEPARTMENTS_ATTRIBUTE_NAME = "departments";
+
+    private static final String EMPLOYEES_ATTRIBUTE_NAME = "employees";
+
+    private static final String ROLES_ATTRIBUTE_NAME = "roles";
 
     private static final String EMPLOYEE_VIEW_NAME = "/employee.jsp";
 
@@ -35,55 +46,50 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
       Employee.class);
 
     @Override
-    public void init() throws ServletException {
-        super.init();
-    }
-
-    @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
         String action = req.getParameter("action");
-        action = action == null ? "" : action;
-        if (action.equals(READ_ACTION)) {
+        if (READ_ACTION.equals(action)) {
             long id = Long.valueOf(req.getParameter("id"));
-            req.setAttribute("departments", getAllDepartments());
-            req.setAttribute("roles", getAllRoles());
-            req.setAttribute("employees", get(id));
-
-        } else if (action.equals(DELETE_ACTION)) {
+            setAttributesForGetFew(Collections.singletonList(get(id)), req);
+        } else if (DELETE_ACTION.equals(action)) {
             long id = Long.valueOf(req.getParameter("id"));
             delete(id);
-            req.setAttribute("departments", getAllDepartments());
-            req.setAttribute("employees", getAll());
-            req.setAttribute("roles", getAllRoles());
-        } else if (action.equals(LOCALE)) {
+            setAttributesForGetAll(req);
+        } else if (LOCALE.equals(action)) {
             updateLocale(req);
-            req.setAttribute("departments", getAllDepartments());
-            req.setAttribute("employees", getAll());
-            req.setAttribute("roles", getAllRoles());
+            setAttributesForGetAll(req);
         } else {
-            req.setAttribute("departments", getAllDepartments());
-            req.setAttribute("roles", getAllRoles());
-            req.setAttribute("employees", getAll());
+            setAttributesForGetAll(req);
         }
         RequestDispatcher requestDispatcher = req
           .getRequestDispatcher(EMPLOYEE_VIEW_NAME);
         try {
             requestDispatcher.forward(req, resp);
-        } catch (ServletException e) {
+        } catch (ServletException | IOException e) {
             LOGGER.error("doGet() failed", e);
-        } catch (IOException e) {
         }
+    }
+
+    private void setAttributesForGetAll(HttpServletRequest req) {
+        req.setAttribute(DEPARTMENTS_ATTRIBUTE_NAME, getAllDepartments());
+        req.setAttribute(EMPLOYEES_ATTRIBUTE_NAME, getAll());
+        req.setAttribute(ROLES_ATTRIBUTE_NAME, getAllRoles());
+    }
+
+    private void setAttributesForGetFew(List<Employee> employees, HttpServletRequest req) {
+        req.setAttribute(DEPARTMENTS_ATTRIBUTE_NAME, getAllDepartments());
+        req.setAttribute(EMPLOYEES_ATTRIBUTE_NAME, employees);
+        req.setAttribute(ROLES_ATTRIBUTE_NAME, getAllRoles());
     }
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) {
         String action = req.getParameter("action");
-        action = action == null ? "" : action;
-        if (action.equals(ADD_ROLE_ACTION)) {
+        if (ADD_ROLE_ACTION_NAME.equals(action)) {
             long id = Long.valueOf(req.getParameter("id"));
             long roleId = Long.valueOf(req.getParameter("new_roles"));
             addRole(id, roleId);
-        } else if (action.equals(DELETE_ROLE_ACTION)) {
+        } else if (DELETE_ROLE_ACTION_NAME.equals(action)) {
             long id = Long.valueOf(req.getParameter("id"));
             long roleId = Long.valueOf(req.getParameter("existing_roles"));
             deleteRole(id, roleId);
@@ -93,25 +99,22 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
             emp.setName(name);
             long departmentId = Long.valueOf(req.getParameter("department"));
             emp.setDepartment(service.getDepartment(departmentId));
-            if (action.equals("update")) {
+            if (UPDATE_EMPLOYEE_ACTION_NAME.equals(action)) {
                 long id = Long.valueOf(req.getParameter("id"));
                 emp.setId(id);
                 emp.setRoles(service.get(id).getRoles());
                 update(emp);
-            } else if (action.equals("add")) {
+            } else if (ADD_EMPLOYEE_ACTION_NAME.equals(action)) {
                 create(emp);
             }
         }
-        req.setAttribute("departments", getAllDepartments());
-        req.setAttribute("employees", getAll());
-        req.setAttribute("roles", getAllRoles());
+        setAttributesForGetAll(req);
         RequestDispatcher requestDispatcher = req
           .getRequestDispatcher(EMPLOYEE_VIEW_NAME);
         try {
             requestDispatcher.forward(req, resp);
-        } catch (ServletException e) {
+        } catch (ServletException | IOException e) {
             LOGGER.error("doPost() failed", e);
-        } catch (IOException e) {
         }
     }
 
@@ -135,18 +138,19 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
     }
 
     private void setRolesToAddToEmployee(List<Employee> employees) {
+        List<Role> allRoles = getAllRoles();
         for (Employee employee : employees) {
-            Set<Role> rolesToAdd = new HashSet<Role>(getAllRoles());
+            Set<Role> rolesToAdd = new HashSet<Role>(allRoles);
             rolesToAdd.removeAll(employee.getRoles());
             employee.setRolesToAdd(rolesToAdd);
         }
     }
 
-    public List<Role> getAllRoles() {
+    private List<Role> getAllRoles() {
         return service.getAllRoles();
     }
 
-    public List<Department> getAllDepartments() {
+    private List<Department> getAllDepartments() {
         return service.getAllDepartments();
     }
 
@@ -170,27 +174,27 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
     }
 
     private void addRole(long empId, long roleId) {
-        LOGGER.info(String.format("Add role id{%d}, empId{%d} was called", roleId, empId));
+        LOGGER.info(String.format("Add role id{%d} to employee empId{%d} was called", roleId, empId));
         Role role = service.getRole(roleId);
         Employee employee = service.get(empId);
         if (role != null && employee != null) {
             employee.addRole(role);
             service.update(employee);
         } else {
-            LOGGER.warn(String.format("Add role failed. Something is null: " +
+            LOGGER.warn(String.format("Add role to employee failed. Something is null: " +
               "{%s}, {%s}", role, employee));
         }
     }
 
     private void deleteRole(long empId, long roleId) {
-        LOGGER.info(String.format("Delete role id{%d}, empId{%d} was called", roleId, empId));
+        LOGGER.info(String.format("Delete role id{%d} from employee empId{%d} was called", roleId, empId));
         Role role = service.getRole(roleId);
         Employee employee = service.get(empId);
         if (role != null && employee != null) {
             employee.deleteRole(role);
             service.update(employee);
         } else {
-            LOGGER.warn(String.format("Delete role failed. Something is null: " +
+            LOGGER.warn(String.format("Delete role from employee failed. Something is null: " +
               "{%s}, {%s}", role, employee));
         }
     }

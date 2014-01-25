@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 @WebServlet("/RoleServlet")
@@ -21,14 +22,16 @@ public class RoleServlet extends AbstractCRUDServlet<Role> {
 
     private static final long serialVersionUID = 1454943414322885268L;
 
+    private final String UPDATE_ROLE_ACTION_NAME = "update";
+
+    private final String ADD_ROLE_ACTION_NAME = "add";
+
+    private final String ROLES_ATTRIBUTE_NAME = "roles";
+
     private static final String ROLE_VIEW_NAME = "/role.jsp";
 
     private AbstractEntityService<Role> service = new AbstractEntityService<Role>(
       Role.class);
-
-    @Override
-    public void init() throws ServletException {
-    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
@@ -36,24 +39,31 @@ public class RoleServlet extends AbstractCRUDServlet<Role> {
           .getParameter("action");
         if (action.equals(READ_ACTION)) {
             long id = Long.valueOf(req.getParameter("id"));
-            req.setAttribute("roles", get(id));
+            setAttributesForGetFew(Collections.singletonList(get(id)), req);
         } else if (action.equals(DELETE_ACTION)) {
             long id = Long.valueOf(req.getParameter("id"));
             delete(id);
-            req.setAttribute("roles", getAll());
+            setAttributesForGetAll(req);
         } else if (action.equals(LOCALE)) {
             updateLocale(req);
-            req.setAttribute("roles", getAll());
+            setAttributesForGetAll(req);
         } else {
-            req.setAttribute("roles", getAll());
+            setAttributesForGetAll(req);
         }
         RequestDispatcher dispatcher = req.getRequestDispatcher(ROLE_VIEW_NAME);
         try {
             dispatcher.forward(req, resp);
-        } catch (ServletException e) {
+        } catch (ServletException | IOException e) {
             LOGGER.error("doGet() failed", e);
-        } catch (IOException e) {
         }
+    }
+
+    private void setAttributesForGetAll(HttpServletRequest req) {
+        req.setAttribute(ROLES_ATTRIBUTE_NAME, getAll());
+    }
+
+    private void setAttributesForGetFew(List<Role> roles, HttpServletRequest req) {
+        req.setAttribute(ROLES_ATTRIBUTE_NAME, roles);
     }
 
     @Override
@@ -62,20 +72,19 @@ public class RoleServlet extends AbstractCRUDServlet<Role> {
         action = action == null ? "" : action;
         Role role = new Role();
         role.setName(req.getParameter("name"));
-        if (action.equals("update")) {
+        if (UPDATE_ROLE_ACTION_NAME.equals(action)) {
             long id = Long.valueOf(req.getParameter("id"));
             role.setId(id);
             update(role);
-        } else if (action.equals("add")) {
+        } else if (ADD_ROLE_ACTION_NAME.equals(action)) {
             create(role);
         }
-        req.setAttribute("roles", getAll());
+        setAttributesForGetAll(req);
         RequestDispatcher dispatcher = req.getRequestDispatcher(ROLE_VIEW_NAME);
         try {
             dispatcher.forward(req, resp);
-        } catch (ServletException e) {
+        } catch (ServletException | IOException e) {
             LOGGER.error("doPost() failed", e);
-        } catch (IOException e) {
         }
     }
 
