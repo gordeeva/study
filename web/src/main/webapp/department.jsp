@@ -31,7 +31,9 @@
                         <td align="left"><fmt:message key="NAME.LABEL"/></td>
                         <td align="right"><input type="text" id="departmentName"
                                                  name="name"
-                                                 onkeyup="disableControlsIfNeed(this)"/>
+                                                 onkeyup="disableControlsIfNeed(this)"
+                                                 onblur="disableControlsIfNeed(this)"
+                                                 onchange="disableControlsIfNeed(this)"/>
                         </td>
                     </tr>
                     <tr>
