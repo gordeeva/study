@@ -23,7 +23,7 @@
     <tr>
         <td>
             <form id="form"
-                  action="/${pageContext.request.contextPath}/DepartmentServlet"
+                  action="${pageContext.request.contextPath}/DepartmentServlet"
                   method="post">
                 <input type="hidden" id="departmentId" name="id"/>
                 <table border=1>
