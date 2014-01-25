@@ -6,8 +6,9 @@ USE companydb;
 --
 CREATE TABLE department(
   id INT (11) NOT NULL AUTO_INCREMENT,
-  name VARCHAR (45) NOT NULL,
-  PRIMARY KEY (id)
+  name VARCHAR (45) NOT NULL ,
+  PRIMARY KEY (id),
+  UNIQUE KEY name_UNIQUE (name)
 )
 ENGINE = INNODB
 AUTO_INCREMENT = 16
@@ -19,8 +20,9 @@ COLLATE utf8_general_ci;
 --
 CREATE TABLE role(
   id INT (11) NOT NULL AUTO_INCREMENT,
-  name VARCHAR (45) NOT NULL,
-  PRIMARY KEY (id)
+  name VARCHAR (45) UNIQUE,
+  PRIMARY KEY (id),
+  UNIQUE KEY name_UNIQUE (name)
 )
 ENGINE = INNODB
 AUTO_INCREMENT = 16

@@ -171,19 +171,6 @@ public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T>
         return found;
     }
 
-    public Role getRoleByName(final String name) {
-        Role found = new EMUtilForList<Role>() {
-
-            @Override
-            List<Role> work() {
-                return em.createNamedQuery("role_by_name", Role.class)
-                  .setParameter("rname", name)
-                  .getResultList();
-            }
-        }.doWork().get(0);
-        return found;
-    }
-
     public Employee getEmployee(final long id) {
         Employee found = new EMUtil<Employee>() {
             @Override
@@ -212,6 +199,28 @@ public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T>
             Department work() {
                 return em.createNamedQuery("department_by_id", Department.class)
                   .setParameter("depId", id).getSingleResult();
+            }
+        }.doWork();
+        return found;
+    }
+
+    public List<Department> getDepartmentsByName(final String name) {
+        List<Department> found = new EMUtilForList<Department>() {
+            @Override
+            List<Department> work() {
+                return em.createNamedQuery("departments_by_name", Department.class)
+                  .setParameter("depName", name).getResultList();
+            }
+        }.doWork();
+        return found;
+    }
+
+    public List<Role> getRolesByName(final String name) {
+        List<Role> found = new EMUtilForList<Role>() {
+            @Override
+            List<Role> work() {
+                return em.createNamedQuery("roles_by_name", Role.class)
+                  .setParameter("roleName", name).getResultList();
             }
         }.doWork();
         return found;

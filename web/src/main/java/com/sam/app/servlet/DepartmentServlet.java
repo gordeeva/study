@@ -2,6 +2,7 @@ package com.sam.app.servlet;
 
 import com.sam.app.domain.Department;
 import com.sam.app.util.AbstractEntityService;
+import com.sam.app.util.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,7 +12,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,15 +34,28 @@ public class DepartmentServlet extends AbstractCRUDServlet<Department> {
     private AbstractEntityService<Department> service = new AbstractEntityService<Department>(
       Department.class);
 
+    private ThreadLocal<HttpServletRequest> requestThreadLocal = new ThreadLocal<>();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         String action = req.getParameter("action");
         if (READ_ACTION.equals(action)) {
-            long id = Long.valueOf(req.getParameter("id"));
-            setAttributesForGetFew(Collections.singletonList(get(id)), req);
+            String idParam = req.getParameter("id");
+            if (validateID(idParam)) {
+                long id = Long.valueOf(idParam);
+                setAttributesForGetFew(Collections.singletonList(get(id)), req);
+            } else {
+                setErrorAttribute("ERROR_ID", req);
+                setAttributesForGetAll(req);
+            }
         } else if (DELETE_ACTION.equals(action)) {
-            long id = Long.valueOf(req.getParameter("id"));
-            delete(id);
+            String idParam = req.getParameter("id");
+            if (validateID(idParam)) {
+                long id = Long.valueOf(idParam);
+                delete(id);
+            } else {
+                setErrorAttribute("ERROR_ID", req);
+            }
             setAttributesForGetAll(req);
         } else if (LOCALE.equals(action)) {
             updateLocale(req);
@@ -59,6 +72,11 @@ public class DepartmentServlet extends AbstractCRUDServlet<Department> {
         }
     }
 
+    private boolean validateID(String idParam) {
+        return !Utils.isEmpty(idParam) &&
+          service.get(Long.valueOf(idParam)) != null;
+    }
+
     private void setAttributesForGetAll(HttpServletRequest req) {
         req.setAttribute(DEPARTMENTS_ATTRIBUTE_NAME, getAll());
     }
@@ -68,8 +86,13 @@ public class DepartmentServlet extends AbstractCRUDServlet<Department> {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-      throws UnsupportedEncodingException {
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        requestThreadLocal.set(req);
+        super.service(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         String action = req.getParameter("action");
         Department department = new Department();
         department.setName(req.getParameter("name"));
@@ -92,8 +115,23 @@ public class DepartmentServlet extends AbstractCRUDServlet<Department> {
 
     @Override
     public long create(Department department) {
-        super.create(department);
-        return service.create(department);
+        if (validateDepartment(department)) {
+            super.create(department);
+            return service.create(department);
+        } else {
+            LOGGER.warn(String.format("Create department failed. %nReason: " +
+              "Department validation failed %s", department));
+            return -1;
+        }
+    }
+
+    private boolean validateDepartment(Department department) {
+        boolean result = true;
+        if (Utils.isEmpty(department.getName()) || !service.getDepartmentsByName(department.getName()).isEmpty()) {
+            setErrorAttribute("ERROR_DEPARTMENT_NAME_DUPLICATE", requestThreadLocal.get());
+            result = false;
+        }
+        return result;
     }
 
     @Override
@@ -110,8 +148,13 @@ public class DepartmentServlet extends AbstractCRUDServlet<Department> {
 
     @Override
     public void update(Department department) {
-        super.update(department);
-        service.update(department);
+        if (validateDepartment(department)) {
+            super.update(department);
+            service.update(department);
+        } else {
+            LOGGER.warn(String.format("Update department failed. %nReason: " +
+              "Department validation failed %s", department));
+        }
     }
 
     @Override

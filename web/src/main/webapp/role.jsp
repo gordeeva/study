@@ -51,7 +51,11 @@
                 </table>
             </form>
             <p>
-
+                <c:if test="${error != null}">
+                    <div id="errorMessage">
+                        <fmt:message key="${error}"/>
+                    </div>
+                </c:if>
             <p>
             <table id="table" border=1>
                 <thead>

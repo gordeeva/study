@@ -17,7 +17,8 @@ import java.util.Set;
 @NamedQueries
   ({
     @NamedQuery(name = "all_departments", query = "select d from Department d"),
-    @NamedQuery(name = "department_by_id", query = "select d from Department d WHERE d.id=:depId")
+    @NamedQuery(name = "department_by_id", query = "select d from Department d WHERE d.id=:depId"),
+    @NamedQuery(name = "departments_by_name", query = "select d from Department d WHERE d.name=:depName")
   })
 @Table(name = "department")
 public class Department implements AbstractEntity {

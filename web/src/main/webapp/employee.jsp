@@ -63,7 +63,11 @@
                 </table>
             </form>
             <p>
-
+            <c:if test="${error != null}">
+                <div id="errorMessage">
+                    <fmt:message key="ERROR_ID"/>
+                </div>
+            </c:if>
             <p>
             <table id="all_employees_table" border=1>
                 <thead>

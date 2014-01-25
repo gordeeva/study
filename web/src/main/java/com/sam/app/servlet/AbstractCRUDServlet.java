@@ -1,6 +1,7 @@
 package com.sam.app.servlet;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +19,9 @@ public abstract class AbstractCRUDServlet<T> extends HttpServlet {
 
     protected static final String DELETE_ACTION = "delete";
 
-    public static final String LOCALE = "locale";
+    protected static final String LOCALE = "locale";
+
+    protected static final String ERROR_ATTRIBUTE_NAME = "error";
 
 
     public long create(T t) {
@@ -57,6 +60,10 @@ public abstract class AbstractCRUDServlet<T> extends HttpServlet {
         }
         HttpSession session = req.getSession(true);
         session.setAttribute("lang", locale);
+    }
+
+    protected void setErrorAttribute(String errorMessage, HttpServletRequest req) {
+        req.setAttribute(ERROR_ATTRIBUTE_NAME, errorMessage);
     }
 
     abstract protected Logger getLogger();

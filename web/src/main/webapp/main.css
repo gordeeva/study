@@ -57,3 +57,9 @@ html, body {
     margin: -70px auto 0;
     width: auto;
 }
+
+#errorMessage {
+    margin: 10px;
+    color: red;
+    width: auto;
+}

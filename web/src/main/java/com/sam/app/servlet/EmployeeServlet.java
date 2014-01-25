@@ -4,6 +4,7 @@ import com.sam.app.domain.Department;
 import com.sam.app.domain.Employee;
 import com.sam.app.domain.Role;
 import com.sam.app.util.AbstractEntityService;
+import com.sam.app.util.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,11 +50,22 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
         String action = req.getParameter("action");
         if (READ_ACTION.equals(action)) {
-            long id = Long.valueOf(req.getParameter("id"));
-            setAttributesForGetFew(Collections.singletonList(get(id)), req);
+            String idParam = req.getParameter("id");
+            if (validateID(idParam)) {
+                long id = Long.valueOf(idParam);
+                setAttributesForGetFew(Collections.singletonList(get(id)), req);
+            } else {
+                setErrorAttribute("ERROR_ID", req);
+                setAttributesForGetAll(req);
+            }
         } else if (DELETE_ACTION.equals(action)) {
-            long id = Long.valueOf(req.getParameter("id"));
-            delete(id);
+            String idParam = req.getParameter("id");
+            if (validateID(idParam)) {
+                long id = Long.valueOf(idParam);
+                delete(id);
+            } else {
+                setErrorAttribute("ERROR_ID", req);
+            }
             setAttributesForGetAll(req);
         } else if (LOCALE.equals(action)) {
             updateLocale(req);
@@ -68,6 +80,11 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
         } catch (ServletException | IOException e) {
             LOGGER.error("doGet() failed", e);
         }
+    }
+
+    private boolean validateID(String idParam) {
+        return !Utils.isEmpty(idParam) &&
+          service.get(Long.valueOf(idParam)) != null;
     }
 
     private void setAttributesForGetAll(HttpServletRequest req) {
@@ -125,8 +142,14 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 
     @Override
     public long create(Employee employee) {
-        super.create(employee);
-        return service.create(employee);
+        if (validateEmployee(employee)) {
+            super.create(employee);
+            return service.create(employee);
+        } else {
+            LOGGER.warn(String.format("Create employee failed. %nReason: " +
+              "Employee validation failed %s", employee));
+            return -1;
+        }
     }
 
     @Override
@@ -163,8 +186,18 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 
     @Override
     public void update(Employee employee) {
-        super.update(employee);
-        service.update(employee);
+        if (validateEmployee(employee)) {
+            super.update(employee);
+            service.update(employee);
+        } else {
+            LOGGER.warn(String.format("Update employee failed. %nReason: " +
+              "Employee validation failed %s", employee));
+        }
+    }
+
+    private boolean validateEmployee(Employee employee) {
+        return !Utils.isEmpty(employee.getName()) &&
+          employee.getDepartment() != null;
     }
 
     @Override
