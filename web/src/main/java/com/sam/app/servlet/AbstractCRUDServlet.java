@@ -46,12 +46,11 @@ public abstract class AbstractCRUDServlet<T> extends HttpServlet {
 
     protected void updateLocale(HttpServletRequest req) {
         String lang = req.getParameter("lang");
-        lang = lang == null ? "" : lang;
         getLogger().info(String.format("Update locale(%s) was called", lang));
         Locale locale;
-        if (lang.equals("en")) {
+        if ("en".equals(lang)) {
             locale = new Locale("en", "EN");
-        } else if (lang.equals("ru")) {
+        } else if ("ru".equals(lang)) {
             locale = new Locale("ru", "RU");
         } else {
             locale = req.getLocale();

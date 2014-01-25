@@ -13,7 +13,7 @@ public interface ICRUD<T> {
      * @param t entity to create
      * @return id of new record
      */
-	Long create(T t);
+    Long create(T t);
 
     /**
      * Returns all entities
@@ -42,5 +42,5 @@ public interface ICRUD<T> {
      *
      * @param id
      */
-	T delete(Long id);
+    T delete(Long id);
 }

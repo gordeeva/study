@@ -18,6 +18,7 @@ import java.util.Locale;
 public class IndexServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(IndexServlet.class);
 
     @Override
@@ -40,9 +41,8 @@ public class IndexServlet extends HttpServlet {
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/index.jsp");
         try {
             requestDispatcher.forward(req, resp);
-        } catch (ServletException e) {
+        } catch (ServletException | IOException e) {
             LOGGER.error("doGet() failed", e);
-        } catch (IOException e) {
         }
     }
 }

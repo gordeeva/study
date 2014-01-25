@@ -22,11 +22,11 @@ public class RoleServlet extends AbstractCRUDServlet<Role> {
 
     private static final long serialVersionUID = 1454943414322885268L;
 
-    private final String UPDATE_ROLE_ACTION_NAME = "update";
+    private static final String UPDATE_ROLE_ACTION_NAME = "update";
 
-    private final String ADD_ROLE_ACTION_NAME = "add";
+    private static final String ADD_ROLE_ACTION_NAME = "add";
 
-    private final String ROLES_ATTRIBUTE_NAME = "roles";
+    private static final String ROLES_ATTRIBUTE_NAME = "roles";
 
     private static final String ROLE_VIEW_NAME = "/role.jsp";
 

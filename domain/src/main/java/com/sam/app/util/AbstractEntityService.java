@@ -1,5 +1,6 @@
 package com.sam.app.util;
 
+import com.sam.app.ICRUD;
 import com.sam.app.domain.AbstractEntity;
 import com.sam.app.domain.Department;
 import com.sam.app.domain.Employee;
@@ -16,13 +17,8 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import com.sam.app.ICRUD;
-import org.slf4j.Logger;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T> {
@@ -72,7 +68,6 @@ public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T>
             }
         }.doWork();
 
-        // return merged;
         return entity;
     }
 
@@ -240,8 +235,7 @@ public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T>
             } catch (RuntimeException e) {
                 if (tx != null && tx.isActive())
                     tx.rollback();
-                LOGGER.error("problem at doWork " + e.getMessage());
-                throw e; // or display error message
+                LOGGER.error("problem at doWork ", e);
             } finally {
                 em.close();
             }
@@ -267,8 +261,7 @@ public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T>
             } catch (RuntimeException e) {
                 if (tx != null && tx.isActive())
                     tx.rollback();
-                LOGGER.error("problem at doWorkForList " + e.getMessage());
-                throw e; // or display error message
+                LOGGER.error("problem at doWorkForList ", e);
             } finally {
                 em.close();
             }
