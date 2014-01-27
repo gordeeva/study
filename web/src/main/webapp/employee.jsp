@@ -32,7 +32,7 @@
                                                  name="name"
                                                  onkeyup="disableControlsIfNeed(this)"
                                                  onblur="disableControlsIfNeed(this)"
-                                                 onchange="disableControlsIfNeed(this)"/>
+                                                 onclick="disableControlsIfNeed(this)"/>
                         </td>
                     </tr>
                     <tr>
@@ -90,7 +90,7 @@
                     <c:set var="emp" value="${employee}"/>
                     <tr>
                         <td align="center"><input type="radio" name="radios"
-                                                  onchange="OnRadioSelected(this, ${employee.department.id})"/>
+                                                  onclick="OnRadioSelected(this, ${employee.department.id})"/>
                         </td>
                         <td name="id" align="center"><c:out
                                 value="${employee.id}"/></td>

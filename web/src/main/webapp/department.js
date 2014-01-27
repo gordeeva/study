@@ -5,7 +5,7 @@ var updateButton = document.getElementById("updateButton");
 var addButton = document.getElementById("addButton");
 
 radios[0].checked = true;
-radios[0].onchange();
+radios[0].onclick();
 
 var employees = document.getElementsByName('employees');
 var deleteDepartmentLinks = document.getElementsByName('deleteDepartmentLinks');
@@ -20,6 +20,8 @@ function OnRadioSelected(radio) {
     var name = radio.parentNode.nextSibling.nextSibling.nextSibling.nextSibling.textContent;
     departmentIdField.value = id;
     departmentNameField.value = name;
+    updateButton.disabled = false;
+    addButton.disabled = false;
 }
 
 function disableControlsIfNeed(textField) {

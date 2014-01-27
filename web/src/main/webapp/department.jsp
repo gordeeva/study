@@ -74,7 +74,7 @@
                     <tr>
                         <td align="center"><input type="radio"
                                                   name="radios"
-                                                  onchange="OnRadioSelected(this)"
+                                                  onclick="OnRadioSelected(this)"
                                 /></td>
                         <td align="center"><c:out
                                 value="${department.id}"/></td>

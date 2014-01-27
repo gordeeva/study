@@ -6,7 +6,7 @@ var updateButton = document.getElementById("updateButton");
 var addButton = document.getElementById("addButton");
 
 radios[0].checked = true;
-radios[0].onchange();
+radios[0].onclick();
 
 var existingRolesCombos = document.getElementsByName('existing_roles');
 var deleteRoleButtons = document.getElementsByName('deleteRoleButton');
@@ -24,8 +24,10 @@ function OnRadioSelected(radio, departamentId) {
 //    var depName = radio.parentNode.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.textContent;
     userIdField.value = id;
     userNameField.value = name;
-
     departmentField.value = departamentId;
+
+    updateButton.disabled = false;
+    addButton.disabled = false;
 }
 
 function enableButtonIfNeed(combobox, button) {
