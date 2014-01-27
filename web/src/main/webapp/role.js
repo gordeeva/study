@@ -10,8 +10,8 @@ radios[0].onchange();
 function OnRadioSelected(radio) {
     var id = radio.parentNode.nextSibling.nextSibling.textContent;
     var name = radio.parentNode.nextSibling.nextSibling.nextSibling.nextSibling.textContent;
-    roleIdField.setAttribute('value', id);
-    roleNameField.setAttribute('value', name);
+    roleIdField.value = id;
+    roleNameField.value = name;
 }
 
 function disableControlsIfNeed(textField) {

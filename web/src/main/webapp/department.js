@@ -18,8 +18,8 @@ for (var i = 0; i < employees.length; i++) {
 function OnRadioSelected(radio) {
     var id = radio.parentNode.nextSibling.nextSibling.textContent;
     var name = radio.parentNode.nextSibling.nextSibling.nextSibling.nextSibling.textContent;
-    departmentIdField.setAttribute('value', id);
-    departmentNameField.setAttribute('value', name);
+    departmentIdField.value = id;
+    departmentNameField.value = name;
 }
 
 function disableControlsIfNeed(textField) {

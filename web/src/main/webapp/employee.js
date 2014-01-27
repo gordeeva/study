@@ -22,8 +22,8 @@ function OnRadioSelected(radio, departamentId) {
     var id = radio.parentNode.nextSibling.nextSibling.textContent;
     var name = radio.parentNode.nextSibling.nextSibling.nextSibling.nextSibling.textContent;
 //    var depName = radio.parentNode.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.textContent;
-    userIdField.setAttribute('value', id);
-    userNameField.setAttribute('value', name);
+    userIdField.value = id;
+    userNameField.value = name;
 
     departmentField.value = departamentId;
 }
