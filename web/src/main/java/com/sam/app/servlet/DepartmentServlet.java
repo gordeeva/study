@@ -2,7 +2,7 @@ package com.sam.app.servlet;
 
 import com.sam.app.domain.Department;
 import com.sam.app.util.AbstractEntityService;
-import com.sam.app.util.Utils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,7 +73,7 @@ public class DepartmentServlet extends AbstractCRUDServlet<Department> {
     }
 
     private boolean validateID(String idParam) {
-        return !Utils.isEmpty(idParam) &&
+        return !StringUtils.isEmpty(idParam) &&
           service.get(Long.valueOf(idParam)) != null;
     }
 
@@ -127,7 +127,7 @@ public class DepartmentServlet extends AbstractCRUDServlet<Department> {
 
     private boolean validateDepartment(Department department) {
         boolean result = true;
-        if (Utils.isEmpty(department.getName()) || !service.getDepartmentsByName(department.getName()).isEmpty()) {
+        if (StringUtils.isEmpty(department.getName()) || !service.getDepartmentsByName(department.getName()).isEmpty()) {
             setErrorAttribute("ERROR_DEPARTMENT_NAME_DUPLICATE", requestThreadLocal.get());
             result = false;
         }

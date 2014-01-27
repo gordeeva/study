@@ -47,7 +47,7 @@ public abstract class AbstractCRUDServlet<T> extends HttpServlet {
         getLogger().info(String.format("Delete(%d) was called", id));
     }
 
-    protected void updateLocale(HttpServletRequest req) {
+    void updateLocale(HttpServletRequest req) {
         String lang = req.getParameter("lang");
         getLogger().info(String.format("Update locale(%s) was called", lang));
         Locale locale;

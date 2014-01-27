@@ -4,7 +4,7 @@ import com.sam.app.domain.Department;
 import com.sam.app.domain.Employee;
 import com.sam.app.domain.Role;
 import com.sam.app.util.AbstractEntityService;
-import com.sam.app.util.Utils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -83,7 +83,7 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
     }
 
     private boolean validateID(String idParam) {
-        return !Utils.isEmpty(idParam) &&
+        return !StringUtils.isEmpty(idParam) &&
           service.get(Long.valueOf(idParam)) != null;
     }
 
@@ -196,7 +196,7 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
     }
 
     private boolean validateEmployee(Employee employee) {
-        return !Utils.isEmpty(employee.getName()) &&
+        return !StringUtils.isEmpty(employee.getName()) &&
           employee.getDepartment() != null;
     }
 
