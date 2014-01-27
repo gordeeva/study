@@ -1,4 +1,6 @@
-﻿SET NAMES 'utf8';
+﻿CREATE SCHEMA `companydb` DEFAULT CHARACTER SET utf8 ;
+
+SET NAMES 'utf8';
 USE companydb;
 
 --
@@ -35,7 +37,7 @@ COLLATE utf8_general_ci;
 CREATE TABLE employee(
   id INT (8) NOT NULL AUTO_INCREMENT,
   name VARCHAR (30) NOT NULL,
-  department_id INT (11) DEFAULT NULL,
+  department_id INT (11) NOT NULL,
   PRIMARY KEY (id),
   INDEX fk_employee_department USING BTREE (department_id),
   CONSTRAINT fk_employee_department FOREIGN KEY (department_id)

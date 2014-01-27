@@ -26,11 +26,11 @@ INSERT INTO employee VALUES(58, 'Solaris', 15);
 INSERT INTO employee VALUES(59, 'May', 15);
 INSERT INTO employee VALUES(60, 'Eddy', 4);
 INSERT INTO employee VALUES(61, 'Sheldon', 15);
-INSERT INTO employee VALUES(62, 'Seed', NULL);
-INSERT INTO employee VALUES(63, 'Scrat', NULL);
-INSERT INTO employee VALUES(64, 'Bolt', NULL);
-INSERT INTO employee VALUES(65, 'One', NULL);
-INSERT INTO employee VALUES(66, 'ihoo', NULL);
+INSERT INTO employee VALUES(62, 'Seed', 4);
+INSERT INTO employee VALUES(63, 'Scrat', 11);
+INSERT INTO employee VALUES(64, 'Bolt', 15);
+INSERT INTO employee VALUES(65, 'One', 4);
+INSERT INTO employee VALUES(66, 'ihoo', 11);
 
 --
 -- Вывод данных для таблицы role
