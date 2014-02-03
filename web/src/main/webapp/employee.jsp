@@ -12,6 +12,10 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title><fmt:message key="EMPLOYEES.LABEL"/> </title>
+    <script>
+        var EMPLOYEE_DUPLICATE_ERROR_MESSAGE = '<fmt:message key="ERROR_EMPLOYEE_NAME_DUPLICATE"/>';
+        console.log("EMPLOYEE_DUPLICATE_ERROR_MESSAGE" + EMPLOYEE_DUPLICATE_ERROR_MESSAGE);
+    </script>
 </head>
 <body>
 
@@ -21,7 +25,7 @@
     <tr>
         <td>
 
-            <form id="form"
+            <form id="form" onsubmit="return onManageEmployeeFormSubmit()"
                   action="${pageContext.request.contextPath}/EmployeeServlet"
                   method="post">
                 <input type="hidden" id="userId" name="id"/>
@@ -52,7 +56,8 @@
                         <td colspan="2">
                             <div style="text-align: center">
                                 <button type="submit" name="action"
-                                        value="update" id="updateButton">
+                                        value="update" id="updateButton"
+                                        onclick="onUpdateEmployee()">
                                     <fmt:message key="UPDATE.BUTTON"/></button>
                                 <button type="submit" name="action" value="add"
                                         id="addButton"><fmt:message
@@ -63,11 +68,14 @@
                 </table>
             </form>
             <p>
-            <c:if test="${error != null}">
-                <div id="errorMessage">
-                    <fmt:message key="ERROR_ID"/>
-                </div>
+            <div id="errorMessage">
+            <c:if test="${errors != null}">
+
+                    <c:forEach items="${errors}" var="error">
+                        <fmt:message key="${error}"/> <br>
+                    </c:forEach>
             </c:if>
+        </div>
             <p>
             <table id="all_employees_table" border=1>
                 <thead>

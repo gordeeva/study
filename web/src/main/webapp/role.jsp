@@ -51,9 +51,11 @@
                 </table>
             </form>
             <p>
-                <c:if test="${error != null}">
+                <c:if test="${errors != null}">
                     <div id="errorMessage">
-                        <fmt:message key="${error}"/>
+                        <c:forEach items="${errors}" var="error">
+                            <fmt:message key="${error}"/> <br>
+                        </c:forEach>
                     </div>
                 </c:if>
             <p>

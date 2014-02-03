@@ -16,7 +16,7 @@
 
     <properties>
         <hibernate.version>4.3.1.Final</hibernate.version>
-        <hibernate.commons.annotations>3.3.0.ga
+        <hibernate.commons.annotations>4.0.4.Final
         </hibernate.commons.annotations>
     </properties>
 
@@ -32,14 +32,14 @@
             <version>${hibernate.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.hibernate</groupId>
+            <groupId>org.hibernate.common</groupId>
             <artifactId>hibernate-commons-annotations</artifactId>
             <version>${hibernate.commons.annotations}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>5.1.0.Beta1</version>
+            <version>5.0.3.Final</version>
         </dependency>
     </dependencies>
 

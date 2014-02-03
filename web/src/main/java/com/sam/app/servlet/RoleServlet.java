@@ -150,7 +150,10 @@ public class RoleServlet extends AbstractCRUDServlet<Role> {
 
     private boolean validateRole(Role role) {
         boolean result = true;
-        if (StringUtils.isEmpty(role.getName()) || !service.getRolesByName(role.getName()).isEmpty()) {
+        if (StringUtils.isEmpty(role.getName())) {
+            setErrorAttribute("ERROR_ROLE_NAME_EMPTY", requestThreadLocal.get());
+            result = false;
+        } else if (!service.getRolesByName(role.getName()).isEmpty()) {
             setErrorAttribute("ERROR_ROLE_NAME_DUPLICATE", requestThreadLocal.get());
             result = false;
         }

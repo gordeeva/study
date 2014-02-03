@@ -1,11 +1,11 @@
 package com.sam.app.servlet;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -21,7 +21,7 @@ public abstract class AbstractCRUDServlet<T> extends HttpServlet {
 
     protected static final String LOCALE = "locale";
 
-    protected static final String ERROR_ATTRIBUTE_NAME = "error";
+    protected static final String ERROR_ATTRIBUTE_NAME = "errors";
 
 
     public long create(T t) {
@@ -63,7 +63,12 @@ public abstract class AbstractCRUDServlet<T> extends HttpServlet {
     }
 
     protected void setErrorAttribute(String errorMessage, HttpServletRequest req) {
-        req.setAttribute(ERROR_ATTRIBUTE_NAME, errorMessage);
+        List<String> errorMessages = (List<String>) req.getAttribute(ERROR_ATTRIBUTE_NAME);
+        if (errorMessages == null) {
+            errorMessages = new ArrayList<>();
+            req.setAttribute(ERROR_ATTRIBUTE_NAME, errorMessages);
+        }
+        errorMessages.add(errorMessage);
     }
 
     abstract protected Logger getLogger();

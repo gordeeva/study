@@ -127,7 +127,10 @@ public class DepartmentServlet extends AbstractCRUDServlet<Department> {
 
     private boolean validateDepartment(Department department) {
         boolean result = true;
-        if (StringUtils.isEmpty(department.getName()) || !service.getDepartmentsByName(department.getName()).isEmpty()) {
+        if (StringUtils.isEmpty(department.getName())) {
+            setErrorAttribute("ERROR_DEPARTMENT_NAME_EMPTY", requestThreadLocal.get());
+            result = false;
+        } else if (!service.getDepartmentsByName(department.getName()).isEmpty()) {
             setErrorAttribute("ERROR_DEPARTMENT_NAME_DUPLICATE", requestThreadLocal.get());
             result = false;
         }

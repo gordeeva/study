@@ -46,6 +46,9 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
     private AbstractEntityService<Employee> service = new AbstractEntityService<Employee>(
       Employee.class);
 
+    private ThreadLocal<HttpServletRequest> requestThreadLocal = new ThreadLocal<>();
+
+
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
         String action = req.getParameter("action");
@@ -97,6 +100,12 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
         req.setAttribute(DEPARTMENTS_ATTRIBUTE_NAME, getAllDepartments());
         req.setAttribute(EMPLOYEES_ATTRIBUTE_NAME, employees);
         req.setAttribute(ROLES_ATTRIBUTE_NAME, getAllRoles());
+    }
+
+    @Override
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        requestThreadLocal.set(req);
+        super.service(req, resp);
     }
 
     @Override
@@ -196,8 +205,15 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
     }
 
     private boolean validateEmployee(Employee employee) {
-        return !StringUtils.isEmpty(employee.getName()) &&
-          employee.getDepartment() != null;
+        boolean validated = true;
+        if (StringUtils.isEmpty(employee.getName())) {
+            validated = false;
+            setErrorAttribute("ERROR_EMPLOYEE_NAME_EMPTY", requestThreadLocal.get());
+        } else if (employee.getDepartment() == null || service.getDepartment(employee.getDepartment().getId()) == null) {
+            validated = false;
+            setErrorAttribute("ERROR_EMPLOYEE_DEPARTMENT", requestThreadLocal.get());
+        }
+        return validated;
     }
 
     @Override
@@ -216,6 +232,7 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
         } else {
             LOGGER.warn(String.format("Add role to employee failed. Something is null: " +
               "{%s}, {%s}", role, employee));
+            setErrorAttribute("ERROR_EMPLOYEE_ROLE_ADD", requestThreadLocal.get());
         }
     }
 
@@ -229,6 +246,7 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
         } else {
             LOGGER.warn(String.format("Delete role from employee failed. Something is null: " +
               "{%s}, {%s}", role, employee));
+            setErrorAttribute("ERROR_EMPLOYEE_ROLE_DELETE", requestThreadLocal.get());
         }
     }
 
