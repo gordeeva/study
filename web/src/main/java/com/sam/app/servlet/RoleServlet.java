@@ -74,7 +74,7 @@ public class RoleServlet extends AbstractCRUDServlet<Role> {
 
     private boolean validateID(String idParam) {
         return !StringUtils.isEmpty(idParam) &&
-          service.get(Long.valueOf(idParam)) != null;
+          service.getRole(Long.valueOf(idParam)) != null;
     }
 
     private void setAttributesForGetAll(HttpServletRequest req) {
@@ -128,13 +128,13 @@ public class RoleServlet extends AbstractCRUDServlet<Role> {
     @Override
     public List<Role> getAll() {
         super.getAll();
-        return service.getAll();
+        return service.getAllRoles();
     }
 
     @Override
     public Role get(long id) {
         super.get(id);
-        return service.get(id);
+        return service.getRole(id);
     }
 
     @Override

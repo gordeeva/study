@@ -74,7 +74,7 @@ public class DepartmentServlet extends AbstractCRUDServlet<Department> {
 
     private boolean validateID(String idParam) {
         return !StringUtils.isEmpty(idParam) &&
-          service.get(Long.valueOf(idParam)) != null;
+          service.getDepartment(Long.valueOf(idParam)) != null;
     }
 
     private void setAttributesForGetAll(HttpServletRequest req) {
@@ -146,7 +146,7 @@ public class DepartmentServlet extends AbstractCRUDServlet<Department> {
     @Override
     public Department get(long id) {
         super.get(id);
-        return service.get(id);
+        return service.getDepartment(id);
     }
 
     @Override

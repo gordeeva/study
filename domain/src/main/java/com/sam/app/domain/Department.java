@@ -32,7 +32,7 @@ public class Department implements AbstractEntity {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "department", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "department")
     @OrderBy("name asc")
     private Set<Employee> employees;
 

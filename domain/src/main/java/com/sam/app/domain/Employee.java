@@ -1,5 +1,7 @@
 package com.sam.app.domain;
 
+import org.hibernate.Hibernate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -38,7 +40,7 @@ public class Employee implements AbstractEntity {
     @JoinColumn(name = "department_id")
     private Department department;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "employee_role",
       joinColumns = @JoinColumn(name = "emp_id"),
       inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -77,6 +79,7 @@ public class Employee implements AbstractEntity {
     }
 
     public Set<Role> getRoles() {
+        Hibernate.initialize(roles);
         return roles;
     }
 

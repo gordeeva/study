@@ -1,10 +1,10 @@
 package com.sam.app.util;
 
-import com.sam.app.ICRUD;
 import com.sam.app.domain.AbstractEntity;
 import com.sam.app.domain.Department;
 import com.sam.app.domain.Employee;
 import com.sam.app.domain.Role;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +21,7 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T> {
+public class AbstractEntityService<T extends AbstractEntity> {
 
     private static final Logger LOGGER = LoggerFactory
       .getLogger(AbstractEntityService.class);
@@ -44,7 +44,6 @@ public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T>
         entityClass = entity;
     }
 
-    @Override
     public Long create(final T entity) {
         new EMUtil<T>() {
 
@@ -57,7 +56,6 @@ public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T>
         return entity.getId();
     }
 
-    @Override
     public T update(final T entity) {
         @SuppressWarnings("unused")
         T merged = new EMUtil<T>() {
@@ -83,7 +81,6 @@ public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T>
         return entity;
     }
 
-    @Override
     public T delete(final Long id) {
         T deleted = new EMUtil<T>() {
 
@@ -97,53 +94,20 @@ public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T>
         return deleted;
     }
 
-    @Override
-    public T get(final Long id) {
-        if (id == null) {
-            throw new IllegalArgumentException();
-        }
-        T found = new EMUtil<T>() {
-
-            @Override
-            T work() {
-                return em.find(entityClass, id);
-            }
-        }.doWork();
-        return found;
-    }
-
-    @Override
-    public List<T> getAll() {
-        List<T> list = new EMUtilForList<T>() {
-
-            @Override
-            List<T> work() {
-                CriteriaBuilder cb = em.getCriteriaBuilder();
-                CriteriaQuery<T> cq = cb.createQuery(entityClass);
-                Root<T> root = cq.from(entityClass);
-                cq.select(root);
-                TypedQuery<T> tq = em.createQuery(cq);
-                List<T> result;
-                try {
-                    result = tq.getResultList();
-                } catch (NoResultException nre) {
-                    result = Collections.emptyList();
-                }
-                return result;
-            }
-        }.doWork();
-        return list;
-    }
-
     public List<Department> getAllDepartments() {
         List<Department> found = new EMUtilForList<Department>() {
 
             @Override
             List<Department> work() {
-                return em.createNamedQuery("all_departments", Department.class)
+                List<Department> localFound = em.createNamedQuery("all_departments", Department.class)
                   .getResultList();
+                for (Department department : localFound) {
+                    Hibernate.initialize(department.getEmployees());
+                }
+                return localFound;
             }
         }.doWork();
+
         return found;
     }
 
@@ -152,10 +116,15 @@ public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T>
 
             @Override
             List<Employee> work() {
-                return em.createNamedQuery("all_employees", Employee.class)
+                List<Employee> localFound = em.createNamedQuery("all_employees", Employee.class)
                   .getResultList();
+                for (Employee employee : localFound) {
+                    Hibernate.initialize(employee.getRoles());
+                }
+                return localFound;
             }
         }.doWork();
+
         return found;
     }
 
@@ -164,10 +133,15 @@ public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T>
 
             @Override
             List<Role> work() {
-                return em.createNamedQuery("all_roles", Role.class)
+                List<Role> localFound = em.createNamedQuery("all_roles", Role.class)
                   .getResultList();
+                for (Role role : localFound) {
+                    Hibernate.initialize(role.getEmployees());
+                }
+                return localFound;
             }
         }.doWork();
+
         return found;
     }
 
@@ -175,8 +149,10 @@ public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T>
         Employee found = new EMUtil<Employee>() {
             @Override
             Employee work() {
-                return em.createNamedQuery("employee_by_id", Employee.class)
+                Employee localFound = em.createNamedQuery("employee_by_id", Employee.class)
                   .setParameter("empId", id).getSingleResult();
+                Hibernate.initialize(localFound.getRoles());
+                return localFound;
             }
         }.doWork();
         return found;
@@ -186,8 +162,10 @@ public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T>
         Role found = new EMUtil<Role>() {
             @Override
             Role work() {
-                return em.createNamedQuery("role_by_id", Role.class)
+                Role localFound = em.createNamedQuery("role_by_id", Role.class)
                   .setParameter("rId", id).getSingleResult();
+                Hibernate.initialize(localFound.getEmployees());
+                return localFound;
             }
         }.doWork();
         return found;
@@ -197,8 +175,10 @@ public class AbstractEntityService<T extends AbstractEntity> implements ICRUD<T>
         Department found = new EMUtil<Department>() {
             @Override
             Department work() {
-                return em.createNamedQuery("department_by_id", Department.class)
+                Department localFound = em.createNamedQuery("department_by_id", Department.class)
                   .setParameter("depId", id).getSingleResult();
+                Hibernate.initialize(localFound);
+                return localFound;
             }
         }.doWork();
         return found;

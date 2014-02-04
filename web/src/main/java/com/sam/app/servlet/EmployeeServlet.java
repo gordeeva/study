@@ -87,7 +87,7 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
 
     private boolean validateID(String idParam) {
         return !StringUtils.isEmpty(idParam) &&
-          service.get(Long.valueOf(idParam)) != null;
+          service.getEmployee(Long.valueOf(idParam)) != null;
     }
 
     private void setAttributesForGetAll(HttpServletRequest req) {
@@ -128,7 +128,7 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
             if (UPDATE_EMPLOYEE_ACTION_NAME.equals(action)) {
                 long id = Long.valueOf(req.getParameter("id"));
                 emp.setId(id);
-                emp.setRoles(service.get(id).getRoles());
+                emp.setRoles(service.getEmployee(id).getRoles());
                 update(emp);
             } else if (ADD_EMPLOYEE_ACTION_NAME.equals(action)) {
                 create(emp);
@@ -189,7 +189,7 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
     @Override
     public Employee get(long id) {
         super.get(id);
-        Employee employee = service.get(id);
+        Employee employee = service.getEmployee(id);
         return employee;
     }
 
@@ -225,7 +225,7 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
     private void addRole(long empId, long roleId) {
         LOGGER.info(String.format("Add role id{%d} to employee empId{%d} was called", roleId, empId));
         Role role = service.getRole(roleId);
-        Employee employee = service.get(empId);
+        Employee employee = service.getEmployee(empId);
         if (role != null && employee != null) {
             employee.addRole(role);
             service.update(employee);
@@ -239,7 +239,7 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
     private void deleteRole(long empId, long roleId) {
         LOGGER.info(String.format("Delete role id{%d} from employee empId{%d} was called", roleId, empId));
         Role role = service.getRole(roleId);
-        Employee employee = service.get(empId);
+        Employee employee = service.getEmployee(empId);
         if (role != null && employee != null) {
             employee.deleteRole(role);
             service.update(employee);
