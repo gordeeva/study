@@ -22,8 +22,6 @@ public class AbstractEntityService<T extends AbstractEntity> {
 
     private static EntityManagerFactory emf;
 
-    private EntityManager em;
-
     private Class<T> entityClass;
 
     public static void initEMF() {
@@ -152,19 +150,6 @@ public class AbstractEntityService<T extends AbstractEntity> {
         return found;
     }
 
-    public Role getRole(final long id) {
-        Role found = new EMUtil<Role>() {
-            @Override
-            Role work() {
-                Role localFound = em.createNamedQuery("role_by_id", Role.class)
-                  .setParameter("rId", id).getSingleResult();
-                Hibernate.initialize(localFound.getEmployees());
-                return localFound;
-            }
-        }.doWork();
-        return found;
-    }
-
     public Department getDepartment(final long id) {
         Department found = new EMUtil<Department>() {
             @Override
@@ -172,6 +157,19 @@ public class AbstractEntityService<T extends AbstractEntity> {
                 Department localFound = em.createNamedQuery("department_by_id", Department.class)
                   .setParameter("depId", id).getSingleResult();
                 Hibernate.initialize(localFound);
+                return localFound;
+            }
+        }.doWork();
+        return found;
+    }
+
+    public Role getRole(final long id) {
+        Role found = new EMUtil<Role>() {
+            @Override
+            Role work() {
+                Role localFound = em.createNamedQuery("role_by_id", Role.class)
+                  .setParameter("rId", id).getSingleResult();
+                Hibernate.initialize(localFound.getEmployees());
                 return localFound;
             }
         }.doWork();
@@ -200,7 +198,9 @@ public class AbstractEntityService<T extends AbstractEntity> {
         return found;
     }
 
-    private abstract class EMUtil<E extends AbstractEntity> {
+    protected static abstract class EMUtil<E extends AbstractEntity> {
+
+        protected EntityManager em;
 
         abstract E work();
 
@@ -226,7 +226,9 @@ public class AbstractEntityService<T extends AbstractEntity> {
         }
     }
 
-    private abstract class EMUtilForList<E extends AbstractEntity> {
+    protected static abstract class EMUtilForList<E extends AbstractEntity> {
+
+        protected EntityManager em;
 
         abstract List<E> work();
 

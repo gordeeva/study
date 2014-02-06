@@ -1,7 +1,7 @@
 package com.sam.app.servlet;
 
 import com.sam.app.domain.Role;
-import com.sam.app.util.AbstractEntityService;
+import com.sam.app.util.RoleService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,8 +31,7 @@ public class RoleServlet extends AbstractCRUDServlet<Role> {
 
     private static final String ROLE_VIEW_NAME = "/role.jsp";
 
-    private AbstractEntityService<Role> service = new AbstractEntityService<Role>(
-      Role.class);
+    private RoleService service = new RoleService();
 
     private ThreadLocal<HttpServletRequest> requestThreadLocal = new ThreadLocal<>();
 
