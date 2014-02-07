@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+    <definition name="index" template="/layouts/index.jsp">
+        <put-attribute name="header" value="/tiles/header.jsp" />
+        <put-attribute name="footer" value="/tiles/footer.jsp" />
+    </definition>
+
+    <definition name="roles" extends="index" template="/layouts/classic.jsp">
+        <put-attribute name="body" value="/tiles/role.jsp" />
+        <put-attribute name="jsFile" value="/tiles/role.js" />
+    </definition>
+
+    <definition name="departments" extends="index" template="/layouts/classic.jsp">
+        <put-attribute name="body" value="/tiles/department.jsp" />
+        <put-attribute name="jsFile" value="/tiles/department.js" />
+    </definition>
+
+    <definition name="employees" extends="index" template="/layouts/classic.jsp">
+        <put-attribute name="body" value="/tiles/employee.jsp" />
+        <put-attribute name="jsFile" value="/tiles/employee.js" />
+    </definition>
+</tiles-definitions>

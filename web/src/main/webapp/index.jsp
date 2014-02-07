@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="lang"
        value="${not empty sessionScope.lang ? sessionScope.lang : pageContext.request.locale}"
@@ -10,14 +10,9 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title><fmt:message key="MAIN.LINK"/></title>
-    <link href="main.css" rel="stylesheet" type="text/css"/>
+    <title><fmt:message key="MAIN.LINK"/> </title>
 </head>
 <body>
-
-<jsp:include page="indexHeader.jsp"/>
-
-<%@include file="footer.jsp" %>
-
+    <tiles:insertDefinition name="index" />
 </body>
 </html>

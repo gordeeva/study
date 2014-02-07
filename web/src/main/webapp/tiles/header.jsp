@@ -35,8 +35,8 @@
         </div>
         <div class="right">
             <h4>
-                <a href="${pageContext.request.contextPath}/IndexServlet?action=locale&lang=en">en</a>
-                <a href="${pageContext.request.contextPath}/IndexServlet?action=locale&lang=ru">ру</a>
+                <a href="<%=request.getAttribute("javax.servlet.forward.request_uri") %>?action=locale&lang=en">en</a>
+                <a href="<%=request.getAttribute("javax.servlet.forward.request_uri") %>?action=locale&lang=ru">ру</a>
             </h4>
         </div>
         <br>

@@ -15,8 +15,6 @@
 </head>
 <body>
 
-<%@include file="header.jsp" %>
-
 <table id="main_table">
     <tbody>
     <tr>
@@ -101,8 +99,5 @@
     </tbody>
 </table>
 
-<%@include file="footer.jsp" %>
-
-<script type="text/javascript" src="role.js"></script>
 </body>
 </html>

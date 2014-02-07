@@ -3,6 +3,11 @@ package com.sam.app.servlet;
 import com.sam.app.domain.Department;
 import com.sam.app.util.AbstractEntityService;
 import org.apache.commons.lang.StringUtils;
+import org.apache.tiles.TilesContainer;
+import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.request.Request;
+import org.apache.tiles.request.servlet.ServletApplicationContext;
+import org.apache.tiles.request.servlet.ServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,13 +68,10 @@ public class DepartmentServlet extends AbstractCRUDServlet<Department> {
         } else {
             setAttributesForGetAll(req);
         }
-        RequestDispatcher dispatcher = req
-          .getRequestDispatcher(DEPARTMENT_VIEW_NAME);
-        try {
-            dispatcher.forward(req, resp);
-        } catch (ServletException | IOException e) {
-            LOGGER.error("doGet() failed", e);
-        }
+
+        TilesContainer container = TilesAccess.getContainer(new ServletApplicationContext(req.getServletContext()));
+        Request tilesRequest = new ServletRequest(container.getApplicationContext(), req, resp);
+        container.render("departments", tilesRequest);
     }
 
     private boolean validateID(String idParam) {

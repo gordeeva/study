@@ -5,7 +5,20 @@
 
     <display-name>CompanyDB App</display-name>
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>IndexServlet</welcome-file>
     </welcome-file-list>
+
+    <listener>
+        <listener-class>org.apache.tiles.extras.complete.CompleteAutoloadTilesListener</listener-class>
+    </listener>
+
+    <servlet>
+        <servlet-name>Tiles Dispatch Servlet</servlet-name>
+        <servlet-class>org.apache.tiles.web.util.TilesDispatchServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Tiles Dispatch Servlet</servlet-name>
+        <url-pattern>*.tiles</url-pattern>
+    </servlet-mapping>
 
 </web-app>

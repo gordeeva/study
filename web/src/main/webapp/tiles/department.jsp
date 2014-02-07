@@ -16,8 +16,6 @@
 </head>
 <body>
 
-
-<jsp:include page="header.jsp"/>
 <table id="main_table">
     <tbody>
     <tr>
@@ -106,8 +104,7 @@
     </tr>
     </tbody>
 </table>
-<%@include file="footer.jsp" %>
 
-<script type="text/javascript" src="department.js"></script>
+<script type="text/javascript" src="/tiles/department.js"></script>
 </body>
 </html>

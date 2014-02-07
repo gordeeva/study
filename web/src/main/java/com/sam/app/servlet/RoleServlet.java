@@ -3,6 +3,11 @@ package com.sam.app.servlet;
 import com.sam.app.domain.Role;
 import com.sam.app.util.RoleService;
 import org.apache.commons.lang.StringUtils;
+import org.apache.tiles.TilesContainer;
+import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.request.Request;
+import org.apache.tiles.request.servlet.ServletApplicationContext;
+import org.apache.tiles.request.servlet.ServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,12 +68,10 @@ public class RoleServlet extends AbstractCRUDServlet<Role> {
         } else {
             setAttributesForGetAll(req);
         }
-        RequestDispatcher dispatcher = req.getRequestDispatcher(ROLE_VIEW_NAME);
-        try {
-            dispatcher.forward(req, resp);
-        } catch (ServletException | IOException e) {
-            LOGGER.error("doGet() failed", e);
-        }
+
+        TilesContainer container = TilesAccess.getContainer(new ServletApplicationContext(req.getServletContext()));
+        Request tilesRequest = new ServletRequest(container.getApplicationContext(), req, resp);
+        container.render("roles", tilesRequest);
     }
 
     private boolean validateID(String idParam) {

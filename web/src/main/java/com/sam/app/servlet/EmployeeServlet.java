@@ -5,6 +5,11 @@ import com.sam.app.domain.Employee;
 import com.sam.app.domain.Role;
 import com.sam.app.util.AbstractEntityService;
 import org.apache.commons.lang.StringUtils;
+import org.apache.tiles.TilesContainer;
+import org.apache.tiles.access.TilesAccess;
+import org.apache.tiles.request.Request;
+import org.apache.tiles.request.servlet.ServletApplicationContext;
+import org.apache.tiles.request.servlet.ServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,13 +81,10 @@ public class EmployeeServlet extends AbstractCRUDServlet<Employee> {
         } else {
             setAttributesForGetAll(req);
         }
-        RequestDispatcher requestDispatcher = req
-          .getRequestDispatcher(EMPLOYEE_VIEW_NAME);
-        try {
-            requestDispatcher.forward(req, resp);
-        } catch (ServletException | IOException e) {
-            LOGGER.error("doGet() failed", e);
-        }
+
+        TilesContainer container = TilesAccess.getContainer(new ServletApplicationContext(req.getServletContext()));
+        Request tilesRequest = new ServletRequest(container.getApplicationContext(), req, resp);
+        container.render("employees", tilesRequest);
     }
 
     private boolean validateID(String idParam) {

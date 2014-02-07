@@ -14,12 +14,10 @@
     <title><fmt:message key="EMPLOYEES.LABEL"/> </title>
     <script>
         var EMPLOYEE_DUPLICATE_ERROR_MESSAGE = '<fmt:message key="ERROR_EMPLOYEE_NAME_DUPLICATE"/>';
-        console.log("EMPLOYEE_DUPLICATE_ERROR_MESSAGE" + EMPLOYEE_DUPLICATE_ERROR_MESSAGE);
     </script>
 </head>
 <body>
 
-<%@include file="header.jsp" %>
 <table id="main_table">
     <tbody>
     <tr>
@@ -158,9 +156,7 @@
     </tbody>
 </table>
 
-<%@include file="footer.jsp" %>
-
-<script type="text/javascript" src="employee.js"></script>
+<script type="text/javascript" src="/tiles/employee.js"></script>
 
 </body>
 </html>
