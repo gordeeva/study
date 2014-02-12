@@ -79,7 +79,6 @@ public class Employee implements AbstractEntity {
     }
 
     public Set<Role> getRoles() {
-        Hibernate.initialize(roles);
         return roles;
     }
 
@@ -101,5 +100,28 @@ public class Employee implements AbstractEntity {
 
     public void setRolesToAdd(Set<Role> rolesToAdd) {
         this.rolesToAdd = rolesToAdd;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Employee employee = (Employee) o;
+
+        if (!id.equals(employee.id)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 }

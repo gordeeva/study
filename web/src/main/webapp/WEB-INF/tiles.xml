@@ -10,16 +10,16 @@
 
     <definition name="roles" extends="index" template="/layouts/classic.jsp">
         <put-attribute name="body" value="/tiles/role.jsp" />
-        <put-attribute name="jsFile" value="/tiles/role.js" />
+        <put-attribute name="jsFile" value="/scripts/role.js" />
     </definition>
 
     <definition name="departments" extends="index" template="/layouts/classic.jsp">
         <put-attribute name="body" value="/tiles/department.jsp" />
-        <put-attribute name="jsFile" value="/tiles/department.js" />
+        <put-attribute name="jsFile" value="/scripts/department.js" />
     </definition>
 
     <definition name="employees" extends="index" template="/layouts/classic.jsp">
         <put-attribute name="body" value="/tiles/employee.jsp" />
-        <put-attribute name="jsFile" value="/tiles/employee.js" />
+        <put-attribute name="jsFile" value="/scripts/employee.js" />
     </definition>
 </tiles-definitions>

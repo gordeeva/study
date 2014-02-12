@@ -156,7 +156,7 @@ public class AbstractEntityService<T extends AbstractEntity> {
             Department work() {
                 Department localFound = em.createNamedQuery("department_by_id", Department.class)
                   .setParameter("depId", id).getSingleResult();
-                Hibernate.initialize(localFound);
+                Hibernate.initialize(localFound.getEmployees());
                 return localFound;
             }
         }.doWork();
@@ -180,8 +180,12 @@ public class AbstractEntityService<T extends AbstractEntity> {
         List<Department> found = new EMUtilForList<Department>() {
             @Override
             List<Department> work() {
-                return em.createNamedQuery("departments_by_name", Department.class)
+                List<Department> localFound = em.createNamedQuery("departments_by_name", Department.class)
                   .setParameter("depName", name).getResultList();
+                for (Department department : localFound) {
+                    Hibernate.initialize(department.getEmployees());
+                }
+                return localFound;
             }
         }.doWork();
         return found;
@@ -191,8 +195,12 @@ public class AbstractEntityService<T extends AbstractEntity> {
         List<Role> found = new EMUtilForList<Role>() {
             @Override
             List<Role> work() {
-                return em.createNamedQuery("roles_by_name", Role.class)
+                List<Role> localFound = em.createNamedQuery("roles_by_name", Role.class)
                   .setParameter("roleName", name).getResultList();
+                for (Role role : localFound) {
+                    Hibernate.initialize(role.getEmployees());
+                }
+                return localFound;
             }
         }.doWork();
         return found;

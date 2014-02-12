@@ -52,21 +52,5 @@ function disableControlsIfNeed(textField) {
     }
 }
 
-function onUpdateEmployee() {
-    var oldName = selectedRadio.parentNode.nextSibling.nextSibling.nextSibling.nextSibling.textContent;
-    var newName = document.getElementById('userName').value;
-    if (oldName == newName) {
-        errorMessageDiv.innerHTML = EMPLOYEE_DUPLICATE_ERROR_MESSAGE;
-        isSubmitAllowed = false;
-    } else {
-        isSubmitAllowed = true;
-        errorMessageDiv.innerHTML = "";
-    }
-}
-
-var isSubmitAllowed = true;
-function onManageEmployeeFormSubmit() {
-    return isSubmitAllowed;
-}
 
 

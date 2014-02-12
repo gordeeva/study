@@ -3,11 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <header>
-    <link href="main.css" rel="stylesheet" type="text/css"/>
+    <link href="/styles/main.css" rel="stylesheet" type="text/css"/>
 </header>
-<c:set var="lang"
-       value="${not empty sessionScope.lang ? sessionScope.lang : pageContext.request.locale}"
-       scope="session"/>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="com.sam.app.i18n.Messages"/>
 

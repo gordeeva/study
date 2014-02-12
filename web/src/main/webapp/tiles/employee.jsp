@@ -2,9 +2,6 @@
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<c:set var="lang"
-       value="${not empty sessionScope.lang ? sessionScope.lang : pageContext.request.locale}"
-       scope="session"/>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="com.sam.app.i18n.Messages"/>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -12,9 +9,6 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title><fmt:message key="EMPLOYEES.LABEL"/> </title>
-    <script>
-        var EMPLOYEE_DUPLICATE_ERROR_MESSAGE = '<fmt:message key="ERROR_EMPLOYEE_NAME_DUPLICATE"/>';
-    </script>
 </head>
 <body>
 
@@ -23,7 +17,7 @@
     <tr>
         <td>
 
-            <form id="form" onsubmit="return onManageEmployeeFormSubmit()"
+            <form id="form"
                   action="${pageContext.request.contextPath}/EmployeeServlet"
                   method="post">
                 <input type="hidden" id="userId" name="id"/>
@@ -38,6 +32,8 @@
                         </td>
                     </tr>
                     <tr>
+
+                        <%System.out.println("!lang! " + session.getAttribute("lang"));%>
                         <td align="left"><fmt:message
                                 key="DEPARTMENT.LABEL"/></td>
                         <td>
@@ -54,8 +50,7 @@
                         <td colspan="2">
                             <div style="text-align: center">
                                 <button type="submit" name="action"
-                                        value="update" id="updateButton"
-                                        onclick="onUpdateEmployee()">
+                                        value="update" id="updateButton">
                                     <fmt:message key="UPDATE.BUTTON"/></button>
                                 <button type="submit" name="action" value="add"
                                         id="addButton"><fmt:message
@@ -156,7 +151,7 @@
     </tbody>
 </table>
 
-<script type="text/javascript" src="/tiles/employee.js"></script>
-
+<script type="text/javascript" src="/scripts/employee.js"></script>
 </body>
 </html>
+

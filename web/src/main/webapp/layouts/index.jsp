@@ -3,7 +3,7 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/tiles/main.css" />
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/styles/main.css" />
 </head>
 <body>
     <tiles:insertAttribute name="header" />

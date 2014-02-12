@@ -2,9 +2,6 @@
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<c:set var="lang"
-       value="${not empty sessionScope.lang ? sessionScope.lang : pageContext.request.locale}"
-       scope="session"/>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="com.sam.app.i18n.Messages"/>
 <!DOCTYPE html>
@@ -105,6 +102,6 @@
     </tbody>
 </table>
 
-<script type="text/javascript" src="/tiles/department.js"></script>
+<script type="text/javascript" src="/scripts/department.js"></script>
 </body>
 </html>
