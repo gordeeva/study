@@ -5,13 +5,14 @@ import com.sam.app.domain.Department;
 import com.sam.app.domain.Employee;
 import com.sam.app.domain.Role;
 import org.hibernate.Hibernate;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -20,245 +21,135 @@ public class AbstractEntityService<T extends AbstractEntity> {
     private static final Logger LOGGER = LoggerFactory
       .getLogger(AbstractEntityService.class);
 
-    private static EntityManagerFactory emf;
-
     private Class<T> entityClass;
 
-    public static void initEMF() {
-        emf = Persistence.createEntityManagerFactory("study");
-    }
-
-    public static void closeEMF() {
-        emf.close();
-    }
+    private SessionFactory sessionFactory;
 
     public AbstractEntityService(Class<T> entity) {
         entityClass = entity;
     }
 
-    public Long create(final T entity) {
-        new EMUtil<T>() {
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
-            @Override
-            T work() {
-                em.persist(entity);
-                return entity;
-            }
-        }.doWork();
+    @Transactional
+    public Long create(final T entity) {
+        sessionFactory.getCurrentSession().persist(entity);
         return entity.getId();
     }
 
+    @Transactional
     public T update(final T entity) {
-        @SuppressWarnings("unused")
-        T merged = new EMUtil<T>() {
-
-            @Override
-            T work() {
-                return em.merge(entity);
-            }
-        }.doWork();
-
+        sessionFactory.getCurrentSession().update(entity);
         return entity;
     }
 
+    @Transactional
     public T delete(final T entity) {
-        new EMUtil<T>() {
-
-            @Override
-            T work() {
-                em.remove(entity);
-                return entity;
-            }
-        }.doWork();
+        sessionFactory.getCurrentSession().delete(entity);
         return entity;
     }
 
+
+    @Transactional
+    @SuppressWarnings("unchecked")
     public T delete(final Long id) {
-        T deleted = new EMUtil<T>() {
-
-            @Override
-            T work() {
-                T entity = em.find(entityClass, id);
-                em.remove(entity);
-                return entity;
-            }
-        }.doWork();
-        return deleted;
+        Session session = sessionFactory.getCurrentSession();
+        T entity = (T) session.createCriteria(entityClass).
+          add(Restrictions.eq("id", id)).uniqueResult();
+        session.delete(entity);
+        return entity;
     }
 
+    @Transactional
+    @SuppressWarnings("unchecked")
     public List<Department> getAllDepartments() {
-        List<Department> found = new EMUtilForList<Department>() {
-
-            @Override
-            List<Department> work() {
-                List<Department> localFound = em.createNamedQuery("all_departments", Department.class)
-                  .getResultList();
-                for (Department department : localFound) {
-                    Hibernate.initialize(department.getEmployees());
-                }
-                return localFound;
-            }
-        }.doWork();
-
-        return found;
+        List<Department> departments = sessionFactory.getCurrentSession().
+          createCriteria(Department.class).list();
+        initLazyDepartments(departments);
+        return departments;
     }
 
+    @Transactional
+    @SuppressWarnings("unchecked")
     public List<Employee> getAllEmployees() {
-        List<Employee> found = new EMUtilForList<Employee>() {
-
-            @Override
-            List<Employee> work() {
-                List<Employee> localFound = em.createNamedQuery("all_employees", Employee.class)
-                  .getResultList();
-                for (Employee employee : localFound) {
-                    Hibernate.initialize(employee.getRoles());
-                }
-                return localFound;
-            }
-        }.doWork();
-
-        return found;
+        List<Employee> employees = sessionFactory.getCurrentSession().
+          createCriteria(Employee.class).list();
+        initLazyEmployees(employees);
+        return employees;
     }
 
+    @Transactional
+    @SuppressWarnings("unchecked")
     public List<Role> getAllRoles() {
-        List<Role> found = new EMUtilForList<Role>() {
-
-            @Override
-            List<Role> work() {
-                List<Role> localFound = em.createNamedQuery("all_roles", Role.class)
-                  .getResultList();
-                for (Role role : localFound) {
-                    Hibernate.initialize(role.getEmployees());
-                }
-                return localFound;
-            }
-        }.doWork();
-
-        return found;
+        List<Role> roles = sessionFactory.getCurrentSession().
+          createCriteria(Role.class).list();
+        initLazyRoles(roles);
+        return roles;
     }
 
+    @Transactional
+    @SuppressWarnings("unchecked")
     public Employee getEmployee(final long id) {
-        Employee found = new EMUtil<Employee>() {
-            @Override
-            Employee work() {
-                Employee localFound = em.createNamedQuery("employee_by_id", Employee.class)
-                  .setParameter("empId", id).getSingleResult();
-                Hibernate.initialize(localFound.getRoles());
-                return localFound;
-            }
-        }.doWork();
-        return found;
+        Employee employee = (Employee) sessionFactory.getCurrentSession().
+          createCriteria(Employee.class).add(Restrictions.eq("id", id)).uniqueResult();
+        initLazyEmployees(Collections.singletonList(employee));
+        return employee;
     }
 
+    @Transactional
+    @SuppressWarnings("unchecked")
     public Department getDepartment(final long id) {
-        Department found = new EMUtil<Department>() {
-            @Override
-            Department work() {
-                Department localFound = em.createNamedQuery("department_by_id", Department.class)
-                  .setParameter("depId", id).getSingleResult();
-                Hibernate.initialize(localFound.getEmployees());
-                return localFound;
-            }
-        }.doWork();
-        return found;
+        Department department = (Department) sessionFactory.getCurrentSession().
+          createCriteria(Department.class).add(Restrictions.eq("id", id)).uniqueResult();
+        initLazyDepartments(Collections.singletonList(department));
+        return department;
     }
 
+    @Transactional
+    @SuppressWarnings("unchecked")
     public Role getRole(final long id) {
-        Role found = new EMUtil<Role>() {
-            @Override
-            Role work() {
-                Role localFound = em.createNamedQuery("role_by_id", Role.class)
-                  .setParameter("rId", id).getSingleResult();
-                Hibernate.initialize(localFound.getEmployees());
-                return localFound;
-            }
-        }.doWork();
-        return found;
+        Role role = (Role) sessionFactory.getCurrentSession().
+          createCriteria(Role.class).add(Restrictions.eq("id", id)).uniqueResult();
+        initLazyRoles(Collections.singletonList(role));
+        return role;
     }
 
+    @Transactional
+    @SuppressWarnings("unchecked")
     public List<Department> getDepartmentsByName(final String name) {
-        List<Department> found = new EMUtilForList<Department>() {
-            @Override
-            List<Department> work() {
-                List<Department> localFound = em.createNamedQuery("departments_by_name", Department.class)
-                  .setParameter("depName", name).getResultList();
-                for (Department department : localFound) {
-                    Hibernate.initialize(department.getEmployees());
-                }
-                return localFound;
-            }
-        }.doWork();
-        return found;
+        List<Department> departments = (List<Department>) sessionFactory.getCurrentSession().
+          createCriteria(Department.class).add(Restrictions.eq("name", name)).list();
+        initLazyDepartments(departments);
+        return departments;
     }
 
+    @Transactional
+    @SuppressWarnings("unchecked")
     public List<Role> getRolesByName(final String name) {
-        List<Role> found = new EMUtilForList<Role>() {
-            @Override
-            List<Role> work() {
-                List<Role> localFound = em.createNamedQuery("roles_by_name", Role.class)
-                  .setParameter("roleName", name).getResultList();
-                for (Role role : localFound) {
-                    Hibernate.initialize(role.getEmployees());
-                }
-                return localFound;
-            }
-        }.doWork();
-        return found;
+        List<Role> roles = (List<Role>) sessionFactory.getCurrentSession().
+          createCriteria(Role.class).add(Restrictions.eq("name", name)).list();
+        initLazyRoles(roles);
+        return roles;
     }
 
-    protected static abstract class EMUtil<E extends AbstractEntity> {
-
-        protected EntityManager em;
-
-        abstract E work();
-
-        E doWork() {
-            em = emf.createEntityManager();
-            EntityTransaction tx = null;
-            E result = null;
-            try {
-                tx = em.getTransaction();
-                tx.begin();
-
-                result = work();
-
-                tx.commit();
-            } catch (RuntimeException e) {
-                if (tx != null && tx.isActive())
-                    tx.rollback();
-                LOGGER.error("problem at doWork ", e);
-            } finally {
-                em.close();
-            }
-            return result;
+    private void initLazyEmployees(List<Employee> employees) {
+        for (Employee employee : employees) {
+            Hibernate.initialize(employee.getRoles());
         }
     }
 
-    protected static abstract class EMUtilForList<E extends AbstractEntity> {
-
-        protected EntityManager em;
-
-        abstract List<E> work();
-
-        List<E> doWork() {
-            em = emf.createEntityManager();
-            EntityTransaction tx = null;
-            List<E> result = null;
-            try {
-                tx = em.getTransaction();
-                tx.begin();
-
-                result = work();
-
-                tx.commit();
-            } catch (RuntimeException e) {
-                if (tx != null && tx.isActive())
-                    tx.rollback();
-                LOGGER.error("problem at doWorkForList ", e);
-            } finally {
-                em.close();
-            }
-            return result;
+    private void initLazyDepartments(List<Department> departments) {
+        for (Department department : departments) {
+            Hibernate.initialize(department.getEmployees());
         }
     }
+
+    private void initLazyRoles(List<Role> roles) {
+        for (Role role : roles) {
+            Hibernate.initialize(role.getEmployees());
+        }
+    }
+
 }

@@ -7,18 +7,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import java.util.List;
 
 @Entity
-@NamedQueries
-  ({
-    @NamedQuery(name = "all_roles", query = "SELECT r FROM Role r"),
-    @NamedQuery(name = "roles_by_name", query = "SELECT r FROM Role r WHERE r.name = :roleName"),
-    @NamedQuery(name = "role_by_id", query = "SELECT r FROM Role r WHERE r.id = :rId")
-  })
 @Table(name = "role")
 public class Role implements AbstractEntity {
 

@@ -1,7 +1,5 @@
 package com.sam.app.domain;
 
-import org.hibernate.Hibernate;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,18 +10,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.util.Set;
 
 @Entity
-@NamedQueries
-  ({
-    @NamedQuery(name = "all_employees", query = "SELECT e FROM Employee e"),
-    @NamedQuery(name = "employee_by_id", query = "SELECT e FROM Employee e WHERE e.id=:empId")
-  })
 @Table(name = "employee")
 public class Employee implements AbstractEntity {
 

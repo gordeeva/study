@@ -1,6 +1,5 @@
 package com.sam.app.servlet;
 
-import com.sam.app.util.AbstractEntityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,13 +15,11 @@ public class ContextListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        AbstractEntityService.initEMF();
         LOGGER.info("contextInitialized");
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        AbstractEntityService.closeEMF();
         LOGGER.info("contextDestroyed");
     }
 

@@ -6,20 +6,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import java.util.Set;
 
 @Entity
-@NamedQueries
-  ({
-    @NamedQuery(name = "all_departments", query = "select d from Department d"),
-    @NamedQuery(name = "department_by_id", query = "select d from Department d WHERE d.id=:depId"),
-    @NamedQuery(name = "departments_by_name", query = "select d from Department d WHERE d.name=:depName")
-  })
 @Table(name = "department")
 public class Department implements AbstractEntity {
 
