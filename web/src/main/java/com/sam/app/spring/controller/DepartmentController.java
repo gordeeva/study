@@ -37,7 +37,7 @@ public class DepartmentController extends AbstractCRUDController<Department> {
 
 
     @RequestMapping(method = RequestMethod.GET,
-      params = {"action", "lang"})
+      params = { "action", "lang" })
     public String updateLocale(
       @RequestParam(value = "action") String action,
       @RequestParam(value = "lang") String lang,
@@ -61,7 +61,7 @@ public class DepartmentController extends AbstractCRUDController<Department> {
     }
 
     @RequestMapping(method = RequestMethod.GET,
-      params = {"action", "id"})
+      params = { "action", "id" })
     public String getOther(
       @RequestParam(value = "action") String action,
       @RequestParam(value = "id") Long id,
@@ -100,7 +100,7 @@ public class DepartmentController extends AbstractCRUDController<Department> {
     }
 
     @RequestMapping(method = RequestMethod.POST,
-      params = {"action", "id", "name"})
+      params = { "action", "id", "name" })
     public String departmentsPost(
       @RequestParam(value = "action") String action,
       @RequestParam(value = "id", required = false) Long id,

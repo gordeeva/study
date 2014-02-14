@@ -11,27 +11,30 @@
             http://www.springframework.org/schema/context
             http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-    <mvc:annotation-driven />
+    <mvc:annotation-driven/>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/" />
-        <property name="suffix" value=".jsp" />
+        <property name="prefix" value="/"/>
+        <property name="suffix" value=".jsp"/>
     </bean>
 
     <context:component-scan base-package="com.sam.app.spring.controller"/>
 
-    <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
-        <property name="definitions" value="/WEB-INF/tiles.xml" />
-        <property name="preparerFactoryClass" value="org.springframework.web.servlet.view.tiles3.SpringBeanPreparerFactory"/>
+    <bean id="tilesConfigurer"
+          class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+        <property name="definitions" value="/WEB-INF/tiles.xml"/>
+        <property name="preparerFactoryClass"
+                  value="org.springframework.web.servlet.view.tiles3.SpringBeanPreparerFactory"/>
     </bean>
 
     <bean id="viewResolver"
           class="org.springframework.web.servlet.view.UrlBasedViewResolver">
-        <property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />
+        <property name="viewClass"
+                  value="org.springframework.web.servlet.view.tiles3.TilesView"/>
         <property name="order" value="1"/>
     </bean>
 
-    <mvc:resources mapping="/styles/**"  location="/styles/" />
-    <mvc:resources mapping="/scripts/**" location="/scripts/" />
+    <mvc:resources mapping="/styles/**" location="/styles/"/>
+    <mvc:resources mapping="/scripts/**" location="/scripts/"/>
 
 </beans>

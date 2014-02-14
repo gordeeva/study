@@ -8,7 +8,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title><fmt:message key="ROLES.LABEL"/> </title>
+    <title><fmt:message key="ROLES.LABEL"/></title>
 </head>
 <body>
 
@@ -47,12 +47,13 @@
             </form>
             <p>
                 <c:if test="${errors != null}">
-                    <div id="errorMessage">
-                        <c:forEach items="${errors}" var="error">
-                            <fmt:message key="${error}"/> <br>
-                        </c:forEach>
-                    </div>
-                </c:if>
+
+            <div id="errorMessage">
+                <c:forEach items="${errors}" var="error">
+                    <fmt:message key="${error}"/> <br>
+                </c:forEach>
+            </div>
+            </c:if>
             <p>
             <table id="table" border=1>
                 <thead>

@@ -4,22 +4,24 @@
         "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
     <definition name="index" template="/layouts/index.jsp">
-        <put-attribute name="header" value="/tiles/header.jsp" />
-        <put-attribute name="footer" value="/tiles/footer.jsp" />
+        <put-attribute name="header" value="/tiles/header.jsp"/>
+        <put-attribute name="footer" value="/tiles/footer.jsp"/>
     </definition>
 
     <definition name="roles" extends="index" template="/layouts/classic.jsp">
-        <put-attribute name="body" value="/tiles/role.jsp" />
-        <put-attribute name="jsFile" value="/scripts/role.js" />
+        <put-attribute name="body" value="/tiles/role.jsp"/>
+        <put-attribute name="jsFile" value="/scripts/role.js"/>
     </definition>
 
-    <definition name="departments" extends="index" template="/layouts/classic.jsp">
-        <put-attribute name="body" value="/tiles/department.jsp" />
-        <put-attribute name="jsFile" value="/scripts/department.js" />
+    <definition name="departments" extends="index"
+                template="/layouts/classic.jsp">
+        <put-attribute name="body" value="/tiles/department.jsp"/>
+        <put-attribute name="jsFile" value="/scripts/department.js"/>
     </definition>
 
-    <definition name="employees" extends="index" template="/layouts/classic.jsp">
-        <put-attribute name="body" value="/tiles/employee.jsp" />
-        <put-attribute name="jsFile" value="/scripts/employee.js" />
+    <definition name="employees" extends="index"
+                template="/layouts/classic.jsp">
+        <put-attribute name="body" value="/tiles/employee.jsp"/>
+        <put-attribute name="jsFile" value="/scripts/employee.js"/>
     </definition>
 </tiles-definitions>

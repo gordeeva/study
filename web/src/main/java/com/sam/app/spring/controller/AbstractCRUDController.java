@@ -33,7 +33,7 @@ public abstract class AbstractCRUDController<T> {
     private static final Locale DEFAULT_LOCALE = new Locale("en_US");
 
     private static final Set<Locale> supportedLocales =
-      new HashSet<>(Arrays.asList(new Locale[]{new Locale("en_US"), new Locale("ru_RU")}));
+      new HashSet<>(Arrays.asList(new Locale[] { new Locale("en_US"), new Locale("ru_RU") }));
 
     public long create(T t) {
         getLogger().info("Create of " + t + " was called");

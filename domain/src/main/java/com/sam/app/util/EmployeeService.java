@@ -4,7 +4,7 @@ import com.sam.app.domain.Employee;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class EmployeeService extends AbstractEntityService<Employee>{
+public class EmployeeService extends AbstractEntityService<Employee> {
 
     public EmployeeService() {
         super(Employee.class);

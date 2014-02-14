@@ -21,7 +21,7 @@ import java.util.Set;
 
 @Controller
 @RequestMapping("/EmployeeServlet")
-public class EmployeeController extends AbstractCRUDController<Employee>{
+public class EmployeeController extends AbstractCRUDController<Employee> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeController.class);
 
@@ -48,7 +48,7 @@ public class EmployeeController extends AbstractCRUDController<Employee>{
 
 
     @RequestMapping(method = RequestMethod.GET,
-      params = {"action", "lang"})
+      params = { "action", "lang" })
     public String updateLocale(
       @RequestParam(value = "action") String action,
       @RequestParam(value = "lang") String lang,
@@ -72,7 +72,7 @@ public class EmployeeController extends AbstractCRUDController<Employee>{
     }
 
     @RequestMapping(method = RequestMethod.GET,
-      params = {"action", "id"})
+      params = { "action", "id" })
     public String getOther(
       @RequestParam(value = "action") String action,
       @RequestParam(value = "id") Long id,
@@ -123,7 +123,7 @@ public class EmployeeController extends AbstractCRUDController<Employee>{
     }
 
     @RequestMapping(method = RequestMethod.POST,
-      params = {"action", "id", "new_roles"})
+      params = { "action", "id", "new_roles" })
     public String addRole(
       @RequestParam(value = "action") String action,
       @RequestParam(value = "id", required = false) Long id,
@@ -138,7 +138,7 @@ public class EmployeeController extends AbstractCRUDController<Employee>{
     }
 
     @RequestMapping(method = RequestMethod.POST,
-      params = {"action", "id", "existing_roles"})
+      params = { "action", "id", "existing_roles" })
     public String deleteRole(
       @RequestParam(value = "action") String action,
       @RequestParam(value = "id", required = false) Long id,
@@ -153,8 +153,8 @@ public class EmployeeController extends AbstractCRUDController<Employee>{
     }
 
 
-        @RequestMapping(method = RequestMethod.POST,
-      params = {"action", "id", "name"})
+    @RequestMapping(method = RequestMethod.POST,
+      params = { "action", "id", "name" })
     public String employeesPost(
       @RequestParam(value = "action") String action,
       @RequestParam(value = "id", required = false) Long id,
@@ -229,7 +229,7 @@ public class EmployeeController extends AbstractCRUDController<Employee>{
         } else if (employee.getId() != null) {
             Employee oldEmployee = service.getEmployee(employee.getId());
             if (oldEmployee.getName().equals(employee.getName()) &&
-                oldEmployee.getDepartment().equals(employee.getDepartment())) {
+              oldEmployee.getDepartment().equals(employee.getDepartment())) {
                 setErrorAttribute("ERROR_EMPLOYEE_NAME_DUPLICATE", modelThreadLocal.get());
                 result = false;
             }

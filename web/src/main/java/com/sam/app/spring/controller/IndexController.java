@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
-@RequestMapping(value = {"/", "/IndexServlet"})
+@RequestMapping(value = { "/", "/IndexServlet" })
 public class IndexController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(IndexController.class);
@@ -25,7 +25,7 @@ public class IndexController {
     }
 
     @RequestMapping(method = RequestMethod.GET,
-      params = {"action", "lang"})
+      params = { "action", "lang" })
     public String updateLocale(
       @RequestParam(value = "action") String action,
       @RequestParam(value = "lang") String lang,

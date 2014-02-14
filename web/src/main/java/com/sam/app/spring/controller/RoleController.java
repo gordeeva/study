@@ -35,7 +35,7 @@ public class RoleController extends AbstractCRUDController<Role> {
     private RoleService service;
 
     @RequestMapping(method = RequestMethod.GET,
-        params = {"action", "lang"})
+      params = { "action", "lang" })
     public String updateLocale(
       @RequestParam(value = "action") String action,
       @RequestParam(value = "lang") String lang,
@@ -59,7 +59,7 @@ public class RoleController extends AbstractCRUDController<Role> {
     }
 
     @RequestMapping(method = RequestMethod.GET,
-      params = {"action", "id"})
+      params = { "action", "id" })
     public String getOther(
       @RequestParam(value = "action") String action,
       @RequestParam(value = "id") Long id,
@@ -99,7 +99,7 @@ public class RoleController extends AbstractCRUDController<Role> {
 
 
     @RequestMapping(method = RequestMethod.POST,
-      params = {"action", "id", "name"})
+      params = { "action", "id", "name" })
     public String rolesPost(
       @RequestParam(value = "action") String action,
       @RequestParam(value = "id", required = false) Long id,
